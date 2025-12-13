@@ -14,7 +14,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "clean": "turbo run clean && rm -rf node_modules/.cache && rm -rf .turbo"
+    "clean": "turbo run clean && rm -rf node_modules/.cache && rm -rf .turbo",
+    "postinstall": "lefthook install"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
