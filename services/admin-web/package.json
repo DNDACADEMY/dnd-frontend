@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@dnd-desktop/ui": "*",
+    "@dds/desktop": "*",
+    "@dds/token": "*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
