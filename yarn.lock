@@ -1365,10 +1365,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-desktop/ui@npm:*, @dnd-desktop/ui@workspace:packages/ui":
+"@dds/desktop@npm:*, @dds/desktop@workspace:packages/dds-desktop":
   version: 0.0.0-use.local
-  resolution: "@dnd-desktop/ui@workspace:packages/ui"
+  resolution: "@dds/desktop@workspace:packages/dds-desktop"
   dependencies:
+    "@dds/token": "npm:*"
     "@dnd-frontend/eslint-config": "npm:*"
     "@dnd-frontend/typescript-config": "npm:*"
     "@types/node": "npm:^22.15.3"
@@ -1381,11 +1382,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@dds/token@npm:*, @dds/token@workspace:packages/dds-token":
+  version: 0.0.0-use.local
+  resolution: "@dds/token@workspace:packages/dds-token"
+  dependencies:
+    "@dnd-frontend/eslint-config": "npm:*"
+    "@dnd-frontend/typescript-config": "npm:*"
+    "@types/node": "npm:^22.15.3"
+    eslint: "npm:^9.39.1"
+    typescript: "npm:5.9.2"
+  languageName: unknown
+  linkType: soft
+
 "@dnd-frontend/admin-web@workspace:services/admin-web":
   version: 0.0.0-use.local
   resolution: "@dnd-frontend/admin-web@workspace:services/admin-web"
   dependencies:
-    "@dnd-desktop/ui": "npm:*"
+    "@dds/desktop": "npm:*"
+    "@dds/token": "npm:*"
     "@dnd-frontend/eslint-config": "npm:*"
     "@dnd-frontend/typescript-config": "npm:*"
     "@types/node": "npm:^24.10.1"

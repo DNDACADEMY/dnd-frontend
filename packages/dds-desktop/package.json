@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-desktop/ui",
+  "name": "@dds/desktop",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -20,6 +20,7 @@
     "typescript": "5.9.2"
   },
   "dependencies": {
+    "@dds/token": "*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
