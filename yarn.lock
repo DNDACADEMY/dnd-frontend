@@ -1423,10 +1423,12 @@ __metadata:
     "@next/eslint-plugin-next": "npm:^15.5.0"
     eslint: "npm:^9.39.1"
     eslint-config-prettier: "npm:^10.1.1"
+    eslint-plugin-import: "npm:^2.32.0"
     eslint-plugin-only-warn: "npm:^1.1.0"
     eslint-plugin-react: "npm:^7.37.5"
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-turbo: "npm:^2.6.0"
+    eslint-plugin-unused-imports: "npm:^4.3.0"
     globals: "npm:^16.5.0"
     turbo: "npm:^2.6.3"
     typescript: "npm:^5.9.2"
@@ -6610,7 +6612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.31.0":
+"eslint-plugin-import@npm:^2.31.0, eslint-plugin-import@npm:^2.32.0":
   version: 2.32.0
   resolution: "eslint-plugin-import@npm:2.32.0"
   dependencies:
@@ -6730,6 +6732,19 @@ __metadata:
     eslint: ">6.6.0"
     turbo: ">2.0.0"
   checksum: 10c0/b3c7f70f84baf6d8e729a2b45d15a57fc860699cab5e774012211bb55d9a078b05c92e403f72dce53d47685c3068e12257ce85c2b8895dcca2e56c07a28f3e4c
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-unused-imports@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "eslint-plugin-unused-imports@npm:4.3.0"
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
+    eslint: ^9.0.0 || ^8.0.0
+  peerDependenciesMeta:
+    "@typescript-eslint/eslint-plugin":
+      optional: true
+  checksum: 10c0/aa4d8ebd8bea5fc0ac8d3fdeb0d0ed2dd0fccb96a1f5569bca772f71b4c45edd1b3c32d9754fb175c45ccf4d123725f333bf99380b9896bb678a8d599e290aa3
   languageName: node
   linkType: hard
 
