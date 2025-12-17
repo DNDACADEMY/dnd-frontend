@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
 import * as ChannelService from '@channel.io/channel-web-sdk-loader'
+import { useEffect } from 'react'
+
 import { CHANNEL_IO_PLUGIN_KEY, IS_DEV } from '@/shared/constants'
 
 export const ChannelIo = () => {

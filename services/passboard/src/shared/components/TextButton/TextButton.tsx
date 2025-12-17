@@ -1,4 +1,5 @@
 import { type ReactNode, type ComponentProps } from 'react'
+
 import { Flex } from '../Flex'
 import * as styles from './style.css'
 export type TextButtonProps = ComponentProps<'button'> & {

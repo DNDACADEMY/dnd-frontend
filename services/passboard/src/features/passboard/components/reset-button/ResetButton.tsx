@@ -1,9 +1,10 @@
+import { useStatusContainerContext } from '../../context'
+import { useCheckUserStatus } from '../../hooks/useCheckUserStatus'
+import * as styles from '../../style.css'
+
 import { If } from '@/shared/components/If'
 import { TextButton } from '@/shared/components/TextButton'
 import { RightArrow } from '@/shared/libs/assets/icon'
-import { useCheckUserStatus } from '../../hooks/useCheckUserStatus'
-import * as styles from '../../style.css'
-import { useStatusContainerContext } from '../../context'
 
 export const ResetButton = () => {
   const { reset } = useCheckUserStatus()

@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react'
+
 import { bottomTextRecipe, type BottomTextRecipeProps } from '../style.css'
 
 export type BottomTextProps = {

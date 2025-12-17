@@ -1,6 +1,7 @@
 import { type ComponentProps, forwardRef, type ReactNode, useId } from 'react'
-import { Textfield } from '../Textfield'
+
 import { Flex } from '../Flex'
+import { Textfield } from '../Textfield'
 import { BottomText, Label } from './compound'
 import { InputfieldContextProvider } from './context'
 

@@ -1,9 +1,11 @@
+import { motion } from 'framer-motion'
 import { type ReactNode, type ComponentProps } from 'react'
+
 import * as styles from './styles.css'
 import { Flex } from '../Flex'
 import { If } from '../If'
-import { motion } from 'framer-motion'
 import { AlertContextProvider, useAlertContext } from './context'
+
 import { composeHandler } from '@/shared/utils/composeHandler'
 
 export type AlertProps = {

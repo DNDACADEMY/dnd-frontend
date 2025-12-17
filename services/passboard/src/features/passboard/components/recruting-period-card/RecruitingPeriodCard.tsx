@@ -1,11 +1,13 @@
 'use client'
 
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
+
+import * as styles from './style.css'
+import { type RecruitingCardType } from './type'
 import { getCardContentIndex, getApplicationResultDate } from './utils'
 import { recruitingCardContent } from './utils'
-import { type RecruitingCardType } from './type'
-import * as styles from './style.css'
-import { useState, useEffect } from 'react'
+
 import { Flex } from '@/shared/components/Flex'
 
 export type RecruitingPeriodCardProps = {

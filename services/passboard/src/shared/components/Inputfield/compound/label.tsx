@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react'
-import * as styles from '../style.css'
+
 import { useInputfieldContext } from '../context'
+import * as styles from '../style.css'
 
 export type LabelProps = {
   children: ReactNode

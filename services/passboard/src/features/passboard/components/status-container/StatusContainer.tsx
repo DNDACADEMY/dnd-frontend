@@ -1,15 +1,17 @@
 'use client'
 
-import * as styles from './style.css'
-import { StatusForm } from './components/StatusForm'
-import { ResultCard } from './components/RerultCard'
 import './subset-font.css'
-import { If } from '@/shared/components/If'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
-import { useStatusContainerContext } from '../../context'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+
+import { useStatusContainerContext } from '../../context'
+import { ResultCard } from './components/RerultCard'
 import { ResultTitle } from './components/ResultTitle'
+import { StatusForm } from './components/StatusForm'
+import * as styles from './style.css'
+
+import { If } from '@/shared/components/If'
 
 type StatusContainerProps = {
   eventName: string

@@ -1,5 +1,6 @@
-import { vars } from '@/shared/styles/theme.css'
 import { style } from '@vanilla-extract/css'
+
+import { vars } from '@/shared/styles/theme.css'
 
 export const textButtonStyle = style({
   color: vars.colors.cyan300,

@@ -1,15 +1,17 @@
 'use client'
 
-import { Flex } from '@/shared/components/Flex'
-import { RecruitingPeriodCard } from './components/recruting-period-card'
-import { SwitchCase } from '@/shared/components/SwichCase'
-import { StatusContainer } from './components/status-container'
-import { ResetButton } from './components/reset-button'
 import dayjs from 'dayjs'
-import { StatusContainerContextProvider } from './context'
-import { type ResCheckUserStatus } from './apis/checkUserStatus'
 import { useState } from 'react'
+
+import { type ResCheckUserStatus } from './apis/checkUserStatus'
+import { RecruitingPeriodCard } from './components/recruting-period-card'
+import { ResetButton } from './components/reset-button'
+import { StatusContainer } from './components/status-container'
+import { StatusContainerContextProvider } from './context'
 import * as styles from './style.css'
+
+import { Flex } from '@/shared/components/Flex'
+import { SwitchCase } from '@/shared/components/SwichCase'
 type Props = {
   eventApplicationResultDate: string | Date
   eventName: string

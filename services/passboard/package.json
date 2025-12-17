@@ -1,6 +1,7 @@
 {
   "name": "@dnd-frontend/passboard",
   "version": "0.0.1",
+  "type": "module",
   "author": "dnd-academy",
   "private": true,
   "scripts": {

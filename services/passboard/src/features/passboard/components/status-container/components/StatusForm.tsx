@@ -1,18 +1,21 @@
 'use client'
 
-import { Inputfield } from '@/shared/components/Inputfield'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { sendGTMEvent } from '@next/third-parties/google'
+import { useOverlay } from '@toss/use-overlay'
+import { useState, type ComponentProps, forwardRef } from 'react'
+import { useForm } from 'react-hook-form'
+
+import { checkUserStatusSchema } from '../../../apis/checkUserStatus'
+import { useStatusContainerContext } from '../../../context'
+import { useCheckUserStatus } from '../../../hooks/useCheckUserStatus'
+
+import type { z } from 'zod'
+
+import { Alert } from '@/shared/components/Alert'
 import { Button } from '@/shared/components/Button'
 import { Flex } from '@/shared/components/Flex'
-import { useForm } from 'react-hook-form'
-import { checkUserStatusSchema } from '../../../apis/checkUserStatus'
-import { zodResolver } from '@hookform/resolvers/zod'
-import type { z } from 'zod'
-import { useCheckUserStatus } from '../../../hooks/useCheckUserStatus'
-import { useStatusContainerContext } from '../../../context'
-import { useOverlay } from '@toss/use-overlay'
-import { Alert } from '@/shared/components/Alert'
-import { sendGTMEvent } from '@next/third-parties/google'
-import { useState, type ComponentProps, forwardRef } from 'react'
+import { Inputfield } from '@/shared/components/Inputfield'
 export type StatusFormProps = {
   eventName: string
   eventId: number

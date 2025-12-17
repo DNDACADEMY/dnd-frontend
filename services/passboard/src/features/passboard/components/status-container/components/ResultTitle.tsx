@@ -1,9 +1,11 @@
-import { Flex } from '@/shared/components/Flex'
-import Link from 'next/link'
-import Image from 'next/image'
-import * as styles from '../style.css'
-import { useStatusContainerContext } from '../../../context'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
+
+import { useStatusContainerContext } from '../../../context'
+import * as styles from '../style.css'
+
+import { Flex } from '@/shared/components/Flex'
 
 const DND_ACTIVE_PATH = 'https://dnd.ac/'
 

@@ -1,11 +1,13 @@
 'use client'
 
-import { Flex } from '@/shared/components/Flex'
-import { type UserStatus } from '../../../types/status'
 import Image from 'next/image'
 import { type ReactNode } from 'react'
-import * as styles from '../style.css'
+
 import { useStatusContainerContext } from '../../../context'
+import { type UserStatus } from '../../../types/status'
+import * as styles from '../style.css'
+
+import { Flex } from '@/shared/components/Flex'
 
 type Content = {
   imageUrl: string

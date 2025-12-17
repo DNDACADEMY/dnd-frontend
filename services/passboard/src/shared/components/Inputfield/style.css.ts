@@ -1,6 +1,7 @@
-import { vars } from '@/shared/styles/theme.css'
 import { style } from '@vanilla-extract/css'
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes'
+
+import { vars } from '@/shared/styles/theme.css'
 
 export const labelStyle = style({
   color: vars.colors.mono900,

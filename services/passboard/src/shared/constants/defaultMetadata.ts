@@ -1,4 +1,5 @@
 import { type Metadata } from 'next'
+
 import { ORIGIN_URL } from '../constants'
 
 const title = 'DND - 지원 결과 조회'

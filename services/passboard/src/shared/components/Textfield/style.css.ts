@@ -1,6 +1,7 @@
-import { vars } from '@/shared/styles/theme.css'
-import { recipe, type RecipeVariants } from '@vanilla-extract/recipes'
 import { style } from '@vanilla-extract/css'
+import { recipe, type RecipeVariants } from '@vanilla-extract/recipes'
+
+import { vars } from '@/shared/styles/theme.css'
 
 const baseStyle = style({
   width: '100%',

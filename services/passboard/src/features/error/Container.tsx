@@ -1,8 +1,10 @@
-import { Flex } from '@/shared/components/Flex'
-import * as styles from './style.css'
-import { useEffect } from 'react'
 import { sendGAEvent } from '@next/third-parties/google'
+import { useEffect } from 'react'
+
 import { ErrorCard } from './components/ErrorCard'
+import * as styles from './style.css'
+
+import { Flex } from '@/shared/components/Flex'
 
 export type ErrorContainerProps = {
   error?: Error
