@@ -137,9 +137,7 @@ const StatusField = forwardRef<HTMLInputElement, StatusFieldProps>((props, ref) 
       ref={ref}
       placeholder={placeholder}
       topAddon={<Inputfield.Label required>{label}</Inputfield.Label>}
-      bottomAddon={
-        errorMessage && <Inputfield.BottomText state='error'>{errorMessage}</Inputfield.BottomText>
-      }
+      bottomAddon={errorMessage && <Inputfield.BottomText state='error'>{errorMessage}</Inputfield.BottomText>}
       {...restProps}
     />
   )

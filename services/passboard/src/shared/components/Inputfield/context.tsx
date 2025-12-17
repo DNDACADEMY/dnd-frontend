@@ -6,11 +6,8 @@ type InputfieldContextValue = {
   id: string
 }
 
-const [InputfieldContextProvider, useInputfieldContext] = createCtxProvider<InputfieldContextValue>(
-  'Inputfield',
-  {
-    id: ''
-  }
-)
+const [InputfieldContextProvider, useInputfieldContext] = createCtxProvider<InputfieldContextValue>('Inputfield', {
+  id: ''
+})
 
 export { InputfieldContextProvider, useInputfieldContext }

@@ -14,10 +14,7 @@ export type ResCheckUserStatus = {
   status: UserStatus
 }
 
-export const checkUserStatus = async (
-  eventId: number,
-  req: ReqCheckUserStatusSchema
-): Promise<ResCheckUserStatus> => {
+export const checkUserStatus = async (eventId: number, req: ReqCheckUserStatusSchema): Promise<ResCheckUserStatus> => {
   const res = await fetchWrapper<ResCheckUserStatus>(`/event/${eventId}/applicant/status/check`, {
     method: 'POST',
     body: JSON.stringify(req)

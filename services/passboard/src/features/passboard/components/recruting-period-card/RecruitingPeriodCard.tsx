@@ -16,10 +16,7 @@ export type RecruitingPeriodCardProps = {
   number?: RecruitingCardType
 }
 
-export const RecruitingPeriodCard = ({
-  eventApplicationResultDate,
-  number: numberFromProps
-}: RecruitingPeriodCardProps) => {
+export const RecruitingPeriodCard = ({ eventApplicationResultDate, number: numberFromProps }: RecruitingPeriodCardProps) => {
   const [number, setNumber] = useState<RecruitingCardType | undefined>(numberFromProps)
 
   useEffect(() => {
@@ -42,13 +39,8 @@ export const RecruitingPeriodCard = ({
         align='center'
         gap={12}
         className={styles.content}>
-        <div
-          className={
-            styles.date
-          }>{`발표 D${getApplicationResultDate(eventApplicationResultDate)}`}</div>
-        <div className={styles.description}>
-          {recruitingCardContent[number as RecruitingCardType]}
-        </div>
+        <div className={styles.date}>{`발표 D${getApplicationResultDate(eventApplicationResultDate)}`}</div>
+        <div className={styles.description}>{recruitingCardContent[number as RecruitingCardType]}</div>
       </Flex>
     </div>
   )

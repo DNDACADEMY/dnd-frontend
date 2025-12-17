@@ -1,9 +1,6 @@
 'use client'
 
-import {
-  QueryClient,
-  QueryClientProvider as TanstackQueryClientProvider
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider as TanstackQueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 export const queryClient = new QueryClient({
   defaultOptions: {

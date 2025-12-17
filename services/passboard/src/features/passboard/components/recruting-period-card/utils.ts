@@ -24,6 +24,5 @@ export const recruitingCardContent: Record<RecruitingCardType, string> = {
 }
 
 export const getCardContentIndex = () => {
-  return (Math.floor(Math.random() * Object.entries(recruitingCardContent).length) +
-    1) as RecruitingCardType
+  return (Math.floor(Math.random() * Object.entries(recruitingCardContent).length) + 1) as RecruitingCardType
 }

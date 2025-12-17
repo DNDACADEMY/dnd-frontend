@@ -62,9 +62,7 @@ export const StatusContainer = ({ eventName, eventId }: StatusContainerProps) =>
           <motion.div
             key='form'
             animate={
-              showStatusForm
-                ? { opacity: 1, y: 0, height: 'auto', pointerEvents: 'auto' }
-                : { opacity: 0, y: -40, height: 0, pointerEvents: 'none' }
+              showStatusForm ? { opacity: 1, y: 0, height: 'auto', pointerEvents: 'auto' } : { opacity: 0, y: -40, height: 0, pointerEvents: 'none' }
             }
             exit={{ opacity: 0, y: -40, height: 0, pointerEvents: 'none' }}
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}

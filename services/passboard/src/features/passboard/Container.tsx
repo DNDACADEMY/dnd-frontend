@@ -17,18 +17,9 @@ type Props = {
   eventResultReady: boolean
 }
 
-export function PassboardContainer({
-  eventApplicationResultDate,
-  eventName,
-  eventId,
-  eventResultReady
-}: Props) {
+export function PassboardContainer({ eventApplicationResultDate, eventName, eventId, eventResultReady }: Props) {
   // NOTE: 모집 기간이 아닐 경우 모집 기간중에 보여줄 카드를 보여줌
-  const isRecruitingPeriod = dayjs(eventApplicationResultDate).isBefore(dayjs())
-    ? eventResultReady
-      ? true
-      : false
-    : false
+  const isRecruitingPeriod = dayjs(eventApplicationResultDate).isBefore(dayjs()) ? (eventResultReady ? true : false) : false
 
   const [status, setStatus] = useState<ResCheckUserStatus | null>(null)
 

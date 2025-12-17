@@ -12,11 +12,7 @@ export type ErrorContainerProps = {
 
 const defaultErrorMessage = '서비스에 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.'
 
-export const ErrorContainer = ({
-  error,
-  errorMessage,
-  sendErrorEvent = true
-}: ErrorContainerProps) => {
+export const ErrorContainer = ({ error, errorMessage, sendErrorEvent = true }: ErrorContainerProps) => {
   useEffect(
     function sendUserErrorEvent() {
       if (error && sendErrorEvent) {

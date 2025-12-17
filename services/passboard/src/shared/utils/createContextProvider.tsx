@@ -4,10 +4,7 @@ type ProviderProps<T> = {
   children: ReactNode
 } & T
 
-export function createCtxProvider<T extends Record<string, unknown>>(
-  componentName: string,
-  defaultValue?: T
-) {
+export function createCtxProvider<T extends Record<string, unknown>>(componentName: string, defaultValue?: T) {
   const Context = createContext<T | undefined>(defaultValue)
 
   function Provider(props: ProviderProps<T>) {

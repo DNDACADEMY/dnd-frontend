@@ -9,30 +9,28 @@ export type InputfieldProps = {
   bottomAddon?: ReactNode
 } & ComponentProps<typeof Textfield>
 
-const InputfieldComponent = forwardRef<HTMLInputElement, InputfieldProps>(
-  ({ placeholder, value, topAddon, bottomAddon, ...restProps }, ref) => {
-    const id = useId()
+const InputfieldComponent = forwardRef<HTMLInputElement, InputfieldProps>(({ placeholder, value, topAddon, bottomAddon, ...restProps }, ref) => {
+  const id = useId()
 
-    return (
-      <InputfieldContextProvider id={id}>
-        <Flex
-          direction='column'
-          gap={4}>
-          {topAddon}
-          <Textfield
-            id={id}
-            size='large'
-            placeholder={placeholder}
-            value={value}
-            ref={ref}
-            {...restProps}
-          />
-          {bottomAddon}
-        </Flex>
-      </InputfieldContextProvider>
-    )
-  }
-)
+  return (
+    <InputfieldContextProvider id={id}>
+      <Flex
+        direction='column'
+        gap={4}>
+        {topAddon}
+        <Textfield
+          id={id}
+          size='large'
+          placeholder={placeholder}
+          value={value}
+          ref={ref}
+          {...restProps}
+        />
+        {bottomAddon}
+      </Flex>
+    </InputfieldContextProvider>
+  )
+})
 
 InputfieldComponent.displayName = 'Inputfield'
 

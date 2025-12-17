@@ -13,7 +13,7 @@ trim_trailing_whitespace = true
 
 [*.{js,jsx,ts,tsx,json,css,scss}]
 quote_type = single
-max_line_length = 100
+max_line_length = 150
 
 [*.md]
 trim_trailing_whitespace = false

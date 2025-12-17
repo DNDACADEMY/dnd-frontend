@@ -9,11 +9,7 @@ type UseTimedVisibilityOptions = {
 // NOTES: 처음에는 아무것도 보여지지 않아야 하므로 'initial' 상태로 초기화
 type VisibleState = 'initial' | boolean
 
-export const useTimedVisibility = ({
-  visibleDuration = 2000,
-  closingDuration = 1000,
-  autoStart = true
-}: UseTimedVisibilityOptions = {}) => {
+export const useTimedVisibility = ({ visibleDuration = 2000, closingDuration = 1000, autoStart = true }: UseTimedVisibilityOptions = {}) => {
   const [isVisible, setIsVisible] = useState<VisibleState>('initial')
   const [isClosing, setIsClosing] = useState(false)
 

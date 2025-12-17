@@ -10,11 +10,10 @@ type StatusContainerContextValue = {
   eventName: string
 }
 
-const [StatusContainerContextProvider, useStatusContainerContext] =
-  createCtxProvider<StatusContainerContextValue>('StatusContainer', {
-    status: null,
-    setStatus: () => {},
-    eventName: ''
-  })
+const [StatusContainerContextProvider, useStatusContainerContext] = createCtxProvider<StatusContainerContextValue>('StatusContainer', {
+  status: null,
+  setStatus: () => {},
+  eventName: ''
+})
 
 export { StatusContainerContextProvider, useStatusContainerContext }

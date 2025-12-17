@@ -13,19 +13,7 @@ export type FlexProps = FlexRecipeProps &
   }
 
 export const Flex = (props: FlexProps) => {
-  const {
-    direction,
-    align,
-    justify,
-    wrap,
-    asChild,
-    as,
-    gap,
-    children,
-    className: classNameFromProps,
-    style: styleFromProps,
-    ...restProps
-  } = props
+  const { direction, align, justify, wrap, asChild, as, gap, children, className: classNameFromProps, style: styleFromProps, ...restProps } = props
   const Component = asChild ? Slot : (as ?? 'div')
   return (
     <Component

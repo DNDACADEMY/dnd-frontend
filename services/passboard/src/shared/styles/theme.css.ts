@@ -81,8 +81,7 @@ export const vars = createGlobalTheme(':root', {
     max: '1000px'
   },
   fontFamily: {
-    default:
-      "Pretendard, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+    default: "Pretendard, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
   },
   fontWeight: {
     regular: '400',

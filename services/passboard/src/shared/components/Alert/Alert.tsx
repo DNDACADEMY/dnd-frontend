@@ -85,12 +85,7 @@ const SubDescription = ({ children }: { children: ReactNode }) => {
 
 type ButtonProps = ComponentProps<'button'>
 
-const Button = ({
-  type = 'button',
-  children,
-  onClick: onClickFromProps,
-  ...props
-}: ButtonProps) => {
+const Button = ({ type = 'button', children, onClick: onClickFromProps, ...props }: ButtonProps) => {
   const { onClose } = useAlertContext('Alert.Button')
 
   const handleClick = composeHandler(onClose, onClickFromProps)
