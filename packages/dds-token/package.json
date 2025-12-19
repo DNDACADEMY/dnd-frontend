@@ -2,12 +2,19 @@
   "name": "@dds/token",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./color": "./src/colors/index.ts"
+    ".": "./dist/tokens.js",
+    "./tokens": "./dist/tokens.js",
+    "./css": "./dist/variables.css"
   },
+  "types": "./dist/tokens.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc --noEmit",
+    "build": "npm run build:tokens",
+    "build:tokens": "node scripts/build-tokens.js",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
@@ -17,5 +24,9 @@
     "@types/node": "^22.15.3",
     "eslint": "^9.39.1",
     "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@tokens-studio/sd-transforms": "^2.0.3",
+    "style-dictionary": "^5.1.1"
   }
 }
