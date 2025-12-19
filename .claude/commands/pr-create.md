@@ -1,0 +1,347 @@
+# Claude Code PR Auto-Creator
+
+## /pr - Automatically Create GitHub Pull Request
+
+Analyze current branch changes and automatically create a GitHub Pull Request with title and description in Korean following conventional commit format.
+
+### Execution Steps:
+
+1. **Detect Changed Workspaces**
+   - Analyze file paths in `git diff main`
+   - Read actual `package.json` files to get package names
+   - Support all workspace types: `packages/`, `services/`, `tools/`
+
+2. **Analyze Git Changes**
+   - Run `git diff main --stat` for file overview
+   - Run `git diff main --name-only` for file list
+   - Check actual code changes with `git diff main` (selective files)
+
+3. **Analyze Commit History**
+   - Check `git log main..HEAD --oneline`
+   - Extract work intention from commit messages
+   - Identify patterns in commits
+
+4. **Determine Commit Type**
+   - **feat**: New files in `src/`, new features, new components
+   - **fix**: Bug fixes, error handling improvements
+   - **refactor**: Code restructuring, file moves, cleanup
+   - **style**: CSS changes, formatting, linting fixes
+   - **perf**: Performance optimizations
+   - **test**: Test files (`__tests__/`, `*.test.ts`, `*.spec.ts`)
+   - **docs**: README.md, documentation files
+   - **chore**: package.json, config files, build scripts, CI/CD
+
+5. **Generate PR Title**
+   - Format: `<type>(<scope>): <description in Korean>`
+   - Example: `feat(token): 디자인 토큰 시스템 구축`
+
+6. **Create GitHub Pull Request**
+   - Push current branch to remote if needed
+   - Generate PR body matching template format
+   - Use `gh pr create` to create PR automatically
+   - Return PR URL to user
+
+---
+
+## Package Detection Rules
+
+### Auto-detect from file paths:
+
+```
+packages/dds-token/       → @dds/token → scope: token
+packages/dds-desktop/     → @dds/desktop → scope: desktop
+services/admin-web/       → admin-web → scope: admin-web
+services/passboard/       → passboard → scope: passboard
+tools/xxx/                → scope: tools
+.github/                  → scope: ci
+root config files         → scope: root
+```
+
+### Scope extraction priority:
+
+1. **Read package.json** if exists in changed directory
+   - Extract name field: `"name": "@dds/token"` → scope: `token`
+   - Remove `@dds/` or `@scope/` prefix
+2. **Fallback to directory name** if no package.json
+   - `services/admin-web` → scope: `admin-web`
+3. **Special cases**:
+   - Root files (`.github/`, `turbo.json`, etc.) → `root`
+   - Multiple root configs only → `chore(root):`
+
+### Multiple workspaces changed:
+
+- **1 workspace**: Use that scope `feat(token):`
+- **2-3 workspaces**: List all `feat(token,desktop):`
+- **4+ workspaces**: Use `feat(monorepo):`
+- **Mixed root + 1 workspace**: Use workspace scope
+
+---
+
+## PR Title Examples
+
+Following conventional commit format:
+
+```
+feat(token): 디자인 토큰 시스템 구축
+fix(desktop): Electron IPC 통신 오류 해결
+refactor(admin-web): 컴포넌트 구조 개선
+style(passboard): 코드 포맷팅 적용
+chore(root): Turbo 빌드 설정 개선
+docs(desktop): 설치 가이드 추가
+feat(token,desktop): 디자인 시스템 통합
+```
+
+---
+
+## Output Format
+
+### Step 1: Analyze Changes
+
+Run these git commands in parallel:
+
+```bash
+git diff main --stat
+git diff main --name-only
+git log main..HEAD --oneline
+```
+
+For each changed directory with package.json:
+
+```bash
+cat <workspace>/package.json | grep '"name"'
+```
+
+Analyze the changes and determine:
+
+- Changed workspaces and their scopes
+- Commit type (feat/fix/refactor/chore/etc)
+- Main purpose of changes
+
+### Step 2: Suggest PR Title
+
+Output format:
+
+```
+🔍 변경사항 분석
+
+📦 변경된 워크스페이스:
+  • packages/dds-token (@dds/token)
+  • services/admin-web
+
+📁 변경된 파일: 12개
+  ➕ 추가: 5개
+  ✏️  수정: 7개
+
+🏷️  권장 PR 제목:
+feat(token): 디자인 토큰 시스템 구축
+
+또는:
+1. feat(token): Style Dictionary 기반 토큰 자동화
+2. chore(token): 토큰 빌드 파이프라인 구축
+```
+
+### Step 3: Generate PR Body
+
+Create PR body text matching the template:
+
+```markdown
+## 📝 변경사항
+
+### 주요 변경 내용
+
+- [실제 변경 내용 1 - git diff 기반 분석]
+- [실제 변경 내용 2]
+- [실제 변경 내용 3]
+
+## 🔗 관련 링크
+
+-
+```
+
+### Step 4: Push and Create PR
+
+**Check if push is needed:**
+
+```bash
+git status -sb
+```
+
+**Push if needed:**
+
+```bash
+git push -u origin <current-branch>
+```
+
+**Create PR using gh CLI:**
+
+```bash
+gh pr create \
+  --title "feat(token): 디자인 토큰 시스템 구축" \
+  --body "$(cat <<'EOF'
+## 📝 변경사항
+
+### 주요 변경 내용
+
+- Style Dictionary 기반 디자인 토큰 시스템 구축
+- JSON 토큰 파일 구조화 및 빌드 설정
+- 자동화된 토큰 빌드 파이프라인 추가
+
+## 🔗 관련 링크
+
+-
+EOF
+)"
+```
+
+### Step 5: Return PR URL
+
+```
+✅ PR이 생성되었습니다!
+
+🏷️  제목: feat(token): 디자인 토큰 시스템 구축
+🔗 URL: https://github.com/username/repo/pull/123
+
+💡 추가 작업:
+  • 관련 이슈 링크 추가
+  • 스크린샷 첨부 (필요시)
+  • 리뷰어 지정
+```
+
+---
+
+## Implementation Guidelines
+
+### Must Do:
+
+✅ **Check git status** before pushing
+✅ **Read package.json** for accurate scope detection
+✅ **Analyze git diff** to understand actual changes
+✅ **Push branch** if not already pushed to remote
+✅ **Use `gh pr create`** to create PR automatically
+✅ **Generate body with HEREDOC** for proper formatting
+✅ **Return PR URL** after creation
+✅ **Write all content in Korean**
+✅ **Match template structure** exactly
+
+### Must Not Do:
+
+❌ Don't create PR without pushing branch first
+❌ Don't hardcode package names
+❌ Don't guess changes without analyzing code
+❌ Don't use placeholders - analyze actual changes
+❌ Don't create PR if there are no commits
+❌ Don't forget to handle git push errors
+
+### Error Handling:
+
+**If branch not pushed:**
+
+```bash
+git push -u origin $(git branch --show-current)
+```
+
+**If `gh` not installed:**
+
+```
+❌ GitHub CLI (gh)가 설치되어 있지 않습니다.
+설치: brew install gh
+인증: gh auth login
+```
+
+**If no commits on branch:**
+
+```
+❌ main 브랜치와 차이가 없습니다.
+변경사항을 커밋한 후 다시 시도해주세요.
+```
+
+---
+
+## Additional Commands
+
+### `/pr-draft` - Create Draft PR
+
+Same as `/pr` but creates a draft pull request:
+
+```bash
+gh pr create --draft \
+  --title "..." \
+  --body "..."
+```
+
+### `/pr-title` - Quick Title Suggestion
+
+Generate title suggestions without creating PR:
+
+```
+🔍 변경된 워크스페이스: @dds/token
+
+🏷️  권장 제목:
+feat(token): 디자인 토큰 시스템 구축
+
+또는:
+1. feat(token): Style Dictionary 기반 토큰 자동화
+2. chore(token): 토큰 빌드 설정 추가
+```
+
+### `/pr-analyze` - Analyze Only
+
+Analyze changes without creating PR:
+
+```
+📊 변경사항 분석
+
+📦 워크스페이스:
+  • packages/dds-token (@dds/token)
+
+📁 파일: 8개 (추가 5, 수정 3)
+
+🔧 타입: feat
+📝 주요 변경:
+  - Style Dictionary 설정
+  - 토큰 JSON 구조화
+  - 빌드 자동화
+```
+
+---
+
+## Workflow Examples
+
+### Example 1: Simple PR Creation
+
+```bash
+# User types:
+/pr
+
+# Assistant does:
+1. Analyzes git diff main
+2. Reads package.json files
+3. Generates title and body
+4. Pushes branch (if needed)
+5. Creates PR with gh pr create
+6. Returns PR URL
+```
+
+### Example 2: Draft PR
+
+```bash
+/pr-draft
+# Creates draft PR for review before marking ready
+```
+
+### Example 3: Title Only
+
+```bash
+/pr-title
+# Just shows title suggestions, no PR creation
+```
+
+---
+
+## Tips
+
+- **Always commit first** before running `/pr`
+- Use `/pr-analyze` to preview changes
+- Use `/pr-draft` for work-in-progress
+- PR body can be edited on GitHub after creation
+- Add reviewers and labels manually on GitHub
