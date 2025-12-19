@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-frontend/admin-web",
+  "name": "@dnd-frontend/admin",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,15 +12,16 @@
   "dependencies": {
     "@dds/desktop": "*",
     "@dds/token": "*",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-router": "^7.10.1"
   },
   "devDependencies": {
     "@dnd-frontend/eslint-config": "*",
     "@dnd-frontend/typescript-config": "*",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.1",
