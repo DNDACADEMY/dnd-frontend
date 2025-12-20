@@ -103,14 +103,18 @@ packages/dds-desktop/     → desktop
 services/admin-web/       → admin-web
 services/passboard/       → passboard
 tools/xxx/                → tools
-.github/, turbo.json      → root
 ```
+
+**⚠️ Root 파일 처리:**
+
+- Root 파일(yarn.lock, .gitignore 등)은 커밋에 포함하되 scope에서 **제외**
+- 워크스페이스 작업 + root 파일 변경 → 워크스페이스 scope만 사용
+- Root 파일만 변경된 경우에만 `chore:` 사용
 
 **여러 워크스페이스:**
 
-- 1개: `feat(token):`
-- 2-3개: `feat(token,desktop):`
-- 4개 이상: `feat(monorepo):`
+- 1개 워크스페이스 + root 파일: `feat(desktop):` (root 제외)
+- 2개 이상 워크스페이스: `feat(token,desktop):`
 
 ## Error Handling
 
@@ -138,6 +142,26 @@ git add .
 
    ```bash
    git diff --staged --name-only
+   ```
+
+   **⚠️ IMPORTANT: Scope 결정 규칙**
+
+   Root 파일들(`.gitignore`, `yarn.lock`, `.yarn/install-state.gz` 등)의 변경사항은 **커밋에 포함**하되,
+   scope는 **절대 `root`로 설정하지 않습니다**.
+
+   **Scope 결정 우선순위:**
+   1. 주요 작업이 이루어진 워크스페이스를 scope로 사용
+   2. 워크스페이스 파일 + root 파일이 함께 변경된 경우 → 워크스페이스 scope 사용
+   3. Root 파일만 변경된 경우에만 → `chore(root):` 사용
+
+   **예시:**
+
+   ```
+   ✅ feat(desktop): Storybook 설정 추가
+      - packages/dds-desktop/.storybook/ 추가
+      - yarn.lock 업데이트 (패키지 설치로 인한 변경)
+
+   ❌ feat(root): Storybook 설정 추가  (잘못된 예시)
    ```
 
 2. **Analyze changes**

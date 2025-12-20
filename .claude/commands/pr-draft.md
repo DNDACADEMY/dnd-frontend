@@ -15,6 +15,12 @@ Same as `/pr` command but creates a **draft pull request** instead of a ready-fo
 3. Pushes branch if needed (same as `/pr`)
 4. **Creates DRAFT PR** using `gh pr create --draft`
 
+**⚠️ Scope 결정 규칙:**
+
+- Root 파일(`yarn.lock`, `.gitignore` 등) 변경이 포함되어도 scope에서 **제외**
+- 워크스페이스 작업이 주가 되면 워크스페이스 scope만 사용 (예: `feat(desktop):`)
+- Root 파일만 변경된 경우에만 `chore:` 사용
+
 ## When to use
 
 - Work in progress (WIP)

@@ -16,6 +16,12 @@ Analyze current branch changes without creating a pull request.
 4. Determines commit type
 5. Summarizes key changes
 
+**⚠️ Scope 결정 규칙:**
+
+- Root 파일(`yarn.lock`, `.gitignore` 등) 변경은 분석에 포함하되 scope에서 **제외**
+- 워크스페이스 작업이 주가 되면 워크스페이스 scope만 표시
+- Root 파일만 변경된 경우에만 `chore:` 로 표시
+
 ## Output format
 
 ```

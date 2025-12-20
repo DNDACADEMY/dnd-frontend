@@ -70,10 +70,14 @@ root config files         → scope: root
 
 ### Multiple workspaces changed:
 
-- **1 workspace**: Use that scope `feat(token):`
-- **2-3 workspaces**: List all `feat(token,desktop):`
-- **4+ workspaces**: Use `feat(monorepo):`
-- **Mixed root + 1 workspace**: Use workspace scope
+- **1 workspace + root files**: Use workspace scope `feat(desktop):` (root 제외)
+- **2- workspaces**: List all `feat(token,desktop):`
+- **Root files only**: Only then use `chore:`
+
+**⚠️ Root를 scope에 포함하지 않음:**
+
+- `yarn.lock`, `.gitignore` 등 root 파일은 커밋/PR에 포함하되
+- 워크스페이스 작업이 있다면 scope는 워크스페이스만 표시
 
 ---
 
@@ -96,6 +100,28 @@ feat(token,desktop): 디자인 시스템 통합
 ## Output Format
 
 ### Step 1: Analyze Changes
+
+**⚠️ IMPORTANT: Scope 결정 규칙**
+
+Root 파일들(`.gitignore`, `yarn.lock`, `.yarn/install-state.gz` 등)의 변경사항은 **PR에 포함**하되,
+PR 제목의 scope는 **절대 `root`로 설정하지 않습니다**.
+
+**Scope 결정 우선순위:**
+
+1. 주요 작업이 이루어진 워크스페이스를 scope로 사용
+2. 워크스페이스 파일 + root 파일(yarn.lock 등)이 함께 변경된 경우 → 워크스페이스 scope 사용
+3. Root 설정 파일만 변경된 경우에만 → `chore(root):` 사용
+
+**예시:**
+
+```
+✅ feat(desktop): Storybook 설정 및 로고 추가
+   - packages/dds-desktop/.storybook/ 변경
+   - yarn.lock 업데이트 포함
+
+❌ feat(root,desktop): ... (잘못된 예시 - root를 scope에 포함하지 않음)
+❌ feat(root): ... (워크스페이스 작업이 있는데 root만 표시)
+```
 
 Run these git commands in parallel:
 
