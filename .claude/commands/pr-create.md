@@ -202,6 +202,7 @@ git push -u origin <current-branch>
 
 ```bash
 gh pr create \
+  --assignee @me \
   --title "feat(token): 디자인 토큰 시스템 구축" \
   --body "$(cat <<'EOF'
 ## 📝 변경사항
@@ -291,6 +292,7 @@ Same as `/pr` but creates a draft pull request:
 
 ```bash
 gh pr create --draft \
+  --assignee @me \
   --title "..." \
   --body "..."
 ```
