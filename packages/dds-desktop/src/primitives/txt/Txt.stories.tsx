@@ -11,7 +11,15 @@ const meta = {
   title: 'Primitives/Txt',
   component: Txt,
   parameters: {
-    layout: 'centered'
+    layout: 'centered',
+    controls: {
+      exclude: ['ref']
+    },
+    docs: {
+      description: {
+        component: 'Txt 컴포넌트는 텍스트를 렌더링할 때 사용해요.'
+      }
+    }
   },
   tags: ['autodocs'],
   args: {
@@ -25,10 +33,12 @@ const meta = {
       options: TYPOGRAPHY_OPTIONS
     },
     as: {
+      description: '텍스트를 렌더링할 HTML 요소를 설정해요.',
       control: 'select',
       options: ['span', 'p', 'div', 'h1', 'h2', 'h3']
     },
     children: {
+      description: '텍스트 내용을 설정해요.',
       control: 'text'
     }
   }
@@ -77,7 +87,7 @@ export const AsHeading: Story = {
     as: 'h2',
     typography: 'h5',
     fontWeight: 'medium',
-    color: color.cider700,
+    color: color.mono900,
     children: '섹션 제목 텍스트'
   }
 }
