@@ -18,6 +18,9 @@ const config: StorybookConfig = {
         viteConfigPath: 'vitest.config.ts'
       }
     }
+  },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript'
   }
 }
 export default config
