@@ -13,7 +13,7 @@ Same as `/pr` command but creates a **draft pull request** instead of a ready-fo
 1. Analyzes changes (same as `/pr`)
 2. Generates title and body (same as `/pr`)
 3. Pushes branch if needed (same as `/pr`)
-4. **Creates DRAFT PR** using `gh pr create --draft`
+4. **Creates DRAFT PR** using `gh pr create --draft --assignee @me`
 
 **⚠️ Scope 결정 규칙:**
 
