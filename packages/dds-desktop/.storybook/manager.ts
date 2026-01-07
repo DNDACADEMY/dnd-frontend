@@ -10,13 +10,5 @@ const theme = create({
 })
 
 addons.setConfig({
-  theme,
-  sidebar: {
-    renderLabel: ({ name, type }) => {
-      if (type === 'root') {
-        return `${name} v${version}`
-      }
-      return name
-    }
-  }
+  theme
 })
