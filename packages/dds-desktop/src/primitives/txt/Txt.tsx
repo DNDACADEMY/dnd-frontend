@@ -1,24 +1,25 @@
-import { ElementType, type ReactNode } from 'react'
+import { ElementType } from 'react'
 
-import { FontWeight, Typography } from './types'
+import { typographyCss } from './styles.css'
+import { Typography } from './types'
 import { cx } from '../../utils/cx'
 import { forwardRefWithAs } from '../../utils/forwardRefWithAs'
 
-export interface TxtProps {
+export interface TxtProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /**
+   * @default 'body1'
+   * @description 텍스트 스타일
+   */
   typography: Typography
-  fontWeight: FontWeight
-  className?: string
-  children: ReactNode
 }
 
-export const Txt = forwardRefWithAs<ElementType, TxtProps>((props, ref) => {
-  const { as, typography, fontWeight, className, children, ...restProps } = props
-  const Component = as ?? 'span'
+export const Txt = forwardRefWithAs<ElementType, TxtProps>((props) => {
+  const { as = 'span', typography = 'body1', classNameFromProps, children, ...restProps } = props
+  const Component = as
 
   return (
     <Component
-      ref={ref}
-      className={cx(typography, fontWeight, className)}
+      className={cx(typographyCss({ typography }), classNameFromProps)}
       {...restProps}>
       {children}
     </Component>
