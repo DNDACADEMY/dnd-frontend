@@ -12,21 +12,21 @@ export interface TxtProps extends HTMLAttributes<HTMLSpanElement> {
    *
    * @default body1
    */
-  typography: Typography
+  typography?: Typography
 
   /**
    * 텍스트 굵기를 설정해요.
    *
    * @default regular
    */
-  fontWeight: FontWeight
+  fontWeight?: FontWeight
 
   /**
    * 텍스트 색상을 설정해요.
    *
    * @default color.mono900
    */
-  color: string
+  color?: string
 }
 export const Txt = forwardRefWithAs<ElementType, TxtProps>((props) => {
   const {
