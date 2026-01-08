@@ -1,4 +1,4 @@
-import { color } from '@dds/token'
+import { primitive } from '@dds/token'
 import { CSSProperties, ElementType, HTMLAttributes } from 'react'
 
 import { typographyCss } from './styles.css'
@@ -34,7 +34,7 @@ export const Txt = forwardRefWithAs<ElementType, TxtProps>((props) => {
     typography = 'body1',
     fontWeight = 'regular',
     children,
-    color: colorFromProps = color.mono900,
+    color: colorFromProps = primitive.color.mono900,
     className: classNameFromProps,
     style: styleFromProps,
     ...restProps
