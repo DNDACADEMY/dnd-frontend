@@ -6,29 +6,14 @@ import { Fieldbox } from './Fieldbox'
 import type { FieldboxProps } from './Fieldbox'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-interface FieldboxStoryProps extends FieldboxProps {
-  /**
-   * 상단 라벨(topAddon) 영역 노출 여부를 설정해요.
-   */
-  showTopAddon: boolean
-  /**
-   * 하단 텍스트(bottomAddon) 영역 노출 여부를 설정해요.
-   */
-  showBottomAddon: boolean
-  /**
-   * 상단 라벨에 필수(required) 표시를 할지 여부를 설정해요.
-   */
-  isRequiredLabel: boolean
-}
-
 const meta = {
   title: 'Primitives/Fieldbox',
   component: Fieldbox,
   parameters: {
-    layout: 'centered',
     controls: {
       exclude: ['ref', 'topAddon', 'bottomAddon', 'leftAddon', 'rightAddon', 'as']
     },
+    layout: 'centered',
     docs: {
       description: {
         component:
@@ -41,90 +26,137 @@ const meta = {
     Label: Fieldbox.Label,
     BottomTxt: Fieldbox.BottomTxt
   }
-} satisfies Meta<FieldboxStoryProps>
+} satisfies Meta<typeof Fieldbox>
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-const CustomInput = ({ id }: { id?: string }) => (
-  <Txt
-    as='input'
-    id={id}
-    typography='body2'
-    fontWeight='regular'
-    color={semantic.color.labelSubtitle}
-    placeholder='example@dnd.com'
-    style={{ flex: 1, padding: 0, border: 'none', outline: 'none', backgroundColor: 'transparent', height: 22 }}
-  />
-)
+const CustomInput = ({ fieldboxProps, id, placeholder }: { fieldboxProps: FieldboxProps; id?: string; placeholder?: string }) => {
+  const { size = 'medium', disabled, readonly } = fieldboxProps
 
-export const Basic: Story = {
+  return (
+    <Txt
+      as='input'
+      id={id}
+      typography='body2'
+      fontWeight='regular'
+      readOnly={readonly}
+      disabled={disabled}
+      color={semantic.color.labelSubtitle}
+      placeholder={placeholder ?? 'example@dnd.com'}
+      style={{
+        padding: 0,
+        border: 'none',
+        outline: 'none',
+        backgroundColor: 'transparent',
+        height: size === 'small' ? '17px' : '22px'
+      }}
+    />
+  )
+}
+
+export const Playground: Story = {
   args: {
-    showTopAddon: true,
-    showBottomAddon: true,
-    isRequiredLabel: false
+    size: 'medium',
+    disabled: false,
+    error: false,
+    required: true,
+    readonly: false
   },
   render: (args) => {
-    const { showTopAddon, showBottomAddon, isRequiredLabel, ...fieldboxProps } = args
+    const { size = 'medium', ...fieldboxProps } = args
+    const inputId = 'fieldbox-email'
+
+    const bottomText = fieldboxProps.error ? '이메일 형식이 올바르지 않아요.' : '로그인에 사용할 이메일 주소를 입력해 주세요.'
 
     return (
       <Fieldbox
         {...fieldboxProps}
-        topAddon={
-          showTopAddon ? (
-            <Fieldbox.Label
-              id='fieldbox-default'
-              required={isRequiredLabel}>
-              이메일 주소
-            </Fieldbox.Label>
-          ) : undefined
-        }
-        bottomAddon={showBottomAddon ? <Fieldbox.BottomTxt>이메일 주소를 입력해 주세요.</Fieldbox.BottomTxt> : undefined}>
-        <CustomInput />
+        size={size}
+        topAddon={<Fieldbox.Label id={inputId}>이메일 주소</Fieldbox.Label>}
+        bottomAddon={<Fieldbox.BottomTxt>{bottomText}</Fieldbox.BottomTxt>}>
+        <CustomInput
+          fieldboxProps={{ ...fieldboxProps, size }}
+          id={inputId}
+          placeholder={fieldboxProps.placeholder}
+        />
       </Fieldbox>
     )
   }
 }
 
-export const Label: Story = {
+export const Sizes: Story = {
+  name: 'Size variants',
   args: {
-    showTopAddon: true,
-    isRequiredLabel: false
+    required: true
   },
   render: (args) => {
-    const { showTopAddon, isRequiredLabel, ...fieldboxProps } = args
+    const inputIdBase = 'fieldbox-size'
+    const sizes: FieldboxProps['size'][] = ['small', 'medium', 'large']
 
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 360 }}>
+        {sizes.map((size) => {
+          const id = `${inputIdBase}-${size}`
+          return (
+            <Fieldbox
+              key={size}
+              {...args}
+              size={size}
+              topAddon={<Fieldbox.Label id={id}>{`이메일 주소 (${size})`}</Fieldbox.Label>}>
+              <CustomInput
+                fieldboxProps={{ ...args, size }}
+                id={id}
+              />
+            </Fieldbox>
+          )
+        })}
+      </div>
+    )
+  }
+}
+
+export const ErrorState: Story = {
+  args: {
+    error: true,
+    required: true,
+    readonly: false
+  },
+  render: (fieldboxProps) => {
+    const id = 'fieldbox-error'
     return (
       <Fieldbox
         {...fieldboxProps}
-        topAddon={
-          showTopAddon ? (
-            <Fieldbox.Label
-              id='fieldbox-default'
-              required={isRequiredLabel}>
-              이메일 주소
-            </Fieldbox.Label>
-          ) : undefined
-        }>
-        <CustomInput id='fieldbox-default' />
+        topAddon={<Fieldbox.Label id={id}>이메일 주소</Fieldbox.Label>}
+        bottomAddon={<Fieldbox.BottomTxt>이메일 형식이 올바르지 않아요.</Fieldbox.BottomTxt>}>
+        <CustomInput
+          fieldboxProps={fieldboxProps}
+          id={id}
+          placeholder={fieldboxProps.placeholder}
+        />
       </Fieldbox>
     )
   }
 }
 
-export const BottomTxt: Story = {
+export const DisabledState: Story = {
   args: {
-    showBottomAddon: true
+    disabled: true,
+    readonly: false
   },
-  render: (args) => {
-    const { showBottomAddon, ...fieldboxProps } = args
-
+  render: (fieldboxProps) => {
+    const id = 'fieldbox-disabled'
     return (
       <Fieldbox
         {...fieldboxProps}
-        bottomAddon={showBottomAddon ? <Fieldbox.BottomTxt>입력란 하단에 노출되는 설명 텍스트 예시예요.</Fieldbox.BottomTxt> : undefined}>
-        <CustomInput id='fieldbox-default' />
+        topAddon={<Fieldbox.Label id={id}>이메일 주소</Fieldbox.Label>}
+        bottomAddon={<Fieldbox.BottomTxt>현재 입력이 비활성화된 상태예요.</Fieldbox.BottomTxt>}>
+        <CustomInput
+          fieldboxProps={fieldboxProps}
+          id={id}
+          placeholder='example@dnd.com'
+        />
       </Fieldbox>
     )
   }
