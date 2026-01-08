@@ -2,6 +2,7 @@ import { primitive } from '@dds/token'
 import { HTMLAttributes } from 'react'
 
 import { Txt } from '../../txt'
+import { useFieldboxContext } from '../context'
 import { requiredStyleCss } from '../styles.css'
 
 export interface FieldboxLabelProps extends HTMLAttributes<HTMLLabelElement> {
@@ -18,7 +19,10 @@ export interface FieldboxLabelProps extends HTMLAttributes<HTMLLabelElement> {
 }
 
 export const FieldboxLabel = (props: FieldboxLabelProps) => {
-  const { id, children, required = false, ...restProps } = props
+  const { id, children, required: requiredFromProps, ...restProps } = props
+  const { required: requiredFromCtx } = useFieldboxContext('Fieldbox.Label')
+
+  const required = requiredFromProps ?? requiredFromCtx
 
   return (
     <label

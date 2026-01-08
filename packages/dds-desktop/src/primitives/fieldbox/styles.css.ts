@@ -1,5 +1,6 @@
 import { primitive, semantic } from '@dds/token'
-import { style } from '@vanilla-extract/css'
+import { createVar, style } from '@vanilla-extract/css'
+import { recipe } from '@vanilla-extract/recipes'
 
 export const fieldboxContainerCss = style({
   display: 'flex',
@@ -7,16 +8,87 @@ export const fieldboxContainerCss = style({
   gap: '4px'
 })
 
-export const fieldboxContentCss = style({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  gap: '8px',
-  padding: '13px 16px',
+const fieldBoxContentVariants = {
+  minHeight: createVar(),
+  backgroundColor: createVar(),
+  borderColor: createVar(),
+  gap: createVar()
+} as const
 
-  borderRadius: 6,
-  backgroundColor: primitive.color.mono000,
-  boxShadow: `0px 0px 0px 1px ${semantic.color.borderStrong}`
+export const fieldboxContentCss = recipe({
+  base: {
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: fieldBoxContentVariants.gap,
+    minHeight: fieldBoxContentVariants.minHeight,
+    borderRadius: 6,
+    backgroundColor: fieldBoxContentVariants.backgroundColor,
+    border: `1px solid ${fieldBoxContentVariants.borderColor}`,
+    transition: 'border-color 0.2s ease-in-out',
+    vars: {
+      [fieldBoxContentVariants.backgroundColor]: primitive.color.mono000,
+      [fieldBoxContentVariants.borderColor]: semantic.color.borderStrong
+    },
+    selectors: {
+      '&:focus-within': {
+        vars: {
+          [fieldBoxContentVariants.borderColor]: primitive.color.cyan400
+        }
+      }
+    }
+  },
+  variants: {
+    size: {
+      small: {
+        padding: '0 16px',
+        vars: {
+          [fieldBoxContentVariants.minHeight]: '32px',
+          [fieldBoxContentVariants.gap]: '4px'
+        }
+      },
+      medium: {
+        padding: '0 16px',
+        vars: {
+          [fieldBoxContentVariants.minHeight]: '42px',
+          [fieldBoxContentVariants.gap]: '8px'
+        }
+      },
+      large: {
+        padding: '0 16px',
+        vars: {
+          [fieldBoxContentVariants.minHeight]: '48px',
+          [fieldBoxContentVariants.gap]: '8px'
+        }
+      }
+    },
+    error: {
+      true: {
+        vars: {
+          [fieldBoxContentVariants.borderColor]: semantic.color.badgeRed
+        }
+      }
+    },
+    disabled: {
+      true: {
+        pointerEvents: 'none',
+        vars: {
+          [fieldBoxContentVariants.backgroundColor]: primitive.color.gray100,
+          [fieldBoxContentVariants.borderColor]: primitive.color.gray300
+        }
+      }
+    },
+    readonly: {
+      true: {
+        pointerEvents: 'none',
+        vars: {
+          [fieldBoxContentVariants.backgroundColor]: semantic.color.backgroundPrimary,
+          [fieldBoxContentVariants.borderColor]: primitive.color.gray100
+        }
+      }
+    }
+  }
 })
 
 export const bottomTxtCss = style({
