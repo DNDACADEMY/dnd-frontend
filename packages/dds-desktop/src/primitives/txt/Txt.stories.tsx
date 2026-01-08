@@ -1,4 +1,4 @@
-import { color } from '@dds/token'
+import { primitive } from '@dds/token'
 
 import { Txt } from './Txt'
 
@@ -51,7 +51,7 @@ type Story = StoryObj<typeof meta>
 export const Playground: Story = {
   args: {
     fontWeight: 'regular',
-    color: color.mono900
+    color: primitive.color.mono900
   }
 }
 
@@ -59,7 +59,7 @@ export const Playground: Story = {
 export const TypographyScale: Story = {
   args: {
     fontWeight: 'regular',
-    color: color.mono900
+    color: primitive.color.mono900
   },
   parameters: {
     controls: {
@@ -87,7 +87,7 @@ export const AsHeading: Story = {
     as: 'h2',
     typography: 'h5',
     fontWeight: 'medium',
-    color: color.mono900,
+    color: primitive.color.mono900,
     children: '섹션 제목 텍스트'
   }
 }
