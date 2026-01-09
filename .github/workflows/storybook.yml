@@ -1,34 +1,42 @@
 name: Storybook
 
 on:
-  # Main 브랜치에 push될 때 자동 배포
   push:
     branches:
       - main
-    paths:
-      - 'packages/dds-desktop/**'
-    tags:
-      # alpha-storybook 태그가 push될 때 알파 배포
-      - 'alpha-storybook'
-
-  # 태그 삭제를 위한 수동 트리거
-  workflow_dispatch:
-    inputs:
-      action:
-        description: 'Action to perform'
-        required: true
-        type: choice
-        options:
-          - delete-alpha-tag
-      confirm:
-        description: 'Type "delete" to confirm'
-        required: false
-        default: ''
+  pull_request:
+    types:
+      - labeled
 
 jobs:
+  # Main 브랜치에서 dds-desktop 변경 여부 체크
+  check-desktop-main:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      has_changes: ${{ steps.check_changes.outputs.has_changes }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if dds-desktop has changes
+        id: check_changes
+        run: |
+          # 직전 커밋과 현재 커밋 사이에서 dds-desktop 변경사항 확인
+          if git diff --name-only HEAD^ HEAD | grep -q "^packages/dds-desktop/"; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "✅ dds-desktop에 변경사항이 있습니다."
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ dds-desktop에 변경사항이 없습니다. 배포를 건너뜁니다."
+          fi
+
   # Main 브랜치 자동 배포
   deploy-main:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check-desktop-main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.check-desktop-main.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -58,9 +66,9 @@ jobs:
           buildScriptName: build-storybook
           autoAcceptChanges: true
 
-  # Alpha 태그 배포
+  # Alpha 레이블 배포
   deploy-alpha:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/alpha-storybook')
+    if: github.event_name == 'pull_request' && github.event.action == 'labeled' && github.event.label.name == 'alpha-storybook'
     runs-on: ubuntu-latest
 
     permissions:
@@ -72,7 +80,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -104,149 +111,73 @@ jobs:
           script: |
             const storybookUrl = '${{ steps.chromatic.outputs.storybookUrl }}';
             const buildUrl = '${{ steps.chromatic.outputs.buildUrl }}';
-            const tagName = context.ref.replace('refs/tags/', '');
-
-            // 가장 최근 커밋 가져오기
-            const commit = context.sha;
-
-            // 해당 커밋과 연관된 PR 찾기
-            const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: commit
-            });
+            const prNumber = context.payload.pull_request.number;
 
             const comment = `## 🎨 스토리북 알파 배포 완료
-
-            **태그:** \`${tagName}\`
-            **브랜치:** \`${context.ref}\`
 
             ### 📦 배포 주소
             - **스토리북:** ${storybookUrl}
             - **빌드 상세:** ${buildUrl}
 
             ### ℹ️ 정보
-            - 커밋: ${commit.substring(0, 7)}
+            - PR: #${prNumber}
             - 워크플로우: [실행 내역 보기](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
             `;
 
-            // PR에 코멘트 추가
-            if (prs.data.length > 0) {
-              const pr = prs.data[0];
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr.number,
-                body: comment
-              });
-              console.log(`PR #${pr.number}에 코멘트 추가 완료`);
-            } else {
-              console.log('연관된 PR을 찾을 수 없습니다');
-            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: comment
+            });
+            console.log(`PR #${prNumber}에 코멘트 추가 완료`);
 
       - name: Comment deployment failure
         uses: actions/github-script@v7
         if: steps.chromatic.outcome == 'failure'
         with:
           script: |
-            const tagName = context.ref.replace('refs/tags/', '');
-            const commit = context.sha;
-
-            // 해당 커밋과 연관된 PR 찾기
-            const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: commit
-            });
+            const prNumber = context.payload.pull_request.number;
 
             const comment = `## ❌ 스토리북 알파 배포 실패
 
-            **태그:** \`${tagName}\`
-            **브랜치:** \`${context.ref}\`
-
             ### ℹ️ 정보
-            - 커밋: ${commit.substring(0, 7)}
+            - PR: #${prNumber}
             - 워크플로우: [실행 내역 보기](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
 
             배포 중 오류가 발생했습니다. 워크플로우 실행 내역을 확인해주세요.
             `;
 
-            // PR에 코멘트 추가
-            if (prs.data.length > 0) {
-              const pr = prs.data[0];
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr.number,
-                body: comment
-              });
-              console.log(`PR #${pr.number}에 실패 코멘트 추가 완료`);
-            } else {
-              console.log('연관된 PR을 찾을 수 없습니다');
-            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: comment
+            });
+            console.log(`PR #${prNumber}에 실패 코멘트 추가 완료`);
 
-      - name: Delete alpha-storybook tag
+      - name: Remove alpha-storybook label
         uses: actions/github-script@v7
         if: always()
         with:
           script: |
-            const tagName = context.ref.replace('refs/tags/', '');
             const owner = context.repo.owner;
             const repo = context.repo.repo;
+            const prNumber = context.payload.pull_request.number;
 
             try {
-              await github.rest.git.deleteRef({
+              await github.rest.issues.removeLabel({
                 owner,
                 repo,
-                ref: `tags/${tagName}`
+                issue_number: prNumber,
+                name: 'alpha-storybook'
               });
-              console.log(`✅ 태그 삭제 완료: ${tagName}`);
+              console.log(`✅ PR #${prNumber}에서 'alpha-storybook' 레이블 삭제 완료`);
             } catch (error) {
               if (error.status === 404) {
-                console.log(`ℹ️  태그 '${tagName}'를 찾을 수 없습니다 - 이미 삭제되었을 수 있습니다`);
+                console.log(`ℹ️  PR #${prNumber}에 'alpha-storybook' 레이블이 없습니다 - 이미 삭제되었을 수 있습니다`);
               } else {
-                console.error(`❌ 태그 삭제 오류: ${error.message}`);
-                // 태그 삭제 실패는 워크플로우 실패로 처리하지 않음
-              }
-            }
-
-  # Alpha 태그 삭제
-  delete-alpha-tag:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'delete-alpha-tag'
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-      - name: Validate confirmation
-        if: github.event.inputs.confirm != 'delete'
-        run: |
-          echo "❌ 태그 삭제가 취소되었습니다 - 확인 입력이 제공되지 않았습니다"
-          echo "진행하려면 확인 입력란에 'delete'를 입력해주세요"
-          exit 1
-
-      - name: Delete alpha-storybook tag
-        if: github.event.inputs.confirm == 'delete'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const tagName = 'alpha-storybook';
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-
-            try {
-              await github.rest.git.deleteRef({
-                owner,
-                repo,
-                ref: `tags/${tagName}`
-              });
-              console.log(`✅ 태그 삭제 완료: ${tagName}`);
-            } catch (error) {
-              if (error.status === 404) {
-                console.log(`ℹ️  태그 '${tagName}'를 찾을 수 없습니다 - 이미 삭제되었을 수 있습니다`);
-              } else {
-                console.error(`❌ 태그 삭제 오류: ${error.message}`);
-                throw error;
+                console.error(`❌ 레이블 삭제 오류: ${error.message}`);
+                // 레이블 삭제 실패는 워크플로우 실패로 처리하지 않음
               }
             }
