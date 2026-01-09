@@ -16,8 +16,7 @@ const meta = {
     },
     docs: {
       description: {
-        component:
-          'Inputfield 컴포넌트는 라벨, 아이콘, 입력 영역, 보조 텍스트를 하나의 필드 단위로 묶어서 사용할 때 사용하는 입력 필드 프리미티브예요.'
+        component: 'Inputfield 컴포넌트는 입력 필드를 표시할 때 사용하는 컴포넌트예요.'
       }
     }
   },
