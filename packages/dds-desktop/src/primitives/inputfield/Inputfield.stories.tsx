@@ -1,4 +1,5 @@
 import { semantic } from '@dds/token'
+import { useState } from 'react'
 
 import { Inputfield } from './Inputfield'
 
@@ -138,6 +139,91 @@ export const Sizes: Story = {
           )
         })}
       </div>
+    )
+  }
+}
+
+export const ControlledWithExternalState: Story = {
+  name: 'Controlled (value / onChange)',
+  args: {
+    disabled: false,
+    error: false,
+    required: true,
+    readOnly: false
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '외부 상태로 `value`와 `onChange`를 관리하는 **완전 제어(Controlled)** Inputfield 예시예요. 내부에서는 `useControlStable`을 통해 controlled 모드로 동작해요.'
+      }
+    }
+  },
+  render: (args) => {
+    const [value, setValue] = useState('zeroacademy@dnd.ac')
+    const inputId = 'inputfield-controlled'
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 360 }}>
+        <Inputfield
+          {...args}
+          id={inputId}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          placeholder='이메일을 입력해주세요.'
+          topAddon={<Inputfield.Label id={inputId}>이메일 주소</Inputfield.Label>}
+          bottomAddon={<Inputfield.BottomText>스토리북에서 외부 상태로 제어되는 controlled Inputfield 예시예요.</Inputfield.BottomText>}
+          leftAddon={
+            <Inputfield.Icon
+              name='mail'
+              color={semantic.color.labelSubtitle}
+              aria-hidden
+            />
+          }
+        />
+        <span style={{ fontSize: 12, color: '#6b7280' }}>현재 값: {value}</span>
+      </div>
+    )
+  }
+}
+
+export const UncontrolledWithDefaultValue: Story = {
+  name: 'Uncontrolled (defaultValue)',
+  args: {
+    disabled: false,
+    error: false,
+    required: false,
+    readOnly: false
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`defaultValue`만 전달해서 **비제어(Uncontrolled)** 로 사용하는 예시예요. `useControlStable`이 내부에서 초기값을 기반으로 상태를 관리해요.'
+      }
+    }
+  },
+  render: (args) => {
+    const inputId = 'inputfield-uncontrolled'
+
+    return (
+      <Inputfield
+        {...args}
+        id={inputId}
+        defaultValue='uncontrolled@dnd.ac'
+        placeholder='이메일을 입력해주세요.'
+        topAddon={<Inputfield.Label id={inputId}>이메일 주소</Inputfield.Label>}
+        bottomAddon={
+          <Inputfield.BottomText>defaultValue로 초기화된 이후에는 Inputfield 내부에서 값을 관리하는 uncontrolled 예시예요.</Inputfield.BottomText>
+        }
+        leftAddon={
+          <Inputfield.Icon
+            name='mail'
+            color={semantic.color.labelSubtitle}
+            aria-hidden
+          />
+        }
+      />
     )
   }
 }

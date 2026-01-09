@@ -1,11 +1,12 @@
 import { semantic } from '@dds/token'
-import { HTMLAttributes, ReactNode } from 'react'
+import { ChangeEventHandler, HTMLAttributes, ReactNode } from 'react'
 
 import { Fieldbox } from '../fieldbox'
 import { InputfieldIcon } from './compound'
 import { InputfieldContextProvider } from './context'
 import { InputfieldCss } from './style.css'
 import { InputfieldSize } from './type'
+import { useControllableState } from '../../hooks/useControllableState'
 import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 import { Typography } from '../txt/types'
@@ -70,6 +71,19 @@ export interface InputfieldProps extends HTMLAttributes<HTMLInputElement> {
    * 입력 필드에 표시할 placeholder 텍스트를 설정해요.
    */
   placeholder?: string
+  /**
+   * 입력 필드의 값을 설정해요.
+   */
+  value?: string
+  /**
+   * 입력 필드의 값이 변경될 때 호출되는 함수를 설정해요.
+   */
+  onChange?: ChangeEventHandler<HTMLInputElement>
+  /**
+   * 입력 필드의 기본 값을 설정해요.
+   * 해당 값을 설정할 경우 uncontrolled 컴포넌트로 동작해요.
+   */
+  defaultValue?: string
 }
 
 export const InputfieldImpl = (props: InputfieldProps) => {
@@ -83,9 +97,18 @@ export const InputfieldImpl = (props: InputfieldProps) => {
     error = false,
     required = false,
     readOnly = false,
+    value: valueFromProps,
+    defaultValue,
+    onChange: onChangeFromProps,
     className: classNameFromProps,
     ...restProps
   } = props
+
+  const { value, onChange } = useControllableState({
+    value: valueFromProps,
+    defaultValue,
+    onChange: onChangeFromProps
+  })
 
   return (
     <InputfieldContextProvider size={size}>
@@ -104,6 +127,8 @@ export const InputfieldImpl = (props: InputfieldProps) => {
             className={cx(InputfieldCss({ size }), classNameFromProps)}
             typography={typographyBySize[size]}
             color={semantic.color.labelTitle}
+            value={value}
+            onChange={onChange}
             {...restProps}
           />
         </Fieldbox.Content>
