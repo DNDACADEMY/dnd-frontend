@@ -37,7 +37,7 @@ export const typographyCss = recipe({
       },
       h6: {
         fontSize: '20px',
-        lineHeight: '160%'
+        lineHeight: '140%'
       },
       body1: {
         fontSize: '16px',
@@ -45,7 +45,7 @@ export const typographyCss = recipe({
       },
       body2: {
         fontSize: '14px',
-        lineHeight: '140%'
+        lineHeight: '160%'
       },
       caption1: {
         fontSize: '12px',
