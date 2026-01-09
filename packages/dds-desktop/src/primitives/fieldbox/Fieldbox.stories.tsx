@@ -1,5 +1,6 @@
 import { semantic } from '@dds/token'
 
+import { Icon } from '../icon'
 import { Txt } from '../txt'
 import { Fieldbox } from './Fieldbox'
 
@@ -23,6 +24,7 @@ const meta = {
   },
   tags: ['autodocs'],
   subcomponents: {
+    Content: Fieldbox.Content,
     Label: Fieldbox.Label,
     BottomTxt: Fieldbox.BottomTxt
   }
@@ -46,6 +48,7 @@ const CustomInput = ({ fieldboxProps, id, placeholder }: { fieldboxProps: Fieldb
       color={semantic.color.labelSubtitle}
       placeholder={placeholder ?? 'example@dnd.com'}
       style={{
+        flex: 1,
         padding: 0,
         border: 'none',
         outline: 'none',
@@ -76,11 +79,20 @@ export const Playground: Story = {
         size={size}
         topAddon={<Fieldbox.Label id={inputId}>이메일 주소</Fieldbox.Label>}
         bottomAddon={<Fieldbox.BottomTxt>{bottomText}</Fieldbox.BottomTxt>}>
-        <CustomInput
-          fieldboxProps={{ ...fieldboxProps, size }}
-          id={inputId}
-          placeholder={fieldboxProps.placeholder}
-        />
+        <Fieldbox.Content
+          leftAddon={
+            <Icon
+              name='mail'
+              size={16}
+              color={semantic.color.labelSubtitle}
+            />
+          }>
+          <CustomInput
+            fieldboxProps={{ ...fieldboxProps, size }}
+            id={inputId}
+            placeholder='example@dnd.com'
+          />
+        </Fieldbox.Content>
       </Fieldbox>
     )
   }
@@ -105,10 +117,19 @@ export const Sizes: Story = {
               {...args}
               size={size}
               topAddon={<Fieldbox.Label id={id}>{`이메일 주소 (${size})`}</Fieldbox.Label>}>
-              <CustomInput
-                fieldboxProps={{ ...args, size }}
-                id={id}
-              />
+              <Fieldbox.Content
+                leftAddon={
+                  <Icon
+                    name='mail'
+                    size={16}
+                    color={semantic.color.labelSubtitle}
+                  />
+                }>
+                <CustomInput
+                  fieldboxProps={{ ...args, size }}
+                  id={id}
+                />
+              </Fieldbox.Content>
             </Fieldbox>
           )
         })}
@@ -130,11 +151,20 @@ export const ErrorState: Story = {
         {...fieldboxProps}
         topAddon={<Fieldbox.Label id={id}>이메일 주소</Fieldbox.Label>}
         bottomAddon={<Fieldbox.BottomTxt>이메일 형식이 올바르지 않아요.</Fieldbox.BottomTxt>}>
-        <CustomInput
-          fieldboxProps={fieldboxProps}
-          id={id}
-          placeholder={fieldboxProps.placeholder}
-        />
+        <Fieldbox.Content
+          leftAddon={
+            <Icon
+              name='mail'
+              size={16}
+              color={semantic.color.labelSubtitle}
+            />
+          }>
+          <CustomInput
+            fieldboxProps={fieldboxProps}
+            id={id}
+            placeholder='example@dnd.com'
+          />
+        </Fieldbox.Content>
       </Fieldbox>
     )
   }
@@ -152,11 +182,20 @@ export const DisabledState: Story = {
         {...fieldboxProps}
         topAddon={<Fieldbox.Label id={id}>이메일 주소</Fieldbox.Label>}
         bottomAddon={<Fieldbox.BottomTxt>현재 입력이 비활성화된 상태예요.</Fieldbox.BottomTxt>}>
-        <CustomInput
-          fieldboxProps={fieldboxProps}
-          id={id}
-          placeholder='example@dnd.com'
-        />
+        <Fieldbox.Content
+          leftAddon={
+            <Icon
+              name='mail'
+              size={16}
+              color={semantic.color.labelSubtitle}
+            />
+          }>
+          <CustomInput
+            fieldboxProps={fieldboxProps}
+            id={id}
+            placeholder='example@dnd.com'
+          />
+        </Fieldbox.Content>
       </Fieldbox>
     )
   }
