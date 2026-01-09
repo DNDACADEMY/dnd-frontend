@@ -86,6 +86,8 @@ export interface InputareaProps extends HTMLAttributes<HTMLTextAreaElement> {
   defaultValue?: string
   /**
    * textarea의 행(row) 수를 설정해요.
+   *
+   * @default 3
    */
   rows?: number
 }
@@ -105,7 +107,7 @@ export const InputareaImpl = (props: InputareaProps) => {
     defaultValue,
     onChange: onChangeFromProps,
     className: classNameFromProps,
-    rows,
+    rows = 3,
     ...restProps
   } = props
 

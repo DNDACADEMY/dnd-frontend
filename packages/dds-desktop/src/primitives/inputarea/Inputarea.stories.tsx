@@ -72,8 +72,7 @@ export const Playground: Story = {
     disabled: false,
     error: false,
     required: true,
-    readOnly: false,
-    rows: 4
+    readOnly: false
   },
   render: (args) => {
     const { size = 'medium', ...rest } = args
@@ -108,7 +107,7 @@ export const Sizes: Story = {
     error: false,
     required: true,
     readOnly: false,
-    rows: 4
+    rows: 3
   },
   parameters: {
     controls: {
@@ -156,7 +155,7 @@ export const ControlledWithExternalState: Story = {
     error: false,
     required: true,
     readOnly: false,
-    rows: 4
+    rows: 3
   },
   parameters: {
     docs: {
@@ -202,7 +201,7 @@ export const UncontrolledWithDefaultValue: Story = {
     error: false,
     required: false,
     readOnly: false,
-    rows: 4
+    rows: 3
   },
   parameters: {
     docs: {
