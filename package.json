@@ -15,7 +15,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "clean": "turbo run clean && rm -rf node_modules/.cache && rm -rf .turbo",
-    "postinstall": "lefthook install"
+    "postinstall": "command -v lefthook >/dev/null 2>&1 && lefthook install || true"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
