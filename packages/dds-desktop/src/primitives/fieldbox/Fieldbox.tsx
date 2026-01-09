@@ -1,11 +1,10 @@
-import { ElementType, HTMLAttributes, ReactNode } from 'react'
+import { HTMLAttributes, ReactNode } from 'react'
 
 import { FieldboxBottomTxt, FieldboxLabel } from './compound'
-import { FieldboxContextProvider } from './context'
+import { FieldboxContextProvider, useFieldboxContext } from './context'
 import { fieldboxContainerCss, fieldboxContentCss } from './styles.css'
 import { FieldBoxSize } from './type'
 import { cx } from '../../utils/cx'
-import { forwardRefWithAs } from '../../utils/forwardRefWithAs'
 
 export interface FieldboxProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -18,16 +17,6 @@ export interface FieldboxProps extends HTMLAttributes<HTMLDivElement> {
    * 주로 `Fieldbox.BottomTxt`처럼 검증 메시지나 보조 설명을 노출할 때 사용해요.
    */
   bottomAddon?: ReactNode
-  /**
-   * 입력 영역의 왼쪽에 배치할 컴포넌트 영역이에요.
-   * 아이콘, prefix 텍스트 등을 배치할 때 사용해요.
-   */
-  leftAddon?: ReactNode
-  /**
-   * 입력 영역의 오른쪽에 배치할 컴포넌트 영역이에요.
-   * 토글 버튼, suffix 텍스트 등 보조 액션을 배치할 때 사용해요.
-   */
-  rightAddon?: ReactNode
   /**
    * 컴포넌트 크기를 설정해요.
    * 높이와 내부 여백, 간격이 함께 조절돼요.
@@ -65,12 +54,10 @@ export interface FieldboxProps extends HTMLAttributes<HTMLDivElement> {
   readonly?: boolean
 }
 
-const FieldboxImpl = forwardRefWithAs<ElementType, FieldboxProps>((props) => {
+const FieldboxImpl = (props: FieldboxProps) => {
   const {
     topAddon,
     bottomAddon,
-    leftAddon,
-    rightAddon,
     children,
     className: classNameFromProps,
     size = 'medium',
@@ -83,23 +70,51 @@ const FieldboxImpl = forwardRefWithAs<ElementType, FieldboxProps>((props) => {
   return (
     <FieldboxContextProvider
       size={size}
-      required={required}>
+      required={required}
+      error={error}
+      disabled={disabled}
+      readonly={readonly}>
       <div
         className={cx(fieldboxContainerCss, classNameFromProps)}
         {...restProps}>
         {topAddon}
-        <div className={fieldboxContentCss({ size, error, disabled, readonly })}>
-          {leftAddon}
-          {children}
-          {rightAddon}
-        </div>
+        {children}
         {bottomAddon}
       </div>
     </FieldboxContextProvider>
   )
-})
+}
+
+export interface FieldboxContentProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * 입력 영역의 왼쪽에 배치할 컴포넌트 영역이에요.
+   * 아이콘, prefix 텍스트 등을 배치할 때 사용해요.
+   */
+  leftAddon?: ReactNode
+  /**
+   * 입력 영역의 오른쪽에 배치할 컴포넌트 영역이에요.
+   * 토글 버튼, suffix 텍스트 등 보조 액션을 배치할 때 사용해요.
+   */
+  rightAddon?: ReactNode
+}
+
+export const FieldboxContent = (props: FieldboxContentProps) => {
+  const { leftAddon, rightAddon, children, className: classNameFromProps, ...restProps } = props
+  const { size, error, disabled, readonly } = useFieldboxContext('Fieldbox.Content')
+
+  return (
+    <div
+      className={cx(fieldboxContentCss({ size, error, disabled, readonly }), classNameFromProps)}
+      {...restProps}>
+      {leftAddon}
+      {children}
+      {rightAddon}
+    </div>
+  )
+}
 
 export const Fieldbox = Object.assign(FieldboxImpl, {
+  Content: FieldboxContent,
   Label: FieldboxLabel,
   BottomTxt: FieldboxBottomTxt
 })
