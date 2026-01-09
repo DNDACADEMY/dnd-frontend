@@ -1,0 +1,1 @@
+export { InputareaIcon } from './Icon'
