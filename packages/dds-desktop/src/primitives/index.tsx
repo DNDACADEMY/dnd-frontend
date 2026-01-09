@@ -1,3 +1,5 @@
 export * from './fieldbox'
 export * from './txt'
 export * from './icon'
+export * from './inputfield'
+export * from './inputarea'
