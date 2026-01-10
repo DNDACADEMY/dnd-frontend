@@ -88,13 +88,6 @@ export const Playground: Story = {
         bottomAddon={<Inputarea.BottomText>{bottomText}</Inputarea.BottomText>}
         placeholder='프로젝트에 대한 자세한 설명을 입력해주세요.'
         {...rest}
-        leftAddon={
-          <Inputarea.Icon
-            name='edit'
-            color={semantic.color.labelSubtitle}
-            aria-hidden
-          />
-        }
       />
     )
   }

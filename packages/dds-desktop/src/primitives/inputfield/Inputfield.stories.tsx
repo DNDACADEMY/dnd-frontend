@@ -83,13 +83,6 @@ export const Playground: Story = {
         bottomAddon={<Inputfield.BottomText>{bottomText}</Inputfield.BottomText>}
         placeholder='이메일을 입력해주세요.'
         {...rest}
-        leftAddon={
-          <Inputfield.Icon
-            name='mail'
-            color={semantic.color.labelSubtitle}
-            aria-hidden
-          />
-        }
       />
     )
   }
@@ -159,7 +152,7 @@ export const ControlledWithExternalState: Story = {
     }
   },
   render: (args) => {
-    const [value, setValue] = useState('zeroacademy@dnd.ac')
+    const [value, setValue] = useState('dnd@dnd.ac')
     const inputId = 'inputfield-controlled'
 
     return (
