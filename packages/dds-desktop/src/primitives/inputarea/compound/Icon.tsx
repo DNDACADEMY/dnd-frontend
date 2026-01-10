@@ -17,6 +17,8 @@ export const InputareaIcon = (props: InputareaIconProps) => {
   )
 }
 
+InputareaIcon.displayName = 'Inputarea.Icon'
+
 const IconSizeByInputareaSize: Record<InputareaSize, number> = {
   medium: 16,
   large: 24

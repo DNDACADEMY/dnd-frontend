@@ -113,6 +113,8 @@ const FieldboxContent = (props: FieldboxContentProps) => {
   )
 }
 
+FieldboxContent.displayName = 'Fieldbox.Content'
+
 export const Fieldbox = Object.assign(FieldboxImpl, {
   Content: FieldboxContent,
   Label: FieldboxLabel,
