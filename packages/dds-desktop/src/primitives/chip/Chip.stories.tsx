@@ -121,7 +121,7 @@ export const StatusVariants: Story = {
       exclude: ['status', 'children', 'leftAddon', 'rightAddon']
     }
   },
-  render: () => (
+  render: (_) => (
     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
       <Chip status='default'>기본 칩</Chip>
       <Chip status='selected'>선택된 칩</Chip>
@@ -135,7 +135,7 @@ export const IconCombinations: Story = {
       exclude: ['status', 'children', 'leftAddon', 'rightAddon']
     }
   },
-  render: () => (
+  render: (_) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Chip
         status='default'
@@ -198,7 +198,7 @@ export const FilterExample: Story = {
       }
     }
   },
-  render: () => (
+  render: (_) => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
       <Chip status='selected'>전체</Chip>
       <Chip status='default'>디자인</Chip>
@@ -220,7 +220,7 @@ export const TagList: Story = {
       }
     }
   },
-  render: () => (
+  render: (_) => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
       {['React', 'TypeScript', 'Storybook', 'Vanilla Extract'].map((tag) => (
         <Chip

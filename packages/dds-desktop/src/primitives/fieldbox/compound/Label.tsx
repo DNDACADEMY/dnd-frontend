@@ -38,3 +38,5 @@ export const FieldboxLabel = (props: FieldboxLabelProps) => {
     </label>
   )
 }
+
+FieldboxLabel.displayName = 'Fieldbox.Label'

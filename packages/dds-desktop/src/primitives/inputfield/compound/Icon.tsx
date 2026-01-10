@@ -17,6 +17,8 @@ export const InputfieldIcon = (props: InputfieldIconProps) => {
   )
 }
 
+InputfieldIcon.displayName = 'Inputfield.Icon'
+
 const IconSizeByInputfieldSize: Record<InputfieldSize, number> = {
   small: 16,
   medium: 16,

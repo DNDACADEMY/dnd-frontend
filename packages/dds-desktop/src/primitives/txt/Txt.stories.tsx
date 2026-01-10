@@ -66,7 +66,7 @@ export const TypographyScale: Story = {
       exclude: ['typography', 'as', 'children']
     }
   },
-  render: () => (
+  render: (_) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       {TYPOGRAPHY_OPTIONS.map((typography) => (
         <Txt

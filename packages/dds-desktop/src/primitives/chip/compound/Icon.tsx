@@ -20,6 +20,8 @@ export const ChipIcon = (props: ChipIconProps) => {
   )
 }
 
+ChipIcon.displayName = 'Chip.Icon'
+
 const IconColorByStatusMap: Record<ChipStatus, string> = {
   default: semantic.color.labelSubtitle,
   selected: semantic.color.labelInverse

@@ -25,3 +25,5 @@ export const FieldboxBottomTxt = (props: FieldboxBottomTxtProps) => {
     </Txt>
   )
 }
+
+FieldboxBottomTxt.displayName = 'Fieldbox.BottomTxt'

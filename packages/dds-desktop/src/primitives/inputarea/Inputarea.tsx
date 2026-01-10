@@ -92,7 +92,7 @@ export interface InputareaProps extends HTMLAttributes<HTMLTextAreaElement> {
   rows?: number
 }
 
-export const InputareaImpl = (props: InputareaProps) => {
+const InputareaImpl = (props: InputareaProps) => {
   const {
     topAddon,
     bottomAddon,

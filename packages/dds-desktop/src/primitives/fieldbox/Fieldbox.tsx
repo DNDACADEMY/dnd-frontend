@@ -98,7 +98,7 @@ export interface FieldboxContentProps extends HTMLAttributes<HTMLDivElement> {
   rightAddon?: ReactNode
 }
 
-export const FieldboxContent = (props: FieldboxContentProps) => {
+const FieldboxContent = (props: FieldboxContentProps) => {
   const { leftAddon, rightAddon, children, className: classNameFromProps, ...restProps } = props
   const { size, error, disabled, readonly } = useFieldboxContext('Fieldbox.Content')
 
@@ -112,6 +112,8 @@ export const FieldboxContent = (props: FieldboxContentProps) => {
     </div>
   )
 }
+
+FieldboxContent.displayName = 'Fieldbox.Content'
 
 export const Fieldbox = Object.assign(FieldboxImpl, {
   Content: FieldboxContent,
