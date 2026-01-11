@@ -10,10 +10,24 @@ Same as `/pr` command but creates a **draft pull request** instead of a ready-fo
 
 ## What it does
 
+**⚠️ STEP 0: Read PR Template (MANDATORY)**
+
+```bash
+cat .github/PULL_REQUEST_TEMPLATE.md
+```
+
 1. Analyzes changes (same as `/pr`)
 2. Generates title and body (same as `/pr`)
-3. Pushes branch if needed (same as `/pr`)
-4. **Creates DRAFT PR** using `gh pr create --draft --assignee @me`
+3. **Follows PR template structure exactly** - 모든 필수 섹션 포함
+4. Pushes branch if needed (same as `/pr`)
+5. **Creates DRAFT PR** using `gh pr create --draft --assignee @me`
+
+**템플릿 준수 규칙:**
+
+- ✅ `## 📝 변경사항` 섹션 필수
+- ✅ `### 주요 변경 내용` 하위 섹션 필수
+- ✅ `## 🔗 관련 링크` 섹션 필수
+- ✅ 주석 처리된 섹션(`<!-- -->`) 유지
 
 **⚠️ Scope 결정 규칙:**
 
