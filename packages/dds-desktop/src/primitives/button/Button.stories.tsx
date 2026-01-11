@@ -92,7 +92,7 @@ export const Default: Story = {
 }
 
 export const AllVariants: Story = {
-  render: () => (
+  render: (_) => (
     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
       <Button variant='primary'>Primary</Button>
       <Button variant='secondary'>Secondary</Button>
@@ -103,7 +103,7 @@ export const AllVariants: Story = {
 }
 
 export const AllSizes: Story = {
-  render: () => (
+  render: (_) => (
     <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
       <Button size='small'>Small</Button>
       <Button size='medium'>Medium</Button>
