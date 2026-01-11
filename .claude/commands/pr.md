@@ -6,6 +6,16 @@ Analyze current branch changes and automatically create a GitHub Pull Request wi
 
 ### Execution Steps:
 
+**⚠️ STEP 0: Read PR Template (MANDATORY)**
+
+```bash
+cat .github/PULL_REQUEST_TEMPLATE.md
+```
+
+- PR body 구조를 정확히 파악
+- 모든 필수 섹션과 이모지 확인
+- 주석 처리된 섹션도 포함할 것
+
 1. **Detect Changed Workspaces**
    - Analyze file paths in `git diff main`
    - Read actual `package.json` files to get package names
@@ -168,20 +178,43 @@ feat(token): 디자인 토큰 시스템 구축
 
 ### Step 3: Generate PR Body
 
-Create PR body text matching the template:
+**⚠️ CRITICAL: PR 템플릿 준수**
+
+반드시 `.github/PULL_REQUEST_TEMPLATE.md` 파일을 읽고 정확한 구조를 따라야 합니다.
+
+**필수 실행:**
+
+```bash
+cat .github/PULL_REQUEST_TEMPLATE.md
+```
+
+**템플릿 규칙:**
+
+1. ✅ `## 📝 변경사항` 섹션 필수
+2. ✅ `### 주요 변경 내용` 하위 섹션 필수
+3. ✅ `## 🔗 관련 링크` 섹션 필수
+4. ✅ 모든 섹션 제목과 이모지를 정확히 일치시킬 것
+5. ✅ 주석 처리된 섹션(`<!-- -->`)은 제거하지 말고 그대로 유지
+6. ✅ 실제 변경 내용을 git diff 분석 기반으로 작성
+
+**PR Body 생성 예시:**
 
 ```markdown
 ## 📝 변경사항
 
 ### 주요 변경 내용
 
-- [실제 변경 내용 1 - git diff 기반 분석]
-- [실제 변경 내용 2]
-- [실제 변경 내용 3]
+- Style Dictionary 기반 디자인 토큰 시스템 구축
+- JSON 토큰 파일 구조화 및 빌드 설정 추가
+- 자동화된 토큰 빌드 파이프라인 구현
 
 ## 🔗 관련 링크
 
 -
+
+<!-- ### 테스트 결과 -->
+
+<!-- ### 의존성 변경 -->
 ```
 
 ### Step 4: Push and Create PR
@@ -200,6 +233,8 @@ git push -u origin <current-branch>
 
 **Create PR using gh CLI:**
 
+**⚠️ IMPORTANT: 반드시 템플릿 구조를 따를 것**
+
 ```bash
 gh pr create \
   --assignee @me \
@@ -210,15 +245,27 @@ gh pr create \
 ### 주요 변경 내용
 
 - Style Dictionary 기반 디자인 토큰 시스템 구축
-- JSON 토큰 파일 구조화 및 빌드 설정
-- 자동화된 토큰 빌드 파이프라인 추가
+- JSON 토큰 파일 구조화 및 빌드 설정 추가
+- 자동화된 토큰 빌드 파이프라인 구현
 
 ## 🔗 관련 링크
 
 -
+
+<!-- ### 테스트 결과 -->
+
+<!-- ### 의존성 변경 -->
 EOF
 )"
 ```
+
+**검증 체크리스트:**
+
+- ✅ `## 📝 변경사항` 섹션 포함
+- ✅ `### 주요 변경 내용` 하위 섹션 포함
+- ✅ `## 🔗 관련 링크` 섹션 포함
+- ✅ 주석 처리된 추가 섹션 유지
+- ✅ 실제 변경사항 기반 내용 작성
 
 ### Step 5: Return PR URL
 
@@ -240,6 +287,7 @@ EOF
 
 ### Must Do:
 
+✅ **Read `.github/PULL_REQUEST_TEMPLATE.md`** before generating PR body
 ✅ **Check git status** before pushing
 ✅ **Read package.json** for accurate scope detection
 ✅ **Analyze git diff** to understand actual changes
@@ -248,7 +296,9 @@ EOF
 ✅ **Generate body with HEREDOC** for proper formatting
 ✅ **Return PR URL** after creation
 ✅ **Write all content in Korean**
-✅ **Match template structure** exactly
+✅ **Match template structure exactly** - 모든 섹션 제목과 이모지 정확히 일치
+✅ **Include all required sections**: `## 📝 변경사항`, `### 주요 변경 내용`, `## 🔗 관련 링크`
+✅ **Preserve commented sections** from template (`<!-- -->` 주석 유지)
 
 ### Must Not Do:
 
