@@ -6,7 +6,7 @@ const buttonVariants = {
   backgroundColor: createVar(),
   hoverBackgroundColor: createVar(),
   disabledBackgroundColor: createVar(),
-
+  boxShadow: createVar(),
   color: createVar(),
   padding: createVar()
 } as const
@@ -23,13 +23,16 @@ export const buttonCss = recipe({
     borderRadius: '4px',
 
     transition: 'background-color 0.3s ease',
+    boxShadow: buttonVariants.boxShadow,
+    border: 'none',
 
     selectors: {
       '&:hover': {
         backgroundColor: buttonVariants.hoverBackgroundColor
       },
       '&:disabled': {
-        backgroundColor: buttonVariants.disabledBackgroundColor
+        backgroundColor: buttonVariants.disabledBackgroundColor,
+        color: semantic.color.labelDisable
       }
     }
   },
@@ -62,7 +65,7 @@ export const buttonCss = recipe({
           [buttonVariants.backgroundColor]: semantic.color.buttonPrimary,
           [buttonVariants.hoverBackgroundColor]: semantic.color.buttonPrimaryHover,
           [buttonVariants.disabledBackgroundColor]: semantic.color.buttonSecondary,
-          [buttonVariants.color]: semantic.color.labelDisable
+          [buttonVariants.color]: semantic.color.labelTitle
         }
       },
       secondary: {
@@ -70,7 +73,7 @@ export const buttonCss = recipe({
           [buttonVariants.backgroundColor]: semantic.color.buttonSecondary,
           [buttonVariants.hoverBackgroundColor]: semantic.color.buttonSecondaryHover,
           [buttonVariants.disabledBackgroundColor]: semantic.color.buttonSecondary,
-          [buttonVariants.color]: semantic.color.labelDisable
+          [buttonVariants.color]: semantic.color.labelInverse
         }
       },
       assistive: {
@@ -78,7 +81,7 @@ export const buttonCss = recipe({
           [buttonVariants.backgroundColor]: semantic.color.buttonPrimary,
           [buttonVariants.hoverBackgroundColor]: primitive.color.gray100,
           [buttonVariants.disabledBackgroundColor]: semantic.color.backgroundSeconday,
-          [buttonVariants.color]: semantic.color.labelDisable
+          [buttonVariants.color]: semantic.color.labelTitle
         }
       },
       outline: {
@@ -86,7 +89,8 @@ export const buttonCss = recipe({
           [buttonVariants.backgroundColor]: primitive.color.mono000,
           [buttonVariants.hoverBackgroundColor]: semantic.color.backgroundPrimary,
           [buttonVariants.disabledBackgroundColor]: semantic.color.backgroundSeconday,
-          [buttonVariants.color]: semantic.color.labelDisable
+          [buttonVariants.color]: semantic.color.labelTitle,
+          [buttonVariants.boxShadow]: `0 0 0 1px ${semantic.color.borderDefault}`
         }
       }
     }
@@ -103,6 +107,7 @@ export const containerCss = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 2,
+    color: 'inherit',
     minHeight: containerVariants.minHeight
   },
   variants: {
