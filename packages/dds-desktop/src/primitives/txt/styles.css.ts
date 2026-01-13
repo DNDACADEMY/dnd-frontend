@@ -5,17 +5,17 @@ const pretendard = 'pretendard'
 
 globalFontFace(pretendard, [
   {
-    src: 'url(../../assets/fonts/Pretendard-Regular.subset.woff2) format("woff2")',
+    src: 'url(/assets/fonts/Pretendard-Regular.subset.woff2) format("woff2")',
     fontWeight: '400',
     fontStyle: 'normal'
   },
   {
-    src: 'url(../../assets/fonts/Pretendard-Medium.subset.woff2) format("woff2")',
+    src: 'url(/assets/fonts/Pretendard-Medium.subset.woff2) format("woff2")',
     fontWeight: '500',
     fontStyle: 'medium'
   },
   {
-    src: 'url(../../assets/fonts/Pretendard-SemiBold.subset.woff2) format("woff2")',
+    src: 'url(/assets/fonts/Pretendard-Bold.subset.woff2) format("woff2")',
     fontWeight: '600',
     fontStyle: 'bold'
   }
