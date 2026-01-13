@@ -1,13 +1,13 @@
 import type { NextConfig } from 'next'
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
-import { ORIGIN_URL } from '@/shared/constants'
 const withVanillaExtract = createVanillaExtractPlugin()
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: ORIGIN_URL
+        protocol: 'https',
+        hostname: '**'
       }
     ]
   },
