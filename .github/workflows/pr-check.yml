@@ -1,17 +1,14 @@
-name: PR Check
+name: PR Check (packages)
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - '**.ts'
-      - '**.tsx'
+      - 'packages/**'
       - 'package.json'
       - 'yarn.lock'
       - 'turbo.json'
-      - '**/package.json'
-      - '**/tsconfig.json'
 
 jobs:
   check:
