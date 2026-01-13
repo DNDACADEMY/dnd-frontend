@@ -1,6 +1,7 @@
 {
   "extends": "@dnd-frontend/typescript-config/nextjs.json",
   "compilerOptions": {
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -5,7 +5,7 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react(), vanillaExtractPlugin()],
+  plugins: [react() as any, vanillaExtractPlugin()],
   test: {
     environment: 'jsdom',
     globals: true,
