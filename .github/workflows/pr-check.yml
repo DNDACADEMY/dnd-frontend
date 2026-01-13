@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Package Build
+        run: yarn build:packages
+
       - name: Run type check
         run: yarn check-types
 
