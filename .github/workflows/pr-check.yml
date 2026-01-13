@@ -1,17 +1,14 @@
-name: PR Check
+name: PR Check (packages)
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - '**.ts'
-      - '**.tsx'
+      - 'packages/**'
       - 'package.json'
       - 'yarn.lock'
       - 'turbo.json'
-      - '**/package.json'
-      - '**/tsconfig.json'
 
 jobs:
   check:
@@ -32,11 +29,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Run type check
-        run: yarn check-types
+      - name: Build packages
+        run: yarn build:packages
 
-      - name: Run lint
-        run: yarn lint
+      - name: Run type check (packages only)
+        run: yarn turbo check-types --filter='./packages/*'
 
-      - name: Run build
-        run: yarn build
+      - name: Run lint (packages only)
+        run: yarn turbo lint --filter='./packages/*'
