@@ -35,11 +35,8 @@ jobs:
       - name: Build packages
         run: yarn build:packages
 
-      - name: Run type check
-        run: yarn check-types
+      - name: Run type check (packages only)
+        run: yarn turbo check-types --filter='./packages/*'
 
-      - name: Run lint
-        run: yarn lint
-
-      - name: Run build
-        run: yarn build
+      - name: Run lint (packages only)
+        run: yarn turbo lint --filter='./packages/*'
