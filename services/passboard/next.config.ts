@@ -1,5 +1,7 @@
-import type { NextConfig } from 'next'
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
+
+import type { NextConfig } from 'next'
+
 import { ORIGIN_URL } from '@/shared/constants'
 const withVanillaExtract = createVanillaExtractPlugin()
 
