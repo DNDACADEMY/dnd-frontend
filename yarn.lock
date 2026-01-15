@@ -1510,6 +1510,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@dnd-frontend/form@workspace:services/form":
+  version: 0.0.0-use.local
+  resolution: "@dnd-frontend/form@workspace:services/form"
+  dependencies:
+    "@dds/desktop": "npm:*"
+    "@dds/token": "npm:*"
+    "@dnd-frontend/eslint-config": "npm:*"
+    "@dnd-frontend/typescript-config": "npm:*"
+    "@types/node": "npm:^24.10.1"
+    "@types/react": "npm:^19.2.5"
+    "@types/react-dom": "npm:^19.2.3"
+    "@vitejs/plugin-react": "npm:^5.1.1"
+    babel-plugin-react-compiler: "npm:^1.0.0"
+    eslint: "npm:^9.39.1"
+    react: "npm:^19.2.0"
+    react-dom: "npm:^19.2.0"
+    typescript: "npm:~5.9.3"
+    vite: "npm:^7.2.4"
+  languageName: unknown
+  linkType: soft
+
 "@dnd-frontend/passboard@workspace:services/passboard":
   version: 0.0.0-use.local
   resolution: "@dnd-frontend/passboard@workspace:services/passboard"
