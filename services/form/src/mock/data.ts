@@ -82,32 +82,39 @@ export const MOCK_DND_APPLY_FORM: FormSchema = {
   ]
 }
 
-export const MOCK_DND_MID_REVIEW_FORM: FormSchema = {
+export const MOCK_DND_REVIEW_FORM: FormSchema = {
   id: 'dnd-14th-mid-review',
-  title: '[14기] 프로젝트 중간 회고 및 피드백',
-  description: '더 나은 팀 협업을 위해 현재 팀의 분위기와 진행 상황을 공유해주세요.',
+  title: '후기 등록',
+  description: '등록 후에도 부적절한 내용이 발견되면 홈페이지 노출이 제한될 수 있어요.',
   formType: 'REVIEW',
   createdAt: '2026-02-15T09:00:00Z',
   questions: [
     {
-      id: 'review_good',
+      id: 'review_generation',
+      type: 'INPUT_FIELD',
+      label: '기수',
+      required: true,
+      disabled: false,
+      readOnly: true,
+      props: { value: '14기' }
+    },
+    {
+      id: 'review_team_name',
+      type: 'INPUT_FIELD',
+      label: '조',
+      required: true,
+      disabled: false,
+      readOnly: true,
+      props: { value: '10조' }
+    },
+    {
+      id: 'review_team_name',
       type: 'INPUT_AREA',
-      label: '우리 팀이 현재 잘하고 있는 점',
-      description: '팀 분위기, 소통 방식, 진행 속도 등 긍정적인 면을 적어주세요.',
+      label: '내용',
       required: true,
       disabled: false,
       readOnly: false,
-      props: { placeholder: '매주 오프라인 모임이 활발해서 진행이 빠릅니다.' }
-    },
-    {
-      id: 'review_bad',
-      type: 'INPUT_AREA',
-      label: '개선이 필요한 점 또는 운영진에게 바라는 점',
-      description: '협업 중 겪고 있는 고충이 있다면 솔직하게 남겨주세요.',
-      required: false,
-      disabled: false,
-      readOnly: false,
-      props: { placeholder: '기능 구현 범위가 너무 커서 조율이 필요할 것 같아요.' }
+      props: { placeholder: '느낀점을 적어주세요.' }
     }
   ]
 }
