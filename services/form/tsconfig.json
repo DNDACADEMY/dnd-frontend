@@ -1,0 +1,12 @@
+{
+  "extends": "@dnd-frontend/typescript-config/react-library.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false
+  },
+  "include": ["src", "@types"],
+  "exclude": ["node_modules", "dist"]
+}
