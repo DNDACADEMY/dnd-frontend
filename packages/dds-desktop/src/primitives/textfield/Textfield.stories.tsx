@@ -72,14 +72,12 @@ export const Playground: Story = {
   },
   render: (args) => {
     const { size = 'medium', ...rest } = args
-    const inputId = 'textfield-email'
     const bottomText = args.error ? '이메일 형식이 올바르지 않아요.' : '로그인에 사용할 이메일 주소를 입력해 주세요.'
 
     return (
       <Textfield
         size={size}
-        id={inputId}
-        topAddon={<Textfield.Label id={inputId}>이메일 주소</Textfield.Label>}
+        topAddon={<Textfield.Label>이메일 주소</Textfield.Label>}
         bottomAddon={<Textfield.BottomText>{bottomText}</Textfield.BottomText>}
         placeholder='이메일을 입력해주세요.'
         {...rest}
@@ -103,22 +101,18 @@ export const Sizes: Story = {
     }
   },
   render: (args) => {
-    const inputIdBase = 'textfield-size'
     const sizes: NonNullable<TextfieldProps['size']>[] = ['small', 'medium', 'large']
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 360 }}>
         {sizes.map((size) => {
-          const id = `${inputIdBase}-${size}`
-
           return (
             <Textfield
               key={size}
               {...args}
               size={size}
-              id={id}
               placeholder={`Textfield Size: ${size}`}
-              topAddon={<Textfield.Label id={id}>{`이메일 주소 (${size})`}</Textfield.Label>}
+              topAddon={<Textfield.Label>{`이메일 주소 (${size})`}</Textfield.Label>}
               bottomAddon={<Textfield.BottomText>로그인에 사용할 이메일 주소를 입력해 주세요.</Textfield.BottomText>}
               leftAddon={
                 <Textfield.Icon
@@ -153,17 +147,15 @@ export const ControlledWithExternalState: Story = {
   },
   render: (args) => {
     const [value, setValue] = useState('dnd@dnd.ac')
-    const inputId = 'textfield-controlled'
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 360 }}>
         <Textfield
           {...args}
-          id={inputId}
           value={value}
           onChange={(event) => setValue(event.target.value)}
           placeholder='이메일을 입력해주세요.'
-          topAddon={<Textfield.Label id={inputId}>이메일 주소</Textfield.Label>}
+          topAddon={<Textfield.Label>이메일 주소</Textfield.Label>}
           bottomAddon={<Textfield.BottomText>스토리북에서 외부 상태로 제어되는 controlled Textfield 예시예요.</Textfield.BottomText>}
           leftAddon={
             <Textfield.Icon
@@ -196,15 +188,12 @@ export const UncontrolledWithDefaultValue: Story = {
     }
   },
   render: (args) => {
-    const inputId = 'textfield-uncontrolled'
-
     return (
       <Textfield
         {...args}
-        id={inputId}
         defaultValue='uncontrolled@dnd.ac'
         placeholder='이메일을 입력해주세요.'
-        topAddon={<Textfield.Label id={inputId}>이메일 주소</Textfield.Label>}
+        topAddon={<Textfield.Label>이메일 주소</Textfield.Label>}
         bottomAddon={
           <Textfield.BottomText>defaultValue로 초기화된 이후에는 Textfield 내부에서 값을 관리하는 uncontrolled 예시예요.</Textfield.BottomText>
         }

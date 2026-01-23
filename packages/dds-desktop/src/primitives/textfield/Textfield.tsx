@@ -2,11 +2,12 @@ import { semantic } from '@dds/token'
 import { ChangeEventHandler, HTMLAttributes, ReactNode } from 'react'
 
 import { Fieldbox } from '../fieldbox'
-import { TextfieldIcon } from './compound'
+import { TextfieldIcon, TextfieldLabel } from './compound'
 import { TextfieldContextProvider } from './context'
 import { TextfieldCss } from './style.css'
 import { TextfieldSize } from './type'
 import { useControllableState } from '../../hooks/useControllableState'
+import { useGeneratedId } from '../../hooks/useGeneratedId'
 import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 import { Typography } from '../txt/types'
@@ -88,6 +89,7 @@ export interface TextfieldProps extends HTMLAttributes<HTMLInputElement> {
 
 export const TextfieldImpl = (props: TextfieldProps) => {
   const {
+    id: idFromProps,
     topAddon,
     bottomAddon,
     leftAddon,
@@ -110,8 +112,10 @@ export const TextfieldImpl = (props: TextfieldProps) => {
     onChange: onChangeFromProps
   })
 
+  const id = useGeneratedId({ defaultId: idFromProps })
+
   return (
-    <TextfieldContextProvider size={size}>
+    <TextfieldContextProvider size={size} id={id}>
       <Fieldbox
         topAddon={topAddon}
         bottomAddon={bottomAddon}
@@ -144,7 +148,7 @@ const typographyBySize: Record<TextfieldSize, Typography> = {
 }
 
 export const Textfield = Object.assign(TextfieldImpl, {
-  Label: Fieldbox.Label,
+  Label: TextfieldLabel,
   BottomText: Fieldbox.BottomTxt,
   Icon: TextfieldIcon
 })

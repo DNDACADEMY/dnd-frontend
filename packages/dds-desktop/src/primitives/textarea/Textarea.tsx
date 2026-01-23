@@ -2,11 +2,12 @@ import { semantic } from '@dds/token'
 import { ChangeEventHandler, HTMLAttributes, ReactNode } from 'react'
 
 import { Fieldbox } from '../fieldbox'
-import { TextareaIcon } from './compound'
+import { TextareaIcon, TextareaLabel } from './compound'
 import { TextareaContextProvider } from './context'
 import { contentCss, TextareaCss } from './style.css'
 import { TextareaSize } from './type'
 import { useControllableState } from '../../hooks/useControllableState'
+import { useGeneratedId } from '../../hooks/useGeneratedId'
 import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 import { Typography } from '../txt/types'
@@ -94,6 +95,7 @@ export interface TextareaProps extends HTMLAttributes<HTMLTextAreaElement> {
 
 const TextareaImpl = (props: TextareaProps) => {
   const {
+    id: idFromProps,
     topAddon,
     bottomAddon,
     leftAddon,
@@ -117,8 +119,10 @@ const TextareaImpl = (props: TextareaProps) => {
     onChange: onChangeFromProps
   })
 
+  const id = useGeneratedId({ defaultId: idFromProps })
+
   return (
-    <TextareaContextProvider size={size}>
+    <TextareaContextProvider size={size} id={id}>
       <Fieldbox
         topAddon={topAddon}
         bottomAddon={bottomAddon}
@@ -152,7 +156,7 @@ const typographyBySize: Record<TextareaSize, Typography> = {
 }
 
 export const Textarea = Object.assign(TextareaImpl, {
-  Label: Fieldbox.Label,
+  Label: TextareaLabel,
   BottomText: Fieldbox.BottomTxt,
   Icon: TextareaIcon
 })

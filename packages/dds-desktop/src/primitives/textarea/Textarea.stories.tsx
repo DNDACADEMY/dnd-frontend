@@ -84,7 +84,7 @@ export const Playground: Story = {
         size={size}
         id={inputId}
         style={{ resize: 'none' }}
-        topAddon={<Textarea.Label id={inputId}>프로젝트 설명</Textarea.Label>}
+        topAddon={<Textarea.Label>프로젝트 설명</Textarea.Label>}
         bottomAddon={<Textarea.BottomText>{bottomText}</Textarea.BottomText>}
         placeholder='프로젝트에 대한 자세한 설명을 입력해주세요.'
         {...rest}
@@ -124,7 +124,7 @@ export const Sizes: Story = {
               id={id}
               style={{ resize: 'none' }}
               placeholder={`Textarea Size: ${size}`}
-              topAddon={<Textarea.Label id={id}>{`프로젝트 설명 (${size})`}</Textarea.Label>}
+              topAddon={<Textarea.Label>{`프로젝트 설명 (${size})`}</Textarea.Label>}
               bottomAddon={<Textarea.BottomText>프로젝트에 대한 설명을 입력해 주세요.</Textarea.BottomText>}
               leftAddon={
                 <Textarea.Icon
@@ -171,7 +171,7 @@ export const ControlledWithExternalState: Story = {
           onChange={(event) => setValue(event.target.value)}
           style={{ resize: 'none' }}
           placeholder='프로젝트에 대한 설명을 입력해주세요.'
-          topAddon={<Textarea.Label id={inputId}>프로젝트 설명</Textarea.Label>}
+          topAddon={<Textarea.Label>프로젝트 설명</Textarea.Label>}
           bottomAddon={<Textarea.BottomText>스토리북에서 외부 상태로 제어되는 controlled Textarea 예시예요.</Textarea.BottomText>}
           leftAddon={
             <Textarea.Icon
@@ -214,7 +214,7 @@ export const UncontrolledWithDefaultValue: Story = {
         style={{ resize: 'none' }}
         defaultValue='DND는 사이드 프로젝트를 통해 실무 경험을 쌓고, 서로의 성장을 응원하는 IT 동아리입니다.'
         placeholder='프로젝트에 대한 설명을 입력해주세요.'
-        topAddon={<Textarea.Label id={inputId}>프로젝트 설명</Textarea.Label>}
+        topAddon={<Textarea.Label>프로젝트 설명</Textarea.Label>}
         bottomAddon={
           <Textarea.BottomText>defaultValue로 초기화된 이후에는 Textarea 내부에서 값을 관리하는 uncontrolled 예시예요.</Textarea.BottomText>
         }
