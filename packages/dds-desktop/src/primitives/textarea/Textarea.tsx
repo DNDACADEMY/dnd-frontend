@@ -122,7 +122,9 @@ const TextareaImpl = (props: TextareaProps) => {
   const id = useGeneratedId({ defaultId: idFromProps })
 
   return (
-    <TextareaContextProvider size={size} id={id}>
+    <TextareaContextProvider
+      size={size}
+      id={id}>
       <Fieldbox
         topAddon={topAddon}
         bottomAddon={bottomAddon}

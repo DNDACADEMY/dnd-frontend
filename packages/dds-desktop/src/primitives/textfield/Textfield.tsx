@@ -115,7 +115,9 @@ export const TextfieldImpl = (props: TextfieldProps) => {
   const id = useGeneratedId({ defaultId: idFromProps })
 
   return (
-    <TextfieldContextProvider size={size} id={id}>
+    <TextfieldContextProvider
+      size={size}
+      id={id}>
       <Fieldbox
         topAddon={topAddon}
         bottomAddon={bottomAddon}
