@@ -1,14 +1,14 @@
 import { semantic } from '@dds/token'
 import { useState } from 'react'
 
-import { Inputarea } from './Inputarea'
+import { Textarea } from './Textarea'
 
-import type { InputareaProps } from './Inputarea'
+import type { TextareaProps } from './Textarea'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 const meta = {
-  title: 'Primitives/Inputarea',
-  component: Inputarea,
+  title: 'Primitives/Textarea',
+  component: Textarea,
   parameters: {
     layout: 'centered',
     controls: {
@@ -16,15 +16,15 @@ const meta = {
     },
     docs: {
       description: {
-        component: 'Inputarea 컴포넌트는 여러 줄 텍스트 입력 영역을 표시할 때 사용하는 컴포넌트예요.'
+        component: 'Textarea 컴포넌트는 여러 줄 텍스트 입력 영역을 표시할 때 사용하는 컴포넌트예요.'
       }
     }
   },
   tags: ['autodocs'],
   subcomponents: {
-    Label: Inputarea.Label,
-    BottomText: Inputarea.BottomText,
-    Icon: Inputarea.Icon
+    Label: Textarea.Label,
+    BottomText: Textarea.BottomText,
+    Icon: Textarea.Icon
   },
   args: {
     size: 'medium',
@@ -60,7 +60,7 @@ const meta = {
       control: 'number'
     }
   }
-} satisfies Meta<typeof Inputarea>
+} satisfies Meta<typeof Textarea>
 
 export default meta
 
@@ -76,16 +76,16 @@ export const Playground: Story = {
   },
   render: (args) => {
     const { size = 'medium', ...rest } = args
-    const inputId = 'inputarea-description'
+    const inputId = 'textarea-description'
     const bottomText = args.error ? '설명이 너무 짧아요. 최소 10자 이상 입력해 주세요.' : '프로젝트에 대한 설명을 입력해 주세요.'
 
     return (
-      <Inputarea
+      <Textarea
         size={size}
         id={inputId}
         style={{ resize: 'none' }}
-        topAddon={<Inputarea.Label id={inputId}>프로젝트 설명</Inputarea.Label>}
-        bottomAddon={<Inputarea.BottomText>{bottomText}</Inputarea.BottomText>}
+        topAddon={<Textarea.Label id={inputId}>프로젝트 설명</Textarea.Label>}
+        bottomAddon={<Textarea.BottomText>{bottomText}</Textarea.BottomText>}
         placeholder='프로젝트에 대한 자세한 설명을 입력해주세요.'
         {...rest}
       />
@@ -108,8 +108,8 @@ export const Sizes: Story = {
     }
   },
   render: (args) => {
-    const inputIdBase = 'inputarea-size'
-    const sizes: NonNullable<InputareaProps['size']>[] = ['medium', 'large']
+    const inputIdBase = 'textarea-size'
+    const sizes: NonNullable<TextareaProps['size']>[] = ['medium', 'large']
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 360 }}>
@@ -117,17 +117,17 @@ export const Sizes: Story = {
           const id = `${inputIdBase}-${size}`
 
           return (
-            <Inputarea
+            <Textarea
               key={size}
               {...args}
               size={size}
               id={id}
               style={{ resize: 'none' }}
-              placeholder={`Inputarea Size: ${size}`}
-              topAddon={<Inputarea.Label id={id}>{`프로젝트 설명 (${size})`}</Inputarea.Label>}
-              bottomAddon={<Inputarea.BottomText>프로젝트에 대한 설명을 입력해 주세요.</Inputarea.BottomText>}
+              placeholder={`Textarea Size: ${size}`}
+              topAddon={<Textarea.Label id={id}>{`프로젝트 설명 (${size})`}</Textarea.Label>}
+              bottomAddon={<Textarea.BottomText>프로젝트에 대한 설명을 입력해 주세요.</Textarea.BottomText>}
               leftAddon={
-                <Inputarea.Icon
+                <Textarea.Icon
                   name='edit'
                   color={semantic.color.labelSubtitle}
                   aria-hidden
@@ -154,27 +154,27 @@ export const ControlledWithExternalState: Story = {
     docs: {
       description: {
         story:
-          '외부 상태로 `value`와 `onChange`를 관리하는 **완전 제어(Controlled)** Inputarea 예시예요. 내부에서는 `useControllableState`를 통해 controlled 모드로 동작해요.'
+          '외부 상태로 `value`와 `onChange`를 관리하는 **완전 제어(Controlled)** Textarea 예시예요. 내부에서는 `useControllableState`를 통해 controlled 모드로 동작해요.'
       }
     }
   },
   render: (args) => {
     const [value, setValue] = useState('DND는 개발자와 디자이너가 함께 성장하는 커뮤니티입니다.')
-    const inputId = 'inputarea-controlled'
+    const inputId = 'textarea-controlled'
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 360 }}>
-        <Inputarea
+        <Textarea
           {...args}
           id={inputId}
           value={value}
           onChange={(event) => setValue(event.target.value)}
           style={{ resize: 'none' }}
           placeholder='프로젝트에 대한 설명을 입력해주세요.'
-          topAddon={<Inputarea.Label id={inputId}>프로젝트 설명</Inputarea.Label>}
-          bottomAddon={<Inputarea.BottomText>스토리북에서 외부 상태로 제어되는 controlled Inputarea 예시예요.</Inputarea.BottomText>}
+          topAddon={<Textarea.Label id={inputId}>프로젝트 설명</Textarea.Label>}
+          bottomAddon={<Textarea.BottomText>스토리북에서 외부 상태로 제어되는 controlled Textarea 예시예요.</Textarea.BottomText>}
           leftAddon={
-            <Inputarea.Icon
+            <Textarea.Icon
               name='edit'
               color={semantic.color.labelSubtitle}
               aria-hidden
@@ -205,21 +205,21 @@ export const UncontrolledWithDefaultValue: Story = {
     }
   },
   render: (args) => {
-    const inputId = 'inputarea-uncontrolled'
+    const inputId = 'textarea-uncontrolled'
 
     return (
-      <Inputarea
+      <Textarea
         {...args}
         id={inputId}
         style={{ resize: 'none' }}
         defaultValue='DND는 사이드 프로젝트를 통해 실무 경험을 쌓고, 서로의 성장을 응원하는 IT 동아리입니다.'
         placeholder='프로젝트에 대한 설명을 입력해주세요.'
-        topAddon={<Inputarea.Label id={inputId}>프로젝트 설명</Inputarea.Label>}
+        topAddon={<Textarea.Label id={inputId}>프로젝트 설명</Textarea.Label>}
         bottomAddon={
-          <Inputarea.BottomText>defaultValue로 초기화된 이후에는 Inputarea 내부에서 값을 관리하는 uncontrolled 예시예요.</Inputarea.BottomText>
+          <Textarea.BottomText>defaultValue로 초기화된 이후에는 Textarea 내부에서 값을 관리하는 uncontrolled 예시예요.</Textarea.BottomText>
         }
         leftAddon={
-          <Inputarea.Icon
+          <Textarea.Icon
             name='edit'
             color={semantic.color.labelSubtitle}
             aria-hidden

@@ -1,14 +1,14 @@
 import { semantic } from '@dds/token'
 import { useState } from 'react'
 
-import { Inputfield } from './Inputfield'
+import { Textfield } from './Textfield'
 
-import type { InputfieldProps } from './Inputfield'
+import type { TextfieldProps } from './Textfield'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 const meta = {
-  title: 'Primitives/Inputfield',
-  component: Inputfield,
+  title: 'Primitives/Textfield',
+  component: Textfield,
   parameters: {
     layout: 'centered',
     controls: {
@@ -16,15 +16,15 @@ const meta = {
     },
     docs: {
       description: {
-        component: 'Inputfield 컴포넌트는 입력 필드를 표시할 때 사용하는 컴포넌트예요.'
+        component: 'Textfield 컴포넌트는 입력 필드를 표시할 때 사용하는 컴포넌트예요.'
       }
     }
   },
   tags: ['autodocs'],
   subcomponents: {
-    Label: Inputfield.Label,
-    BottomText: Inputfield.BottomText,
-    Icon: Inputfield.Icon
+    Label: Textfield.Label,
+    BottomText: Textfield.BottomText,
+    Icon: Textfield.Icon
   },
   args: {
     size: 'medium',
@@ -56,7 +56,7 @@ const meta = {
       control: 'boolean'
     }
   }
-} satisfies Meta<typeof Inputfield>
+} satisfies Meta<typeof Textfield>
 
 export default meta
 
@@ -72,15 +72,15 @@ export const Playground: Story = {
   },
   render: (args) => {
     const { size = 'medium', ...rest } = args
-    const inputId = 'inputfield-email'
+    const inputId = 'textfield-email'
     const bottomText = args.error ? '이메일 형식이 올바르지 않아요.' : '로그인에 사용할 이메일 주소를 입력해 주세요.'
 
     return (
-      <Inputfield
+      <Textfield
         size={size}
         id={inputId}
-        topAddon={<Inputfield.Label id={inputId}>이메일 주소</Inputfield.Label>}
-        bottomAddon={<Inputfield.BottomText>{bottomText}</Inputfield.BottomText>}
+        topAddon={<Textfield.Label id={inputId}>이메일 주소</Textfield.Label>}
+        bottomAddon={<Textfield.BottomText>{bottomText}</Textfield.BottomText>}
         placeholder='이메일을 입력해주세요.'
         {...rest}
       />
@@ -103,8 +103,8 @@ export const Sizes: Story = {
     }
   },
   render: (args) => {
-    const inputIdBase = 'inputfield-size'
-    const sizes: NonNullable<InputfieldProps['size']>[] = ['small', 'medium', 'large']
+    const inputIdBase = 'textfield-size'
+    const sizes: NonNullable<TextfieldProps['size']>[] = ['small', 'medium', 'large']
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 360 }}>
@@ -112,16 +112,16 @@ export const Sizes: Story = {
           const id = `${inputIdBase}-${size}`
 
           return (
-            <Inputfield
+            <Textfield
               key={size}
               {...args}
               size={size}
               id={id}
-              placeholder={`Inputfield Size: ${size}`}
-              topAddon={<Inputfield.Label id={id}>{`이메일 주소 (${size})`}</Inputfield.Label>}
-              bottomAddon={<Inputfield.BottomText>로그인에 사용할 이메일 주소를 입력해 주세요.</Inputfield.BottomText>}
+              placeholder={`Textfield Size: ${size}`}
+              topAddon={<Textfield.Label id={id}>{`이메일 주소 (${size})`}</Textfield.Label>}
+              bottomAddon={<Textfield.BottomText>로그인에 사용할 이메일 주소를 입력해 주세요.</Textfield.BottomText>}
               leftAddon={
-                <Inputfield.Icon
+                <Textfield.Icon
                   name='mail'
                   color={semantic.color.labelSubtitle}
                   aria-hidden
@@ -147,26 +147,26 @@ export const ControlledWithExternalState: Story = {
     docs: {
       description: {
         story:
-          '외부 상태로 `value`와 `onChange`를 관리하는 **완전 제어(Controlled)** Inputfield 예시예요. 내부에서는 `useControlStable`을 통해 controlled 모드로 동작해요.'
+          '외부 상태로 `value`와 `onChange`를 관리하는 **완전 제어(Controlled)** Textfield 예시예요. 내부에서는 `useControlStable`을 통해 controlled 모드로 동작해요.'
       }
     }
   },
   render: (args) => {
     const [value, setValue] = useState('dnd@dnd.ac')
-    const inputId = 'inputfield-controlled'
+    const inputId = 'textfield-controlled'
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 360 }}>
-        <Inputfield
+        <Textfield
           {...args}
           id={inputId}
           value={value}
           onChange={(event) => setValue(event.target.value)}
           placeholder='이메일을 입력해주세요.'
-          topAddon={<Inputfield.Label id={inputId}>이메일 주소</Inputfield.Label>}
-          bottomAddon={<Inputfield.BottomText>스토리북에서 외부 상태로 제어되는 controlled Inputfield 예시예요.</Inputfield.BottomText>}
+          topAddon={<Textfield.Label id={inputId}>이메일 주소</Textfield.Label>}
+          bottomAddon={<Textfield.BottomText>스토리북에서 외부 상태로 제어되는 controlled Textfield 예시예요.</Textfield.BottomText>}
           leftAddon={
-            <Inputfield.Icon
+            <Textfield.Icon
               name='mail'
               color={semantic.color.labelSubtitle}
               aria-hidden
@@ -196,20 +196,20 @@ export const UncontrolledWithDefaultValue: Story = {
     }
   },
   render: (args) => {
-    const inputId = 'inputfield-uncontrolled'
+    const inputId = 'textfield-uncontrolled'
 
     return (
-      <Inputfield
+      <Textfield
         {...args}
         id={inputId}
         defaultValue='uncontrolled@dnd.ac'
         placeholder='이메일을 입력해주세요.'
-        topAddon={<Inputfield.Label id={inputId}>이메일 주소</Inputfield.Label>}
+        topAddon={<Textfield.Label id={inputId}>이메일 주소</Textfield.Label>}
         bottomAddon={
-          <Inputfield.BottomText>defaultValue로 초기화된 이후에는 Inputfield 내부에서 값을 관리하는 uncontrolled 예시예요.</Inputfield.BottomText>
+          <Textfield.BottomText>defaultValue로 초기화된 이후에는 Textfield 내부에서 값을 관리하는 uncontrolled 예시예요.</Textfield.BottomText>
         }
         leftAddon={
-          <Inputfield.Icon
+          <Textfield.Icon
             name='mail'
             color={semantic.color.labelSubtitle}
             aria-hidden

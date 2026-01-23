@@ -6,7 +6,7 @@ export const contentCss = style({
   alignItems: 'flex-start'
 })
 
-export const InputareaCss = style({
+export const TextareaCss = style({
   flex: 1,
   backgroundColor: 'transparent',
   padding: 0,

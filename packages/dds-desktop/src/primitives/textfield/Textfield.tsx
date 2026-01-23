@@ -2,16 +2,16 @@ import { semantic } from '@dds/token'
 import { ChangeEventHandler, HTMLAttributes, ReactNode } from 'react'
 
 import { Fieldbox } from '../fieldbox'
-import { InputareaIcon } from './compound'
-import { InputareaContextProvider } from './context'
-import { contentCss, InputareaCss } from './style.css'
-import { InputareaSize } from './type'
+import { TextfieldIcon } from './compound'
+import { TextfieldContextProvider } from './context'
+import { TextfieldCss } from './style.css'
+import { TextfieldSize } from './type'
 import { useControllableState } from '../../hooks/useControllableState'
 import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 import { Typography } from '../txt/types'
 
-export interface InputareaProps extends HTMLAttributes<HTMLTextAreaElement> {
+export interface TextfieldProps extends HTMLAttributes<HTMLInputElement> {
   /**
    * 상단에 배치할 컴포넌트 영역이에요.
    * 레이블을 사용할 때 주로 사용해요.
@@ -19,17 +19,17 @@ export interface InputareaProps extends HTMLAttributes<HTMLTextAreaElement> {
   topAddon?: ReactNode
   /**
    * 하단에 배치할 컴포넌트 영역이에요.
-   * 주로 `Inputarea.BottomText`처럼 검증 메시지나 보조 설명을 노출할 때 사용해요.
+   * 주로 `Textfield.BottomText`처럼 검증 메시지나 보조 설명을 노출할 때 사용해요.
    */
   bottomAddon?: ReactNode
   /**
    * 입력 영역의 왼쪽에 배치할 컴포넌트 영역이에요.
-   * 아이콘 등을 배치할 때 사용해요.
+   * 아이콘, prefix 텍스트 등을 배치할 때 사용해요.
    */
   leftAddon?: ReactNode
   /**
    * 입력 영역의 오른쪽에 배치할 컴포넌트 영역이에요.
-   * 보조 액션을 배치할 때 사용해요.
+   * 토글 버트, suffix 텍스트 등 보조 액션을 배치할 때 사용해요.
    */
   rightAddon?: ReactNode
   /**
@@ -38,7 +38,7 @@ export interface InputareaProps extends HTMLAttributes<HTMLTextAreaElement> {
    *
    * @default medium
    */
-  size?: InputareaSize
+  size?: TextfieldSize
   /**
    * 컴포넌트 비활성화 여부를 설정해요.
    * 비활성화 시 상호작용이 불가능한 상태를 시각적으로 표현해요.
@@ -55,7 +55,7 @@ export interface InputareaProps extends HTMLAttributes<HTMLTextAreaElement> {
   error?: boolean
   /**
    * 필수 필드 여부를 설정해요.
-   * `Inputarea.Label`과 함께 사용할 경우 라벨에 * 표시를 추가하는 데 활용돼요.
+   * `Textfield.Label`과 함께 사용할 경우 라벨에 * 표시를 추가하는 데 활용돼요.
    *
    * @default false
    */
@@ -78,21 +78,15 @@ export interface InputareaProps extends HTMLAttributes<HTMLTextAreaElement> {
   /**
    * 입력 필드의 값이 변경될 때 호출되는 함수를 설정해요.
    */
-  onChange?: ChangeEventHandler<HTMLTextAreaElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
   /**
    * 입력 필드의 기본 값을 설정해요.
    * 해당 값을 설정할 경우 uncontrolled 컴포넌트로 동작해요.
    */
   defaultValue?: string
-  /**
-   * textarea의 행(row) 수를 설정해요.
-   *
-   * @default 3
-   */
-  rows?: number
 }
 
-const InputareaImpl = (props: InputareaProps) => {
+export const TextfieldImpl = (props: TextfieldProps) => {
   const {
     topAddon,
     bottomAddon,
@@ -107,18 +101,17 @@ const InputareaImpl = (props: InputareaProps) => {
     defaultValue,
     onChange: onChangeFromProps,
     className: classNameFromProps,
-    rows = 3,
     ...restProps
   } = props
 
-  const { value, onChange } = useControllableState<string, HTMLTextAreaElement>({
+  const { value, onChange } = useControllableState({
     value: valueFromProps,
     defaultValue,
     onChange: onChangeFromProps
   })
 
   return (
-    <InputareaContextProvider size={size}>
+    <TextfieldContextProvider size={size}>
       <Fieldbox
         topAddon={topAddon}
         bottomAddon={bottomAddon}
@@ -128,31 +121,30 @@ const InputareaImpl = (props: InputareaProps) => {
         readonly={readOnly}>
         <Fieldbox.Content
           leftAddon={leftAddon}
-          rightAddon={rightAddon}
-          className={contentCss}>
+          rightAddon={rightAddon}>
           <Txt
-            as='textarea'
-            className={cx(InputareaCss, classNameFromProps)}
+            as='input'
+            className={cx(TextfieldCss({ size }), classNameFromProps)}
             typography={typographyBySize[size]}
             color={semantic.color.labelTitle}
             value={value}
             onChange={onChange}
-            rows={rows}
             {...restProps}
           />
         </Fieldbox.Content>
       </Fieldbox>
-    </InputareaContextProvider>
+    </TextfieldContextProvider>
   )
 }
 
-const typographyBySize: Record<InputareaSize, Typography> = {
-  medium: 'caption1',
+const typographyBySize: Record<TextfieldSize, Typography> = {
+  small: 'caption1',
+  medium: 'body2',
   large: 'body2'
 }
 
-export const Inputarea = Object.assign(InputareaImpl, {
+export const Textfield = Object.assign(TextfieldImpl, {
   Label: Fieldbox.Label,
   BottomText: Fieldbox.BottomTxt,
-  Icon: InputareaIcon
+  Icon: TextfieldIcon
 })
