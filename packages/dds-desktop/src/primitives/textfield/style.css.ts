@@ -2,9 +2,9 @@ import { semantic } from '@dds/token'
 import { recipe } from '@vanilla-extract/recipes'
 import { CSSProperties } from 'react'
 
-import { InputfieldSize } from './type'
+import { TextfieldSize } from './type'
 
-export const InputfieldCss = recipe({
+export const TextfieldCss = recipe({
   base: {
     flex: 1,
     padding: 0,
@@ -29,6 +29,6 @@ export const InputfieldCss = recipe({
       large: {
         minHeight: '22px'
       }
-    } satisfies Record<InputfieldSize, CSSProperties>
+    } satisfies Record<TextfieldSize, CSSProperties>
   }
 })
