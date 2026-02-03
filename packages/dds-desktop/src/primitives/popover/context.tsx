@@ -1,21 +1,55 @@
-import { RefObject } from 'react'
+import { ReactNode, useRef, useState } from 'react'
 
 import { createCtxProvider } from '../../utils/createCtxProvider'
 
-type PopoverContextType = {
-  id?: string
-  isOpen?: boolean
-  onOpenChange?: (isOpen: boolean) => void
-  anchorRef?: RefObject<HTMLElement> | null
-  setAnchorRef?: (ref: RefObject<HTMLElement> | null) => void
+type PopoverContextValue = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  closeTimerRef: React.MutableRefObject<NodeJS.Timeout | null>
+  clearCloseTimer: () => void
 }
 
-const [PopoverContextProvider, usePopoverContext] = createCtxProvider<PopoverContextType>('Popover', {
-  id: undefined,
-  isOpen: false,
-  onOpenChange: () => {},
-  anchorRef: null,
-  setAnchorRef: () => {}
-})
+const [PopoverContextProvider, usePopoverContext] = createCtxProvider<PopoverContextValue>('Popover')
 
-export { PopoverContextProvider, usePopoverContext }
+interface PopoverProviderProps {
+  children: ReactNode
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export const PopoverProvider = (props: PopoverProviderProps) => {
+  const { children, open: controlledOpen, defaultOpen = false, onOpenChange: externalOnOpenChange } = props
+
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
+  const closeTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  const isControlled = controlledOpen !== undefined
+  const open = isControlled ? controlledOpen : uncontrolledOpen
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!isControlled) {
+      setUncontrolledOpen(newOpen)
+    }
+    externalOnOpenChange?.(newOpen)
+  }
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+  }
+
+  return (
+    <PopoverContextProvider
+      open={open}
+      onOpenChange={handleOpenChange}
+      closeTimerRef={closeTimerRef}
+      clearCloseTimer={clearCloseTimer}>
+      {children}
+    </PopoverContextProvider>
+  )
+}
+
+export { usePopoverContext }

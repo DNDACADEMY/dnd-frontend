@@ -1,33 +1,17 @@
-import { HTMLAttributes, ReactNode, RefObject, useEffect, useRef } from 'react'
+import { PopoverAnchor as RadixPopoverAnchor, PopoverAnchorProps as RadixPopoverAnchorProps } from '@radix-ui/react-popover'
+import { RefObject } from 'react'
 
-import { usePopoverContext } from '../context'
-
-export interface PopoverAnchorProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode
+export interface PopoverAnchorProps extends RadixPopoverAnchorProps {
+  ref?: RefObject<HTMLDivElement>
 }
 
 export const PopoverAnchor = (props: PopoverAnchorProps) => {
-  const { children, style, ...restProps } = props
-  const { setAnchorRef } = usePopoverContext('Popover.Anchor')
-  const anchorRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (anchorRef.current) {
-      setAnchorRef?.(anchorRef as RefObject<HTMLElement>)
-    }
-
-    return () => {
-      setAnchorRef?.(null)
-    }
-  }, [setAnchorRef])
-
+  const { ref, ...restProps } = props
   return (
-    <div
-      ref={anchorRef}
-      style={{ position: 'relative', ...style }}
-      {...restProps}>
-      {children}
-    </div>
+    <RadixPopoverAnchor
+      ref={ref}
+      {...restProps}
+    />
   )
 }
 

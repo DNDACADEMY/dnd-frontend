@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { Button } from '../button'
+import { Textfield } from '../textfield'
 import { Popover } from './Popover'
 
 import type { PopoverProps } from './Popover'
@@ -15,11 +17,11 @@ const meta = {
   argTypes: {
     open: {
       control: 'boolean',
-      description: '팝오버의 열림/닫힘 상태 (제어 컴포넌트)'
+      description: '팝오버의 열림/닫힘 상태'
     },
     defaultOpen: {
       control: 'boolean',
-      description: '팝오버의 초기 열림 상태 (비제어 컴포넌트)'
+      description: '팝오버의 초기 열림 상태'
     },
     children: {
       table: { disable: true }
@@ -100,10 +102,10 @@ export const WithAnchor: Story = {
 }
 
 export const Positioning: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div style={{ display: 'flex', gap: '24px', padding: '150px' }}>
-        <Popover>
+        <Popover {...args}>
           <Popover.Trigger>Top</Popover.Trigger>
           <Popover.Content
             side='top'
@@ -112,7 +114,7 @@ export const Positioning: Story = {
           </Popover.Content>
         </Popover>
 
-        <Popover>
+        <Popover {...args}>
           <Popover.Trigger>Right</Popover.Trigger>
           <Popover.Content
             side='right'
@@ -121,7 +123,7 @@ export const Positioning: Story = {
           </Popover.Content>
         </Popover>
 
-        <Popover>
+        <Popover {...args}>
           <Popover.Trigger>Bottom</Popover.Trigger>
           <Popover.Content
             side='bottom'
@@ -130,7 +132,7 @@ export const Positioning: Story = {
           </Popover.Content>
         </Popover>
 
-        <Popover>
+        <Popover {...args}>
           <Popover.Trigger>Left</Popover.Trigger>
           <Popover.Content
             side='left'
@@ -144,10 +146,10 @@ export const Positioning: Story = {
 }
 
 export const Alignment: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '150px' }}>
-        <Popover>
+        <Popover {...args}>
           <Popover.Trigger>Start Align</Popover.Trigger>
           <Popover.Content
             align='start'
@@ -156,7 +158,7 @@ export const Alignment: Story = {
           </Popover.Content>
         </Popover>
 
-        <Popover>
+        <Popover {...args}>
           <Popover.Trigger>Center Align</Popover.Trigger>
           <Popover.Content
             align='center'
@@ -165,7 +167,7 @@ export const Alignment: Story = {
           </Popover.Content>
         </Popover>
 
-        <Popover>
+        <Popover {...args}>
           <Popover.Trigger>End Align</Popover.Trigger>
           <Popover.Content
             align='end'
@@ -179,9 +181,9 @@ export const Alignment: Story = {
 }
 
 export const HoverTrigger: Story = {
-  render: () => {
+  render: (args) => {
     return (
-      <Popover>
+      <Popover {...args}>
         <Popover.Trigger
           trigger='hover'
           hoverDelay={200}
@@ -250,6 +252,27 @@ export const CustomContent: Story = {
               e.currentTarget.style.background = 'transparent'
             }}>
             메뉴 항목 3
+          </div>
+        </Popover.Content>
+      </Popover>
+    )
+  }
+}
+
+export const WithFocusableContent: Story = {
+  render: (args) => {
+    return (
+      <Popover {...args}>
+        <Popover.Trigger>포커스 가능한 콘텐츠</Popover.Trigger>
+        <Popover.Content style={contentStyle}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>사용자 정보 입력</h3>
+            <Textfield placeholder='이름을 입력하세요' />
+            <Textfield placeholder='이메일을 입력하세요' />
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+              <Button variant='outline'>취소</Button>
+              <Button variant='secondary'>확인</Button>
+            </div>
           </div>
         </Popover.Content>
       </Popover>

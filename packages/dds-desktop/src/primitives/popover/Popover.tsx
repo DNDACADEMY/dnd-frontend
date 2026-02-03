@@ -1,10 +1,9 @@
-import { HTMLAttributes, ReactNode, RefObject, useId, useState } from 'react'
+import { Root as RadixPopoverRoot, PopoverProps as RadixPopoverRootProps } from '@radix-ui/react-popover'
 
 import { PopoverAnchor, PopoverContent, PopoverTrigger } from './compound'
-import { PopoverContextProvider } from './context'
+import { PopoverProvider, usePopoverContext } from './context'
 
-export interface PopoverProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
-  children: ReactNode
+export interface PopoverProps extends RadixPopoverRootProps {
   /**
    * 팝오버의 열림/닫힘 상태를 제어합니다. (제어 컴포넌트)
    */
@@ -18,34 +17,42 @@ export interface PopoverProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
    * 팝오버의 열림/닫힘 상태가 변경될 때 호출되는 콜백입니다.
    */
   onOpenChange?: (open: boolean) => void
+  /**
+   * 팝오버를 모달로 표시할지 여부를 설정합니다.
+   * @default false
+   */
+  modal?: boolean
+}
+
+const PopoverRoot = (props: RadixPopoverRootProps) => {
+  const { children, modal = false, ...restProps } = props
+  const { open, onOpenChange } = usePopoverContext('Popover.Root')
+
+  return (
+    <RadixPopoverRoot
+      open={open}
+      onOpenChange={onOpenChange}
+      modal={modal}
+      {...restProps}>
+      {children}
+    </RadixPopoverRoot>
+  )
 }
 
 const PopoverImpl = (props: PopoverProps) => {
-  const { children, open: controlledOpen, defaultOpen = false, onOpenChange, ...restProps } = props
-  const id = useId()
-
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
-  const [anchorRef, setAnchorRef] = useState<RefObject<HTMLElement> | null>(null)
-
-  const isControlled = controlledOpen !== undefined
-  const isOpen = isControlled ? controlledOpen : uncontrolledOpen
-
-  const handleOpenChange = (open: boolean) => {
-    if (!isControlled) {
-      setUncontrolledOpen(open)
-    }
-    onOpenChange?.(open)
-  }
+  const { children, open, defaultOpen, onOpenChange, modal = false, ...restProps } = props
 
   return (
-    <PopoverContextProvider
-      id={id}
-      isOpen={isOpen}
-      onOpenChange={handleOpenChange}
-      anchorRef={anchorRef}
-      setAnchorRef={setAnchorRef}>
-      <div {...restProps}>{children}</div>
-    </PopoverContextProvider>
+    <PopoverProvider
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}>
+      <PopoverRoot
+        modal={modal}
+        {...restProps}>
+        {children}
+      </PopoverRoot>
+    </PopoverProvider>
   )
 }
 
