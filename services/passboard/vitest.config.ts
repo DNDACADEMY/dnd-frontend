@@ -13,7 +13,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/shared/utils/testSetup.ts'],
     include: ['src/**/*.spec.{ts,tsx}'],
-    exclude: ['node_modules', '.storybook/**/*', '**/*.stories.{ts,tsx}', 'src/shared/utils/testSetup.ts'],
+    exclude: ['node_modules', 'src/shared/utils/testSetup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

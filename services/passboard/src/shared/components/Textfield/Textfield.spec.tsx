@@ -27,7 +27,7 @@ describe('Textfield', () => {
 
     const input = container.querySelector('input')
     const classNames = input?.className.split(' ') || []
-    expect(classNames.some((className) => className.includes('_size_large'))).toBe(true)
+    expect(classNames.some((className: string) => className.includes('_size_large'))).toBe(true)
   })
 
   it('error prop이 올바르게 적용된다', () => {
@@ -40,7 +40,7 @@ describe('Textfield', () => {
 
     const input = container.querySelector('input')
     const classNames = input?.className.split(' ') || []
-    expect(classNames.some((className) => className.includes('_error_true'))).toBe(true)
+    expect(classNames.some((className: string) => className.includes('_error_true'))).toBe(true)
   })
 
   it('disabled prop이 올바르게 적용된다', () => {
@@ -70,7 +70,7 @@ describe('Textfield', () => {
 
     expect(input).toHaveValue('테스트 값')
     expect(input).toBeDisabled()
-    expect(classNames.some((className) => className.includes('_size_xlarge'))).toBe(true)
-    expect(classNames.some((className) => className.includes('_error_true'))).toBe(true)
+    expect(classNames.some((className: string) => className.includes('_size_xlarge'))).toBe(true)
+    expect(classNames.some((className: string) => className.includes('_error_true'))).toBe(true)
   })
 })
