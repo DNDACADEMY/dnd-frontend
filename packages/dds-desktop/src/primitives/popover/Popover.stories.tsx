@@ -50,7 +50,7 @@ export const Default: Story = {
   render: (args) => {
     return (
       <Popover {...args}>
-        <Popover.Trigger>팝오버 열기</Popover.Trigger>
+        <Popover.Trigger asChild={false}>팝오버 열기</Popover.Trigger>
         <Popover.Content style={contentStyle}>팝오버 내용입니다</Popover.Content>
       </Popover>
     )
@@ -66,7 +66,7 @@ export const Controlled: Story = {
         <Popover
           open={open}
           onOpenChange={setOpen}>
-          <Popover.Trigger>제어 팝오버</Popover.Trigger>
+          <Popover.Trigger asChild={false}>제어 팝오버</Popover.Trigger>
           <Popover.Content style={contentStyle}>제어 컴포넌트 예시입니다</Popover.Content>
         </Popover>
         <button onClick={() => setOpen(!open)}>외부에서 토글 ({open ? '열림' : '닫힘'})</button>
@@ -80,7 +80,7 @@ export const WithAnchor: Story = {
     return (
       <div style={{ padding: '100px' }}>
         <Popover {...args}>
-          <Popover.Trigger>버튼 클릭</Popover.Trigger>
+          <Popover.Trigger asChild={false}>버튼 클릭</Popover.Trigger>
           <Popover.Anchor
             style={{
               marginTop: '16px',
@@ -106,7 +106,7 @@ export const Positioning: Story = {
     return (
       <div style={{ display: 'flex', gap: '24px', padding: '150px' }}>
         <Popover {...args}>
-          <Popover.Trigger>Top</Popover.Trigger>
+          <Popover.Trigger asChild={false}>Top</Popover.Trigger>
           <Popover.Content
             side='top'
             style={contentStyle}>
@@ -115,7 +115,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover {...args}>
-          <Popover.Trigger>Right</Popover.Trigger>
+          <Popover.Trigger asChild={false}>Right</Popover.Trigger>
           <Popover.Content
             side='right'
             style={contentStyle}>
@@ -124,7 +124,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover {...args}>
-          <Popover.Trigger>Bottom</Popover.Trigger>
+          <Popover.Trigger asChild={false}>Bottom</Popover.Trigger>
           <Popover.Content
             side='bottom'
             style={contentStyle}>
@@ -133,7 +133,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover {...args}>
-          <Popover.Trigger>Left</Popover.Trigger>
+          <Popover.Trigger asChild={false}>Left</Popover.Trigger>
           <Popover.Content
             side='left'
             style={contentStyle}>
@@ -150,7 +150,7 @@ export const Alignment: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '150px' }}>
         <Popover {...args}>
-          <Popover.Trigger>Start Align</Popover.Trigger>
+          <Popover.Trigger asChild={false}>Start Align</Popover.Trigger>
           <Popover.Content
             align='start'
             style={contentStyle}>
@@ -159,7 +159,7 @@ export const Alignment: Story = {
         </Popover>
 
         <Popover {...args}>
-          <Popover.Trigger>Center Align</Popover.Trigger>
+          <Popover.Trigger asChild={false}>Center Align</Popover.Trigger>
           <Popover.Content
             align='center'
             style={contentStyle}>
@@ -168,7 +168,7 @@ export const Alignment: Story = {
         </Popover>
 
         <Popover {...args}>
-          <Popover.Trigger>End Align</Popover.Trigger>
+          <Popover.Trigger asChild={false}>End Align</Popover.Trigger>
           <Popover.Content
             align='end'
             style={contentStyle}>
@@ -185,6 +185,7 @@ export const HoverTrigger: Story = {
     return (
       <Popover {...args}>
         <Popover.Trigger
+          asChild={false}
           trigger='hover'
           hoverDelay={200}
           closeDelay={100}>
@@ -207,7 +208,7 @@ export const CustomContent: Story = {
 
     return (
       <Popover {...args}>
-        <Popover.Trigger>메뉴 열기</Popover.Trigger>
+        <Popover.Trigger asChild={false}>메뉴 열기</Popover.Trigger>
 
         <Popover.Content
           style={{
@@ -263,7 +264,7 @@ export const WithFocusableContent: Story = {
   render: (args) => {
     return (
       <Popover {...args}>
-        <Popover.Trigger>포커스 가능한 콘텐츠</Popover.Trigger>
+        <Popover.Trigger asChild={false}>포커스 가능한 콘텐츠</Popover.Trigger>
         <Popover.Content style={contentStyle}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>사용자 정보 입력</h3>
