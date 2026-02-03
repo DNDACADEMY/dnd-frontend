@@ -22,7 +22,7 @@ export interface PopoverContentProps extends RadixPopoverContentProps {
    */
   align?: 'start' | 'center' | 'end'
   /**
-   * 팝오버가 나타날 위치를 설정합니다.
+   * 팝오버가 트리거 요소를 기준으로 얼마나 떨어져 있을지 설정합니다.
    * @default 8
    */
   sideOffset?: number

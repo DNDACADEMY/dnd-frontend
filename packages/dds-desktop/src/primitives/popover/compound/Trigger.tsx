@@ -1,15 +1,20 @@
 import { PopoverTrigger as RadixPopoverTrigger, PopoverTriggerProps as RadixPopoverTriggerProps } from '@radix-ui/react-popover'
-import { RefObject, useCallback, useEffect, useRef, ReactNode } from 'react'
+import { RefObject, useCallback, useEffect, useRef } from 'react'
 
 import { composeHandler } from '../../../utils/composeHandler'
+import { Txt } from '../../txt'
 import { usePopoverContext } from '../context'
 
 export interface PopoverTriggerProps extends RadixPopoverTriggerProps {
   ref?: RefObject<HTMLButtonElement>
-  children?: ReactNode
   /**
    * 자식 요소를 트리거로 사용할지 여부를 설정합니다.
-   * @default false
+   *
+   * asChild가 true일 때 문자열만 전달하면 실제 DOM 요소가 없어
+   * 팝오버가 열리지 않을 수 있습니다. 이 경우 asChild={false}로
+   * 사용하거나 Popover.Anchor로 기준점을 지정하세요.
+   *
+   * @default true
    */
   asChild?: boolean
   /**
@@ -45,6 +50,7 @@ export const PopoverTrigger = (props: PopoverTriggerProps) => {
 
   const { onOpenChange, closeTimerRef, clearCloseTimer } = usePopoverContext('Popover.Trigger')
   const openTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const isText = typeof children === 'string'
 
   useEffect(() => {
     return () => {
@@ -101,7 +107,7 @@ export const PopoverTrigger = (props: PopoverTriggerProps) => {
       tabIndex={trigger === 'hover' ? -1 : undefined}
       aria-haspopup='dialog'
       {...restProps}>
-      {children}
+      {isText ? <Txt typography='body2'>{children}</Txt> : children}
     </RadixPopoverTrigger>
   )
 }
