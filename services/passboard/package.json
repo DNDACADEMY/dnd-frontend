@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@dnd-frontend/eslint-config": "*",
+    "@dnd-frontend/typescript-config": "*",
     "@eslint/eslintrc": "^3",
     "@mswjs/http-middleware": "^0.10.3",
     "@playwright/test": "^1.52.0",

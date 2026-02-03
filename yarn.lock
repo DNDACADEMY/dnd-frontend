@@ -1665,6 +1665,7 @@ __metadata:
   dependencies:
     "@channel.io/channel-web-sdk-loader": "npm:^2.0.0"
     "@dnd-frontend/eslint-config": "npm:*"
+    "@dnd-frontend/typescript-config": "npm:*"
     "@eslint/eslintrc": "npm:^3"
     "@hookform/resolvers": "npm:^5.0.1"
     "@lottiefiles/dotlottie-react": "npm:^0.13.5"
