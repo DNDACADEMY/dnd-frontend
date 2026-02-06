@@ -6,9 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "check-types": "tsc --noEmit",
@@ -21,7 +21,7 @@
     "@channel.io/channel-web-sdk-loader": "^2.0.0",
     "@hookform/resolvers": "^5.0.1",
     "@lottiefiles/dotlottie-react": "^0.13.5",
-    "@next/third-parties": "^15.3.2",
+    "@next/third-parties": "^16.1.6",
     "@radix-ui/react-slot": "^1.2.0",
     "@tanstack/react-query": "^5.76.1",
     "@toss/use-overlay": "^1.4.2",
@@ -29,9 +29,9 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.10.5",
-    "next": "15.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "next": "^16.1.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.56.3",
     "zod": "^3.24.4"
   },
@@ -67,6 +67,7 @@
     "express": "^5.1.0",
     "jsdom": "^26.1.0",
     "msw": "^2.8.2",
+    "typescript": "5.9.3",
     "vitest": "^4.0.16"
   },
   "license": "MIT"
