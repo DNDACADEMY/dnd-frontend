@@ -1,21 +1,17 @@
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 
-import type { NextConfig } from 'next'
-
-import { ORIGIN_URL } from '@/shared/constants'
 const withVanillaExtract = createVanillaExtractPlugin()
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: ORIGIN_URL
+        hostname: 'https://passboard.dnd.ac'
       }
     ]
   },
   webpack(config) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fileLoaderRule = config.module.rules.find((rule: any) => rule.test?.test?.('.svg'))
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'))
 
     config.resolve.alias.canvas = false
 

@@ -1,11 +1,11 @@
-import { ReactNode, useRef, useState } from 'react'
+import { ReactNode, RefObject, useRef, useState } from 'react'
 
 import { createCtxProvider } from '../../utils/createCtxProvider'
 
 type PopoverContextValue = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  closeTimerRef: React.MutableRefObject<NodeJS.Timeout | null>
+  closeTimerRef: RefObject<NodeJS.Timeout | null>
   clearCloseTimer: () => void
 }
 

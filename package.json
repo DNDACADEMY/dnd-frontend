@@ -14,12 +14,12 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "clean": "turbo run clean && rm -rf node_modules/.cache && rm -rf .turbo",
+    "clean": "turbo run clean && rm -rf .yarn/cache .pnp.* && rm -rf .turbo",
     "postinstall": "command -v lefthook >/dev/null 2>&1 && lefthook install || true"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
-    "turbo": "^2.6.3",
+    "turbo": "^2.8.3",
     "typescript": "5.9.2"
   },
   "engines": {
@@ -32,7 +32,9 @@
   ],
   "resolutions": {
     "vite": "7.1.5",
-    "vitest": "4.0.16"
+    "vitest": "4.0.18",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "packageManager": "yarn@4.12.0"
 }
