@@ -18,7 +18,10 @@
     "postinstall": "command -v lefthook >/dev/null 2>&1 && lefthook install || true"
   },
   "devDependencies": {
+    "@yarnpkg/sdks": "^3.2.3",
+    "eslint": "9",
     "prettier": "^3.7.4",
+    "tslib": "^2.8.1",
     "turbo": "^2.8.3",
     "typescript": "5.9.2"
   },
