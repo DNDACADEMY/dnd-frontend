@@ -1582,6 +1582,7 @@ __metadata:
     "@dnd-frontend/eslint-config": "npm:*"
     "@dnd-frontend/typescript-config": "npm:*"
     "@radix-ui/react-popover": "npm:^1.1.15"
+    "@radix-ui/react-slot": "npm:^1.2.4"
     "@storybook/addon-a11y": "npm:^10.1.11"
     "@storybook/addon-docs": "npm:^10.1.11"
     "@storybook/addon-vitest": "npm:^10.1.11"
@@ -1599,6 +1600,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:4.0.18"
     eslint: "npm:^9.39.1"
     eslint-plugin-storybook: "npm:^10.1.11"
+    framer-motion: "npm:^12.34.3"
     lucide-react: "npm:^0.562.0"
     playwright: "npm:^1.58.1"
     react: "npm:19.2.4"
@@ -3828,7 +3830,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-slot@npm:^1.2.0":
+"@radix-ui/react-slot@npm:^1.2.0, @radix-ui/react-slot@npm:^1.2.4":
   version: 1.2.4
   resolution: "@radix-ui/react-slot@npm:1.2.4"
   dependencies:
@@ -9405,6 +9407,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^12.34.3":
+  version: 12.34.3
+  resolution: "framer-motion@npm:12.34.3"
+  dependencies:
+    motion-dom: "npm:^12.34.3"
+    motion-utils: "npm:^12.29.2"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/e36d8d2b33200c6d8ad8af6508090276674dcd239da8026ab19ec4f739b8943197c7b1777f28f96c7149f65ccd35efb5905cbdfdaf6e75017bcd7cc4eb69328b
+  languageName: node
+  linkType: hard
+
 "fresh@npm:^2.0.0":
   version: 2.0.0
   resolution: "fresh@npm:2.0.0"
@@ -12016,6 +12040,15 @@ __metadata:
   dependencies:
     motion-utils: "npm:^12.29.2"
   checksum: 10c0/3f8188cfe895f21b27263d412526e0280e4a2aa0c28d6079c5ffacf1db5acc005e2c0b83df9790126f524f073637f326fdf37302ab6c6859659ad0bccc906871
+  languageName: node
+  linkType: hard
+
+"motion-dom@npm:^12.34.3":
+  version: 12.34.3
+  resolution: "motion-dom@npm:12.34.3"
+  dependencies:
+    motion-utils: "npm:^12.29.2"
+  checksum: 10c0/9a336be96dbb24a2ea3cafe401043553bc326274d118b86d6414e505cd394f26c071cd420d2e71c2cf19e76abc89bfdac4a7c5c1b3842eca56b11d6b8687dfdc
   languageName: node
   linkType: hard
 
