@@ -23,7 +23,7 @@ export interface SidebarItemProps extends HTMLAttributes<HTMLElement> {
 }
 
 export const SidebarItem = forwardRefWithAs<ElementType, SidebarItemProps>((props, ref) => {
-  const { children, iconName, isActive, as = 'li', className: classNameFromProps, onClick, onKeyDown, tabIndex, role, ...restProps } = props
+  const { children, iconName, isActive, as = 'div', className: classNameFromProps, onClick, onKeyDown, tabIndex, role, ...restProps } = props
 
   const { open } = useSidebarContext('Sidebar.Item')
 

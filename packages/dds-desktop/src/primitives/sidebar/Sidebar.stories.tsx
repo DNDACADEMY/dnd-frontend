@@ -44,12 +44,6 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const itemContentStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 8
-}
-
 export const Playground: Story = {
   args: {
     open: true,
@@ -99,8 +93,16 @@ export const Playground: Story = {
 
         {/* 섹션 3: Footer 영역 */}
         <Sidebar.Affix padded={false}>
-          <Sidebar.Item iconName='user'>비밀번호 변경</Sidebar.Item>
-          <Sidebar.Item iconName='log-out'>로그아웃</Sidebar.Item>
+          <Sidebar.Item
+            as='div'
+            iconName='user'>
+            비밀번호 변경
+          </Sidebar.Item>
+          <Sidebar.Item
+            as='div'
+            iconName='log-out'>
+            로그아웃
+          </Sidebar.Item>
         </Sidebar.Affix>
       </Sidebar>
     )
@@ -149,7 +151,11 @@ export const Controlled: Story = {
           </Sidebar.Content>
 
           <Sidebar.Affix padded={false}>
-            <Sidebar.Item iconName='log-out'>로그아웃</Sidebar.Item>
+            <Sidebar.Item
+              as='div'
+              iconName='log-out'>
+              로그아웃
+            </Sidebar.Item>
           </Sidebar.Affix>
         </Sidebar>
         <button onClick={() => setOpen((prev) => !prev)}>외부에서 토글 ({open ? '열림' : '닫힘'})</button>
@@ -187,7 +193,6 @@ export const InteractiveItems: Story = {
             <Sidebar.Item
               isActive={activeMenu === 'project'}
               iconName='file-text'
-              style={itemContentStyle}
               onClick={() => {
                 setActiveMenu('project')
               }}>
@@ -196,7 +201,6 @@ export const InteractiveItems: Story = {
             <Sidebar.Item
               isActive={activeMenu === 'operator'}
               iconName='users'
-              style={itemContentStyle}
               onClick={() => {
                 setActiveMenu('operator')
               }}>
