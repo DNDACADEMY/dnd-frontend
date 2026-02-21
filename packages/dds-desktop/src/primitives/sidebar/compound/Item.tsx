@@ -39,7 +39,7 @@ export const SidebarItem = forwardRefWithAs<ElementType, SidebarItemProps>((prop
     onKeyDown?.(e)
     if (e.defaultPrevented || !enableKeyboardActivation) return
 
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'Enter' || e.key === 'Space') {
       e.preventDefault()
       e.currentTarget.click()
     }
