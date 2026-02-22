@@ -66,7 +66,7 @@ type PolymorphicComponentPropsWithRef<T extends ElementType, Props = object> = P
 export const forwardRefWithAs = <DefaultElement extends ElementType, OwnProps = object>(
   render: <T extends ElementType = DefaultElement>(props: PolymorphicComponentProps<T, OwnProps>, ref: PolymorphicRef<T>) => ReactElement | null
 ) => {
-  return forwardRef(render as never) as <T extends ElementType = DefaultElement>(
+  return forwardRef(render as never) as (<T extends ElementType = DefaultElement>(
     props: PolymorphicComponentPropsWithRef<T, OwnProps>
-  ) => ReactElement | null
+  ) => ReactElement | null) & { displayName?: string }
 }
