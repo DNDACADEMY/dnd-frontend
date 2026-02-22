@@ -4,7 +4,7 @@ import { cx } from '../../../utils/cx'
 import { forwardRefWithAs } from '../../../utils/forwardRefWithAs'
 import { Icon, IconName } from '../../icon'
 import { Txt } from '../../txt'
-import { useSidebarContext } from '../context'
+import { useSidebarContext, useSidebarGroupContext } from '../context'
 import { itemStyle, itemTextStyle } from '../style.css'
 
 export interface SidebarItemProps extends HTMLAttributes<HTMLElement> {
@@ -22,14 +22,20 @@ export interface SidebarItemProps extends HTMLAttributes<HTMLElement> {
   isActive?: boolean
 }
 
+/**
+ * Sidebar.Item은 `Sidebar.Group` 컴포넌트 내부에서만 `li`로 렌더링됩니다.
+ * 그룹 외부에서는 문맥에 맞는 요소로 렌더링되어, 잘못된 목록 시맨틱을 방지합니다.
+ * 이 방식은 `ul` + `li` 구조를 보장해 스크린 리더 및 키보드 탐색 접근성을 유지해요.
+ */
 export const SidebarItem = forwardRefWithAs<ElementType, SidebarItemProps>((props, ref) => {
-  const { children, iconName, isActive, as = 'div', className: classNameFromProps, onClick, onKeyDown, tabIndex, role, ...restProps } = props
+  const { children, iconName, isActive, as, className: classNameFromProps, onClick, onKeyDown, tabIndex, role, ...restProps } = props
 
   const { open } = useSidebarContext('Sidebar.Item')
+  const { isIncluded } = useSidebarGroupContext('Sidebar.Item')
 
   const hasIcon = iconName != null
 
-  const Component = as
+  const Component = as ?? (isIncluded ? 'li' : 'div')
 
   const isIntrinsicComponent = typeof Component === 'string'
   const isNativeInteractive = isIntrinsicComponent && ['button', 'a', 'input', 'select', 'textarea', 'summary', 'details'].includes(Component)
@@ -47,11 +53,11 @@ export const SidebarItem = forwardRefWithAs<ElementType, SidebarItemProps>((prop
 
   return (
     <Component
+      role='menuitem'
       ref={ref}
       className={cx(itemStyle({ isActive, open, hasIcon }), classNameFromProps)}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      role={enableKeyboardActivation ? (role ?? 'button') : role}
       tabIndex={enableKeyboardActivation ? (tabIndex ?? 0) : tabIndex}
       {...restProps}>
       {iconName ? (

@@ -93,16 +93,8 @@ export const Playground: Story = {
 
         {/* 섹션 3: Footer 영역 */}
         <Sidebar.Affix padded={false}>
-          <Sidebar.Item
-            as='div'
-            iconName='user'>
-            비밀번호 변경
-          </Sidebar.Item>
-          <Sidebar.Item
-            as='div'
-            iconName='log-out'>
-            로그아웃
-          </Sidebar.Item>
+          <Sidebar.Item iconName='user'>비밀번호 변경</Sidebar.Item>
+          <Sidebar.Item iconName='log-out'>로그아웃</Sidebar.Item>
         </Sidebar.Affix>
       </Sidebar>
     )
@@ -125,7 +117,9 @@ export const Controlled: Story = {
           onOpenChange={setOpen}>
           <Sidebar.Affix>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Icon name='app-window' />
+              <Sidebar.Collapsible>
+                <Icon name='app-window' />
+              </Sidebar.Collapsible>
               <Sidebar.Trigger>
                 <Icon name='menu' />
               </Sidebar.Trigger>
@@ -151,11 +145,7 @@ export const Controlled: Story = {
           </Sidebar.Content>
 
           <Sidebar.Affix padded={false}>
-            <Sidebar.Item
-              as='div'
-              iconName='log-out'>
-              로그아웃
-            </Sidebar.Item>
+            <Sidebar.Item iconName='log-out'>로그아웃</Sidebar.Item>
           </Sidebar.Affix>
         </Sidebar>
         <button onClick={() => setOpen((prev) => !prev)}>외부에서 토글 ({open ? '열림' : '닫힘'})</button>

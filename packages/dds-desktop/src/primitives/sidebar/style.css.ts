@@ -176,6 +176,12 @@ export const groupLabelContainerStyle = style({
   color: semantic.color.labelDisable
 })
 
+export const groupListStyle = style({
+  listStyle: 'none',
+  padding: 0,
+  margin: 0
+})
+
 export const itemTextStyle = style({
   textAlign: 'center',
   whiteSpace: 'normal',

@@ -15,3 +15,13 @@ const [SidebarContextProvider, useSidebarContext] = createCtxProvider<SidebarCon
 })
 
 export { SidebarContextProvider, useSidebarContext }
+
+type SidebarGroupContextValue = {
+  isIncluded: boolean
+}
+
+const [SidebarGroupContextProvider, useSidebarGroupContext] = createCtxProvider<SidebarGroupContextValue>('Sidebar.Group', {
+  isIncluded: false
+})
+
+export { SidebarGroupContextProvider, useSidebarGroupContext }

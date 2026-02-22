@@ -3,7 +3,8 @@ import { HTMLAttributes, ReactNode } from 'react'
 import { SidebarCollapsible } from './Collapsible'
 import { cx } from '../../../utils/cx'
 import { Txt } from '../../txt'
-import { groupLabelContainerStyle } from '../style.css'
+import { SidebarGroupContextProvider } from '../context'
+import { groupLabelContainerStyle, groupListStyle } from '../style.css'
 
 export interface SidebarGroupProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -17,7 +18,7 @@ export const SidebarGroup = (props: SidebarGroupProps) => {
   const hasLabel = label != null
 
   return (
-    <div>
+    <div role='group'>
       <SidebarCollapsible>
         <div
           className={cx(groupLabelContainerStyle, classNameFromProps)}
@@ -32,7 +33,13 @@ export const SidebarGroup = (props: SidebarGroupProps) => {
           ) : null}
         </div>
       </SidebarCollapsible>
-      {children}
+      <SidebarGroupContextProvider isIncluded={true}>
+        <ul
+          role='menu'
+          className={groupListStyle}>
+          {children}
+        </ul>
+      </SidebarGroupContextProvider>
     </div>
   )
 }
