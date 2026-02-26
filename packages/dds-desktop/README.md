@@ -22,6 +22,25 @@ npm install @dds/desktop
 yarn add @dds/desktop
 ```
 
+#### 의존성 설치
+
+`@dds/desktop`은 아래 패키지를 peer dependency로 사용합니다.
+
+- `react`: `^18.0.0 || ^19.0.0`
+- `react-dom`: `^18.0.0 || ^19.0.0`
+- `framer-motion`: `^12.0.0`
+- `vanilla-extract`: `^1.0.0`
+
+프로젝트에 설치되어 있지 않다면 함께 설치해주세요.
+
+```bash
+# npm 사용 시
+npm install react react-dom framer-motion vanilla-extract
+
+# yarn 사용 시
+yarn add react react-dom framer-motion vanilla-extract
+```
+
 ### 사용 방법
 
 #### 1. 전역 CSS import
