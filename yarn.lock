@@ -1604,14 +1604,19 @@ __metadata:
     framer-motion: "npm:^12.34.3"
     lucide-react: "npm:^0.562.0"
     playwright: "npm:^1.58.1"
-    react: "npm:19.2.4"
+    react: "npm:^19.2.4"
     react-docgen-typescript: "npm:^2.4.0"
-    react-dom: "npm:19.2.4"
+    react-dom: "npm:^19.2.0"
     storybook: "npm:^10.1.11"
     typescript: "npm:5.9.3"
     vite: "npm:7.1.5"
     vite-plugin-dts: "npm:^4.3.0"
     vitest: "npm:4.0.18"
+  peerDependencies:
+    framer-motion: ^12.0.0
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+    vanilla-extract: ^1.0.0
   languageName: unknown
   linkType: soft
 
