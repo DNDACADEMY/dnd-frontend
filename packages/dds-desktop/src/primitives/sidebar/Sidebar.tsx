@@ -33,20 +33,16 @@ const SidebarImpl = (props: SidebarProps) => {
   const { open: openFromProps = false, onOpenChange, children, className: classNameFromProps, ...restProps } = props
 
   const [open, setOpen] = useState(openFromProps)
-  const id = useId()
 
-  useEffect(
-    function syncOpenStateEffect() {
-      setOpen(openFromProps)
-    },
-    [openFromProps]
-  )
+  const id = useId()
 
   useEffect(
     function updateExpandedEffect() {
       onOpenChange?.(open)
     },
-    [open, onOpenChange]
+    // NOTE: Sidebar의 확장 상태가 변경될 때만 호출되어야 해요.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [open]
   )
 
   return (
