@@ -33,20 +33,14 @@ const SidebarImpl = (props: SidebarProps) => {
   const { open: openFromProps = false, onOpenChange, children, className: classNameFromProps, ...restProps } = props
 
   const [open, setOpen] = useState(openFromProps)
-  const id = useId()
 
-  useEffect(
-    function syncOpenStateEffect() {
-      setOpen(openFromProps)
-    },
-    [openFromProps]
-  )
+  const id = useId()
 
   useEffect(
     function updateExpandedEffect() {
       onOpenChange?.(open)
     },
-    [open, onOpenChange]
+    [open]
   )
 
   return (
