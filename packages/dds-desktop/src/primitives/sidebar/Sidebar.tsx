@@ -40,6 +40,8 @@ const SidebarImpl = (props: SidebarProps) => {
     function updateExpandedEffect() {
       onOpenChange?.(open)
     },
+    // NOTE: Sidebar의 확장 상태가 변경될 때만 호출되어야 해요.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [open]
   )
 
