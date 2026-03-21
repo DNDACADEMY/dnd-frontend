@@ -1,8 +1,6 @@
-import { useContext, createContext, type ReactNode, useMemo } from 'react'
+import { useContext, createContext, type ReactNode } from 'react'
 
-type ProviderProps<T> = {
-  children: ReactNode
-} & T
+type ProviderProps<T> = T & { children: ReactNode }
 
 export function createCtxProvider<T extends Record<string, unknown>>(componentName: string, defaultValue?: T) {
   const Context = createContext<T | undefined>(defaultValue)
@@ -10,9 +8,7 @@ export function createCtxProvider<T extends Record<string, unknown>>(componentNa
   function Provider(props: ProviderProps<T>) {
     const { children, ...value } = props
 
-    const memoizedValue = useMemo(() => value as unknown as T, Object.values(value))
-
-    return <Context.Provider value={memoizedValue}>{children}</Context.Provider>
+    return <Context.Provider value={value as unknown as T}>{children}</Context.Provider>
   }
 
   Provider.displayName = componentName + 'Provider'
