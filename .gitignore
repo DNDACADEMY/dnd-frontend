@@ -6,6 +6,7 @@
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+!.yarn/install-state.gz
 
 # 혹시 모를 node_modules 및 관련 캐시 무시
 node_modules/
