@@ -124,6 +124,8 @@ export const TextfieldImpl = (props: TextfieldProps) => {
           rightAddon={rightAddon}>
           <Txt
             as='input'
+            required={required}
+            disabled={disabled}
             className={cx(TextfieldCss({ size }), classNameFromProps)}
             typography={typographyBySize[size]}
             color={semantic.color.labelTitle}
