@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Install Playwright browsers
+        run: yarn workspace @dds/desktop playwright install --with-deps chromium
+
       - name: Build packages
         run: yarn build:packages
 
