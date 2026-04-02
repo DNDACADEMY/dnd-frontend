@@ -75,6 +75,16 @@ type Story = StoryObj<typeof meta>
 
 **Story 네이밍**: `XxxTest` 형식 (예: `TabFocusTest`, `ErrorStateTest`)
 
+**WCAG 주석**: 각 Story 위에 적용 기준과 의도를 한 줄로 명시한다.
+
+```tsx
+// WCAG 2.4.3 Focus Order — disabled는 Tab 순서에서 제외
+export const DisabledSkipsTabOrderTest: Story = { ... }
+
+// WCAG 3.3.1 Error Identification — aria-invalid + aria-describedby로 오류 메시지 연결
+export const ErrorStateTest: Story = { ... }
+```
+
 **canvasElement vs document.body**:
 
 - 일반 렌더링 → `within(canvasElement)`
