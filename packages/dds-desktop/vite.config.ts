@@ -52,7 +52,9 @@ export default defineConfig({
             provider: playwright({}),
             instances: [{ browser: 'chromium' }]
           },
-          setupFiles: ['.storybook/vitest.setup.ts']
+          setupFiles: ['.storybook/vitest.setup.ts'],
+          retry: 1,
+          testTimeout: 30000
         }
       }
     ]

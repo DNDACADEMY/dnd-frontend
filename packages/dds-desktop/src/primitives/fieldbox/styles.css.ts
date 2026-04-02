@@ -81,7 +81,6 @@ export const fieldboxContentCss = recipe({
     },
     readonly: {
       true: {
-        pointerEvents: 'none',
         vars: {
           [fieldBoxContentVariants.backgroundColor]: semantic.color.backgroundPrimary,
           [fieldBoxContentVariants.borderColor]: primitive.color.gray100
