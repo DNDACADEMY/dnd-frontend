@@ -2,18 +2,19 @@ const { execSync, spawnSync } = require('child_process')
 const fs = require('fs')
 const path = require('path')
 
-const REVIEW_PROMPT = `You are a code reviewer. Review the following PR diff and provide inline code review comments in Korean.
+const REVIEW_PROMPT = `You are a code reviewer. Review the following PR diff.
 
 Return ONLY a valid JSON array (no markdown, no explanation) where each item has:
 - "path": file path relative to repo root (string)
 - "line": line number in the NEW file that the comment applies to (number, must be a line visible in the diff)
-- "body": concise review comment in Korean (string), prefixed with severity:
-  - "[P1] " — must fix (bugs, security issues, broken logic)
-  - "[P2] " — should fix (code quality, maintainability)
-  - "[P3] " — optional suggestion (style, minor improvements)
+- "body": concise review comment in Korean (string), prefixed with priority label
 
-Focus on: bugs, logic issues, performance concerns, security vulnerabilities.
-Skip praise. Return [] if no issues found.
+Only include issues that fall into these categories — ignore everything else:
+- [P0] 즉시 수정 필수 — 보안 취약점, 데이터 손실, 크래시 유발 버그
+- [P1] 반드시 수정 — 잘못된 로직, 런타임 에러 가능성, 심각한 성능 문제
+- [P2] 수정 권장 — 잠재적 버그, 엣지 케이스 누락, 유지보수성 저하
+
+If the code looks fine, return []. Do not comment on style, naming, or minor suggestions.
 
 Diff:
 `
