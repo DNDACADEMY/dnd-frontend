@@ -117,6 +117,7 @@ async function main() {
   const command = data.tool_input?.command || ''
 
   if (!/\bgh pr create\b/.test(command)) return
+  if (!command.includes('# ai-review')) return
 
   const output = data.tool_response?.output || ''
   const match = output.match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/)
