@@ -21,7 +21,7 @@
             "type": "command",
             "command": "node .claude/hooks/pr-review.js",
             "statusMessage": "Reviewing PR...",
-            "timeout": 60
+            "timeout": 120
           }
         ]
       }
