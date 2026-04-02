@@ -167,9 +167,13 @@ async function main() {
     }))
   })
 
+  const env = { ...process.env }
+  if (process.env.GITHUB_REVIEW_TOKEN) env.GH_TOKEN = process.env.GITHUB_REVIEW_TOKEN
+
   spawnSync('gh', ['api', `repos/${repoName}/pulls/${prNumber}/reviews`, '--method', 'POST', '--input', '-'], {
     input: payload,
-    encoding: 'utf-8'
+    encoding: 'utf-8',
+    env
   })
 }
 
