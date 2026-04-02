@@ -3,6 +3,7 @@ import { CSSProperties, ElementType, HTMLAttributes } from 'react'
 
 import { typographyCss } from './styles.css'
 import { FontWeight, Typography } from './types'
+import { withLineBreaks } from './utils/formatTxt'
 import { cx } from '../../utils/cx'
 import { forwardRefWithAs } from '../../utils/forwardRefWithAs'
 
@@ -27,8 +28,9 @@ export interface TxtProps extends HTMLAttributes<HTMLSpanElement> {
    * @default color.mono900
    */
   color?: string
+
 }
-export const Txt = forwardRefWithAs<ElementType, TxtProps>((props) => {
+export const Txt = forwardRefWithAs<ElementType, TxtProps>((props, ref) => {
   const {
     as = 'span',
     typography = 'body1',
@@ -50,10 +52,11 @@ export const Txt = forwardRefWithAs<ElementType, TxtProps>((props) => {
 
   return (
     <Component
+      ref={ref}
       className={cx(typographyCss({ typography }), classNameFromProps)}
       style={style}
       {...restProps}>
-      {children}
+      {typeof children === 'string' ? withLineBreaks(children) : children}
     </Component>
   )
 })
