@@ -28,8 +28,8 @@ export interface TxtProps extends HTMLAttributes<HTMLSpanElement> {
    * @default color.mono900
    */
   color?: string
-
 }
+
 export const Txt = forwardRefWithAs<ElementType, TxtProps>((props, ref) => {
   const {
     as = 'span',
