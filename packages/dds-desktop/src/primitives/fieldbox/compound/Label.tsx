@@ -25,17 +25,16 @@ export const FieldboxLabel = (props: FieldboxLabelProps) => {
   const required = requiredFromProps ?? requiredFromCtx
 
   return (
-    <label
+    <Txt
+      as='label'
       htmlFor={id}
+      typography={'body2'}
+      fontWeight={'medium'}
+      color={primitive.color.gray900}
       {...restProps}>
-      <Txt
-        typography={'body2'}
-        fontWeight={'medium'}
-        color={primitive.color.gray900}>
-        {children}
-        {required && <span className={requiredStyleCss}>*</span>}
-      </Txt>
-    </label>
+      {children}
+      {required && <span className={requiredStyleCss}>*</span>}
+    </Txt>
   )
 }
 
