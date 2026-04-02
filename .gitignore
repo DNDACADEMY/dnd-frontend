@@ -1,5 +1,4 @@
 # [Dependencies - Yarn PnP Zero-install]
-.pnp.*
 .yarn/*
 !.yarn/cache
 !.yarn/patches
