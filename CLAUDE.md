@@ -1,322 +1,60 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Yarn 4 PnP 모노레포, Turborepo 관리. DND Academy 디자인 시스템 및 프론트엔드 서비스. Node.js 22.21.1 (mise).
 
-## Repository Overview
-
-This is a Yarn 4 PnP monorepo managed by Turborepo, containing design system packages and frontend services for DND Academy. Uses Node.js 22.21.1 managed via mise.
-
-## Setup Commands
+## 셋업
 
 ```bash
-# Initial setup
 mise trust .mise.toml
-mise install          # Installs node 22.21.1, lefthook 2.0.4
+mise install    # node 22.21.1, lefthook 2.0.4
 yarn install
-
-# Development
-yarn dev              # Run all dev servers
-yarn build            # Build all workspaces
-yarn lint             # Lint all workspaces
-yarn format           # Format code with Prettier
-yarn check-types      # Type check all workspaces
-
-# Selective builds
-yarn build:packages   # Build only packages/** (alias: build:p)
-yarn build:services   # Build only services/** (alias: build:s)
-yarn build:tools      # Build only tools/** (alias: build:t)
-
-# Passboard (Next.js service) specific
-cd services/passboard
-yarn dev              # Dev server on port 3000
-yarn build            # Next.js build with webpack
-yarn test:v           # Run Vitest tests
-yarn test:ui          # Vitest UI
-yarn mock:server      # Start MSW mock server on port 9090
-
-# dds-desktop (Design System) specific
-cd packages/dds-desktop
-yarn storybook        # Storybook dev server on port 6006
-yarn build-storybook  # Build Storybook
-yarn generate:component # Generate new component scaffold
-
-# Admin-web specific
-cd services/admin-web
-yarn dev              # Vite dev server on port 3000
 ```
 
-## Workspace Structure
-
-### services/
-
-- **passboard**: Next.js 16 App Router application (main user-facing app)
-  - Stack: React 19, Vanilla Extract, TanStack Query, React Hook Form + Zod, Framer Motion
-  - Testing: Vitest + Testing Library, MSW for API mocking
-  - Path alias: `@/*` → `./src/*`
-  - Entry: `/src/app/layout.tsx`
-
-- **admin-web**: Vite-based React 19 admin dashboard with React Compiler enabled
-  - Consumes `@dds/desktop` and `@dds/token`
-  - Entry: `/src/main.tsx`
-
-### packages/
-
-- **dds-desktop**: Component library built with Vanilla Extract recipes
-  - Exports reusable UI primitives (Button, TextField, Sidebar, etc.)
-  - Storybook for documentation: https://main--6961111a96f838d3ba78064b.chromatic.com/
-  - Testing: Storybook + Vitest + Playwright
-  - See `/packages/dds-desktop/docs/COMPONENT_GUIDELINES.md` for component authoring rules
-
-- **dds-token**: Design tokens generated from Tokens Studio (Figma plugin)
-  - Source: `/tokens/primitive.json`, `/tokens/semantic.json`
-  - Build: Style Dictionary generates JS/TS/CSS from JSON
-  - Exports: `@dds/token` (JS objects), `@dds/token/css` (CSS variables)
-
-### tools/
-
-- **eslint-config**: Shared ESLint configurations
-  - Exports: `./base`, `./next-js`, `./react-internal`
-
-- **typescript-config**: Shared TypeScript configurations
-  - Exports: `./base.json`, `./nextjs.json`, `./react-library.json`
-
-## Build System
-
-Turborepo pipeline (see `turbo.json`):
-
-- **build**: Topological order (dds-token → dds-desktop → services)
-- **lint**: Parallel across workspaces
-- **check-types**: Type checking
-- **dev**: Persistent, no cache
-- **clean**: Clears cache and PnP artifacts
-
-## Architecture Patterns
-
-### Vanilla Extract Recipe Pattern
-
-Components use `@vanilla-extract/recipes` for type-safe variant-based styling:
-
-```typescript
-import { recipe } from '@vanilla-extract/recipes'
-import { primitive } from '@dds/token'
-
-export const buttonCss = recipe({
-  base: { backgroundColor: primitive.color.blue500 },
-  variants: {
-    size: { small: {...}, medium: {...} },
-    variant: { primary: {...}, secondary: {...} }
-  }
-})
-```
-
-### Token Integration
-
-Design tokens flow through three formats:
-
-- **JS/TS**: Used in `.css.ts` files (`import { primitive, semantic } from '@dds/token'`)
-- **CSS Variables**: Runtime theming (`import '@dds/token/css'`)
-- **Types**: Full autocomplete
-
-Token naming: Figma `Color/Cyan/500` → Code `primitive.color.cyan500`
-
-### Compound Components (dds-desktop)
-
-Components use compound pattern with context for state sharing:
-
-```typescript
-<Button variant="primary" disabled>
-  <Button.Icon name="plus" /> {/* Reads variant/disabled from context */}
-  Submit
-</Button>
-```
-
-Implementation via `Object.assign(ButtonImpl, { Icon: ButtonIcon })`
-
-### Polymorphic Components
-
-Components support `as` prop via `forwardRefWithAs` utility:
-
-```typescript
-<Txt as="h1">Heading</Txt>
-<Txt as="span">Span</Txt>
-```
-
-### Component Structure (dds-desktop)
-
-```
-primitives/
-├── button/
-│   ├── Button.tsx (main component with forwardRefWithAs)
-│   ├── style.css.ts (Vanilla Extract recipes)
-│   ├── context.tsx (ButtonContextProvider)
-│   ├── compound/ (ButtonIcon, etc.)
-│   └── Button.stories.tsx (Storybook)
-```
-
-**Component authoring rules**:
-
-1. All components must support `ref` via `forwardRefWithAs`
-2. Props naming: `xxxFromProps` (direct) vs `xxxFromCtx` (context)
-3. Always destructure with `...restProps` for flexibility
-4. Support `className` and `style` for customization
-5. Export both component and types
-
-### Feature-Based Architecture (Passboard)
-
-```
-src/
-├── app/ (Next.js App Router pages)
-├── features/ (domain features, e.g., passboard/)
-└── shared/ (cross-feature code)
-    ├── components/
-    ├── hooks/
-    ├── styles/
-    ├── utils/
-    └── types/
-```
-
-## Testing
-
-**Passboard**:
-
-- Framework: Vitest with jsdom
-- Pattern: `**/*.spec.{ts,tsx}`
-- Setup: `src/shared/utils/testSetup.ts`
-- Mocking: MSW with Express server on port 9090 (`yarn mock:server`)
-
-**dds-desktop**:
-
-- Framework: Storybook + Vitest + Playwright
-- Pattern: `.stories.tsx` for docs, `.spec.stories.tsx` for tests
-- Browser: Chromium headless via Playwright
-- Addons: a11y, vitest, docs
-
-## Special Configurations
-
-### Yarn PnP
-
-- Zero-install with `.yarn/cache` committed
-- No `node_modules/` folders
-- `.pnp.cjs` for module resolution
-- IDE support via `.yarn/sdks/`
-
-### Version Resolutions
-
-Root `package.json` enforces consistent versions:
-
-- `vite: 7.1.5`
-- `vitest: 4.0.18`
-- `react: ^19.2.0`
-- `react-dom: ^19.2.0`
-
-### Git Hooks
-
-Lefthook manages pre-commit and pre-push hooks (see `lefthook.yml`):
-
-- **pre-commit**: lint, format, type-check (parallel, only changed files)
-- **pre-push**: lint, format, type-check, build (parallel, all files)
-
-Auto-installed via `postinstall` script.
-
-## Common Workflows
-
-### Adding a Component to dds-desktop
+## 루트 커맨드
 
 ```bash
-cd packages/dds-desktop
-yarn generate:component  # Turbo generator
-# Edit generated files following COMPONENT_GUIDELINES.md
-# Create .stories.tsx for documentation
-yarn storybook  # Verify in Storybook
+yarn dev              # 전체 dev 서버
+yarn build            # 전체 빌드
+yarn lint             # 전체 lint
+yarn format           # Prettier
+yarn check-types      # 타입 체크
+yarn build:packages   # packages/** 만 빌드
+yarn build:services   # services/** 만 빌드
+yarn build:tools      # tools/** 만 빌드
+yarn clean            # 캐시 및 PnP 아티팩트 제거
 ```
 
-### Updating Design Tokens
+## 워크스페이스
 
-```bash
-# 1. Update JSON files in packages/dds-token/tokens/
-# 2. Rebuild tokens
-cd packages/dds-token
-yarn build
+| 경로                      | 패키지                            | 설명                         |
+| ------------------------- | --------------------------------- | ---------------------------- |
+| `packages/dds-desktop`    | `@dds/desktop`                    | UI 컴포넌트 라이브러리       |
+| `packages/dds-token`      | `@dds/token`                      | 디자인 토큰                  |
+| `services/passboard`      | —                                 | 메인 사용자 서비스 (Next.js) |
+| `services/admin-web`      | —                                 | 관리자 대시보드 (Vite)       |
+| `tools/eslint-config`     | `@dnd-frontend/eslint-config`     | 공유 ESLint 설정             |
+| `tools/typescript-config` | `@dnd-frontend/typescript-config` | 공유 TypeScript 설정         |
 
-# 3. Rebuild dependent packages
-cd ../..
-yarn build:packages
-```
+각 패키지의 상세 내용은 해당 디렉토리의 `CLAUDE.md` 참고.
 
-### Running a Single Test
+## 빌드 순서
 
-```bash
-# Passboard
-cd services/passboard
-yarn test:v path/to/test.spec.ts
+`dds-token` → `dds-desktop` → services (Turborepo가 강제)
 
-# dds-desktop (via Storybook)
-cd packages/dds-desktop
-yarn test-storybook --grep="ComponentName"
-```
+## 특수 설정
 
-### Debugging Build Issues
+**Yarn PnP**: zero-install, `node_modules/` 없음. `.pnp.cjs`로 모듈 해석.
 
-```bash
-# Clean all caches
-yarn clean
+**Git Hooks (Lefthook)**:
 
-# Rebuild from scratch
-yarn install
-yarn build
+- pre-commit: lint, format, type-check (변경 파일만)
+- pre-push: lint, format, type-check, build (전체)
 
-# Check specific workspace
-turbo build --filter=@dds/desktop --force
-```
+**버전 고정** (root `package.json` resolutions):
 
-## Key File Locations
+- `vite: 7.1.5`, `vitest: 4.0.18`, `react: ^19.2.0`
 
-- **Turbo config**: `/turbo.json`
-- **ESLint base**: `/tools/eslint-config/base.js`
-- **TypeScript base**: `/tools/typescript-config/base.json`
-- **Token sources**: `/packages/dds-token/tokens/*.json`
-- **Token build script**: `/packages/dds-token/scripts/build-tokens.js`
-- **Component guidelines**: `/packages/dds-desktop/docs/COMPONENT_GUIDELINES.md`
-- **Passboard entry**: `/services/passboard/src/app/layout.tsx`
-- **Admin-web entry**: `/services/admin-web/src/main.tsx`
+## 컨벤션
 
-## Dependency Graph
-
-```
-services/passboard (Next.js)
-  └─ Uses Vanilla Extract independently
-
-services/admin-web (Vite)
-  ├─ @dds/desktop
-  └─ @dds/token
-
-packages/dds-desktop (Component library)
-  └─ @dds/token (devDep, for styling)
-
-packages/dds-token (Design tokens)
-  └─ (no internal deps)
-
-All workspaces depend on:
-  ├─ @dnd-frontend/eslint-config
-  └─ @dnd-frontend/typescript-config
-```
-
-**Build order**: dds-token → dds-desktop → services (enforced by Turborepo)
-
-## ESLint Import Ordering
-
-Auto-fixed by ESLint, groups ordered as:
-
-1. builtin → external → internal
-2. parent/sibling → index → object → type
-3. Alphabetized within groups, newlines between groups
-
-## Conventions
-
-- **Commit messages**: Follow conventional commits (`feat:`, `fix:`, `chore:`)
-- **Component naming**: PascalCase for components, camelCase for utilities
-- **Test files**: `.spec.{ts,tsx}` for unit tests, `.stories.tsx` for Storybook
-- **Path references**: Use absolute paths with aliases (`@/*`) in Passboard
-- **CSS**: Vanilla Extract `.css.ts` files, no CSS Modules or styled-components
-- **State management**: TanStack Query for server state, React Context for UI state
-- **Form validation**: React Hook Form + Zod schemas
+- **커밋**: Conventional Commits (`feat:`, `fix:`, `chore:`)
+- **ESLint import 순서**: builtin → external → internal → parent/sibling, 그룹 간 빈 줄
