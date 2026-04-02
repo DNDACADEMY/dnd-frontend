@@ -39,37 +39,35 @@ dds-desktop 패키지에 새 컴포넌트를 추가하는 전체 워크플로우
 ### 메인 컴포넌트 (`{ComponentName}.tsx`)
 
 ```tsx
-import { forwardRefWithAs } from "../../utils/forwardRefWithAs";
-import { cx } from "../../utils/cx";
-import { ComponentNameContextProvider } from "./context";
-import { componentCss } from "./style.css";
-import { ComponentNameProps } from "./type";
+import { forwardRefWithAs } from '../../utils/forwardRefWithAs'
+import { cx } from '../../utils/cx'
+import { ComponentNameContextProvider } from './context'
+import { componentCss } from './style.css'
+import { ComponentNameProps } from './type'
 
 export interface ComponentNameProps extends HTMLAttributes<HTMLElement> {
   // props 정의
 }
 
-const ComponentNameImpl = forwardRefWithAs<"div", ComponentNameProps>(
-  (props, ref) => {
-    const { classNameFromProps, ...restProps } = props;
+const ComponentNameImpl = forwardRefWithAs<'div', ComponentNameProps>((props, ref) => {
+  const { classNameFromProps, ...restProps } = props
 
-    return (
-      <ComponentNameContextProvider>
-        <div
-          ref={ref}
-          className={cx(componentCss(), classNameFromProps)}
-          {...restProps}
-        />
-      </ComponentNameContextProvider>
-    );
-  },
-);
+  return (
+    <ComponentNameContextProvider>
+      <div
+        ref={ref}
+        className={cx(componentCss(), classNameFromProps)}
+        {...restProps}
+      />
+    </ComponentNameContextProvider>
+  )
+})
 
-ComponentNameImpl.displayName = "ComponentName";
+ComponentNameImpl.displayName = 'ComponentName'
 
 export const ComponentName = Object.assign(ComponentNameImpl, {
   // SubComponent: SubComponent (compound 패턴)
-});
+})
 ```
 
 **필수 규칙**:
@@ -84,8 +82,8 @@ export const ComponentName = Object.assign(ComponentNameImpl, {
 ### 스타일 (`style.css.ts`)
 
 ```ts
-import { recipe } from "@vanilla-extract/recipes";
-import { primitive, semantic } from "@dds/token";
+import { recipe } from '@vanilla-extract/recipes'
+import { primitive, semantic } from '@dds/token'
 
 export const componentCss = recipe({
   base: {
@@ -94,17 +92,17 @@ export const componentCss = recipe({
   variants: {
     size: {
       small: {},
-      medium: {},
+      medium: {}
     },
     variant: {
       primary: {},
-      secondary: {},
-    },
+      secondary: {}
+    }
   },
   defaultVariants: {
-    size: "medium",
-  },
-});
+    size: 'medium'
+  }
+})
 ```
 
 토큰은 반드시 `@dds/token`에서 import: `primitive.color.*`, `semantic.color.*`
@@ -114,53 +112,50 @@ export const componentCss = recipe({
 서브컴포넌트에 상태를 전달해야 할 때만 생성:
 
 ```tsx
-import { createCtxProvider } from "../../utils/createCtxProvider";
+import { createCtxProvider } from '../../utils/createCtxProvider'
 
 interface ComponentNameContext {
-  variant: string;
-  disabled: boolean;
+  variant: string
+  disabled: boolean
 }
 
-export const [ComponentNameContextProvider, useComponentNameContext] =
-  createCtxProvider<ComponentNameContext>("ComponentName");
+export const [ComponentNameContextProvider, useComponentNameContext] = createCtxProvider<ComponentNameContext>('ComponentName')
 ```
 
 ### index.tsx
 
 ```tsx
-export { ComponentName } from "./ComponentName";
-export type { ComponentNameProps } from "./ComponentName";
+export { ComponentName } from './ComponentName'
+export type { ComponentNameProps } from './ComponentName'
 ```
 
 ### Storybook (`{ComponentName}.stories.tsx`)
 
 ```tsx
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ComponentName } from "./ComponentName";
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { ComponentName } from './ComponentName'
 
 const meta = {
-  title: "Primitives/ComponentName",
+  title: 'Primitives/ComponentName',
   component: ComponentName,
-  parameters: { layout: "centered" },
-  tags: ["autodocs"],
-} satisfies Meta<typeof ComponentName>;
+  parameters: { layout: 'centered' },
+  tags: ['autodocs']
+} satisfies Meta<typeof ComponentName>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
-export const Default: Story = {};
+export const Default: Story = {}
 
 export const Variants: Story = {
-  render: () => (
-    <div style={{ display: "flex", gap: 8 }}>{/* variant별 예시 */}</div>
-  ),
-};
+  render: () => <div style={{ display: 'flex', gap: 8 }}>{/* variant별 예시 */}</div>
+}
 ```
 
 ## 스텝 4: src/primitives/index.tsx에 export 추가
 
 ```tsx
-export * from "./{componentName}";
+export * from './{componentName}'
 ```
 
 ## 스텝 5: 접근성 스펙 생성
