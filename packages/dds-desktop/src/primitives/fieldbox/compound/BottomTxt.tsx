@@ -1,8 +1,8 @@
-import { semantic } from '@dds/token'
 import { HTMLAttributes, ReactNode } from 'react'
 
 import { cx } from '../../../utils/cx'
 import { Txt } from '../../txt'
+import { useFieldboxContext } from '../context'
 import { bottomTxtCss } from '../styles.css'
 
 export interface FieldboxBottomTxtProps extends HTMLAttributes<HTMLParagraphElement> {
@@ -14,12 +14,13 @@ export interface FieldboxBottomTxtProps extends HTMLAttributes<HTMLParagraphElem
 
 export const FieldboxBottomTxt = (props: FieldboxBottomTxtProps) => {
   const { children, className: classNameFromProps, ...restProps } = props
+  const { error } = useFieldboxContext('Fieldbox.BottomTxt')
+
   return (
     <Txt
       as='p'
       typography='caption1'
-      color={semantic.color.labelSubtitle}
-      className={cx(bottomTxtCss, classNameFromProps)}
+      className={cx(bottomTxtCss({ error }), classNameFromProps)}
       {...restProps}>
       {children}
     </Txt>
