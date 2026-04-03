@@ -1,5 +1,5 @@
 import { semantic } from '@dds/token'
-import { ChangeEventHandler, HTMLAttributes, ReactNode, Ref } from 'react'
+import { ChangeEventHandler, ComponentPropsWithRef, ReactNode } from 'react'
 
 import { Fieldbox } from '../fieldbox'
 import { TextfieldBottomText, TextfieldIcon, TextfieldLabel } from './compound'
@@ -12,7 +12,7 @@ import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 import { Typography } from '../txt/types'
 
-export interface TextfieldProps extends HTMLAttributes<HTMLInputElement> {
+export interface TextfieldProps extends Omit<ComponentPropsWithRef<'input'>, 'size'> {
   /**
    * 상단에 배치할 컴포넌트 영역이에요.
    * 레이블을 사용할 때 주로 사용해요.
@@ -85,10 +85,6 @@ export interface TextfieldProps extends HTMLAttributes<HTMLInputElement> {
    * 해당 값을 설정할 경우 uncontrolled 컴포넌트로 동작해요.
    */
   defaultValue?: string
-  /**
-   * input 엘리먼트에 대한 ref를 설정해요.
-   */
-  ref?: Ref<HTMLInputElement>
 }
 
 export const TextfieldImpl = (props: TextfieldProps) => {
