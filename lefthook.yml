@@ -2,13 +2,13 @@ pre-commit:
   parallel: true
   commands:
     lint:
-      glob: "*.{js,ts,tsx,jsx}"
+      glob: "**/*.{js,ts,tsx,jsx}"
       run: yarn lint
     format:
-      glob: "*.{js,ts,tsx,jsx,json,md}"
+      glob: "**/*.{js,ts,tsx,jsx,json,md}"
       run: yarn format
     type-check:
-      glob: "*.{ts,tsx}"
+      glob: "**/*.{ts,tsx}"
       run: yarn check-types
 
 pre-push:
