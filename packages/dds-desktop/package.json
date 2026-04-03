@@ -6,7 +6,8 @@
     ".": {
       "types": "./dist/primitives/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./desktop.css": "./dist/desktop.css"
   },
   "scripts": {
     "build": "vite build",
