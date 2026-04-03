@@ -2,16 +2,15 @@ import { semantic } from '@dds/token'
 import { ChangeEventHandler, HTMLAttributes, ReactNode, Ref } from 'react'
 
 import { Fieldbox } from '../fieldbox'
-import { TextfieldIcon } from './compound'
+import { TextfieldBottomText, TextfieldIcon, TextfieldLabel } from './compound'
 import { TextfieldContextProvider } from './context'
 import { TextfieldCss } from './style.css'
 import { TextfieldSize } from './type'
 import { useControllableState } from '../../hooks/useControllableState'
+import { useId } from '../../hooks/useId'
 import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 import { Typography } from '../txt/types'
-import { TextfieldLabel } from './compound/Label'
-import { useId } from '../../hooks/useId'
 
 export interface TextfieldProps extends HTMLAttributes<HTMLInputElement> {
   /**
@@ -138,6 +137,7 @@ export const TextfieldImpl = (props: TextfieldProps) => {
             as='input'
             ref={ref}
             id={id}
+            aria-describedby={`${id}-description`}
             required={required}
             disabled={disabled}
             className={cx(TextfieldCss({ size }), classNameFromProps)}
@@ -161,6 +161,6 @@ const typographyBySize: Record<TextfieldSize, Typography> = {
 
 export const Textfield = Object.assign(TextfieldImpl, {
   Label: TextfieldLabel,
-  BottomText: Fieldbox.BottomTxt,
+  BottomText: TextfieldBottomText,
   Icon: TextfieldIcon
 })
