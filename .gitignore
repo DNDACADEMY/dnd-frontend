@@ -54,3 +54,6 @@ storybook-static
 
 CLAUDE.local.md
 .claude/settings.local.json
+
+# [Git Worktrees]
+.worktrees/
