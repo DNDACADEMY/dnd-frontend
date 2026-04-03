@@ -12,13 +12,14 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "check-types": "tsc --noEmit",
-    "mock:server": "npx tsx watch ./src/mocks/server.ts",
+    "mock:server": "tsx watch src/mocks/server.ts",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "test:v": "vitest"
   },
   "dependencies": {
     "@channel.io/channel-web-sdk-loader": "^2.0.0",
+    "@dds/desktop": "*",
     "@hookform/resolvers": "^5.0.1",
     "@lottiefiles/dotlottie-react": "^0.13.5",
     "@next/third-parties": "^16.1.6",
@@ -67,6 +68,7 @@
     "express": "^5.1.0",
     "jsdom": "^26.1.0",
     "msw": "^2.8.2",
+    "tsx": "^4.19.4",
     "typescript": "5.9.3",
     "vitest": "^4.0.16"
   },
