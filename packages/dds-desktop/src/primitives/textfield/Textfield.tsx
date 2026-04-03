@@ -1,5 +1,5 @@
 import { semantic } from '@dds/token'
-import { ChangeEventHandler, HTMLAttributes, ReactNode } from 'react'
+import { ChangeEventHandler, HTMLAttributes, ReactNode, Ref } from 'react'
 
 import { Fieldbox } from '../fieldbox'
 import { TextfieldIcon } from './compound'
@@ -84,10 +84,15 @@ export interface TextfieldProps extends HTMLAttributes<HTMLInputElement> {
    * 해당 값을 설정할 경우 uncontrolled 컴포넌트로 동작해요.
    */
   defaultValue?: string
+  /**
+   * input 엘리먼트에 대한 ref를 설정해요.
+   */
+  ref?: Ref<HTMLInputElement>
 }
 
 export const TextfieldImpl = (props: TextfieldProps) => {
   const {
+    ref,
     topAddon,
     bottomAddon,
     leftAddon,
@@ -124,6 +129,7 @@ export const TextfieldImpl = (props: TextfieldProps) => {
           rightAddon={rightAddon}>
           <Txt
             as='input'
+            ref={ref}
             required={required}
             disabled={disabled}
             className={cx(TextfieldCss({ size }), classNameFromProps)}
