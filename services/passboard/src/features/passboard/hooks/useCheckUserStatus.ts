@@ -2,9 +2,8 @@
 
 import { useMutation } from '@tanstack/react-query'
 
+import { type UseMutationCustomOptions } from '../../../shared/types/common'
 import { checkUserStatus, type ReqCheckUserStatusSchema, type ResCheckUserStatus } from '../apis/checkUserStatus'
-
-import { type UseMutationCustomOptions } from '@/shared/types/common'
 
 type UseCheckUserStatusOptions = UseMutationCustomOptions<ResCheckUserStatus | null, { eventId: number; req: ReqCheckUserStatusSchema }>
 

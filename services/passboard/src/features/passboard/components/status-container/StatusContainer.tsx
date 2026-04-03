@@ -10,8 +10,7 @@ import { ResultCard } from './components/RerultCard'
 import { ResultTitle } from './components/ResultTitle'
 import { StatusForm } from './components/StatusForm'
 import * as styles from './style.css'
-
-import { If } from '@/shared/components/If'
+import { If } from '../../../../shared/components/If'
 
 type StatusContainerProps = {
   eventName: string

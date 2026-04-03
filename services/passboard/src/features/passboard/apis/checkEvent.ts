@@ -1,4 +1,4 @@
-import { fetchWrapper } from '@/shared/utils/fetchWrapper'
+import { fetchWrapper } from '../../../shared/utils/fetchWrapper'
 
 export type ResCheckEvent = {
   name: string

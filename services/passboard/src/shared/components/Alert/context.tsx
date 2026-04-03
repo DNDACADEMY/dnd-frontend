@@ -1,6 +1,6 @@
 'use client'
 
-import { createCtxProvider } from '@/shared/utils/createContextProvider'
+import { createCtxProvider } from '../../utils/createContextProvider'
 
 type AlertContextValue = {
   onClose: () => void

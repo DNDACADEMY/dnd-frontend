@@ -2,9 +2,9 @@
 
 import { type Dispatch, type SetStateAction } from 'react'
 
-import type { ResCheckUserStatus } from './apis/checkUserStatus'
+import { createCtxProvider } from '../../shared/utils/createContextProvider'
 
-import { createCtxProvider } from '@/shared/utils/createContextProvider'
+import type { ResCheckUserStatus } from './apis/checkUserStatus'
 
 type StatusContainerContextValue = {
   status: ResCheckUserStatus | null

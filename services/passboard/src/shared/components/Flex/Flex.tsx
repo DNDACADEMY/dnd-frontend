@@ -4,8 +4,7 @@ import clsx from 'clsx'
 import { flexStyle } from './style.css'
 import { type FlexRecipeProps } from './style.css'
 import { getGapSizeFromNumber } from './utils'
-
-import { type CommonProps } from '@/shared/types/common'
+import { type CommonProps } from '../../types/common'
 
 export type FlexProps = FlexRecipeProps &
   CommonProps & {

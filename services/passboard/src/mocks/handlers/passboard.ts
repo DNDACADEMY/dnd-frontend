@@ -1,8 +1,9 @@
 import { http, HttpResponse } from 'msw'
 
-import { type ResCheckEvent } from '@/features/passboard/apis/checkEvent'
-import { type ResCheckUserStatus, type ReqCheckUserStatusSchema } from '@/features/passboard/apis/checkUserStatus'
-import { MOCK_SERVER_URL } from '@/shared/constants'
+import { MOCK_SERVER_URL } from '../../shared/constants/index.js'
+
+import type { ResCheckEvent } from '../../features/passboard/apis/checkEvent.js'
+import type { ResCheckUserStatus, ReqCheckUserStatusSchema } from '../../features/passboard/apis/checkUserStatus.js'
 
 export const passboardHandlers = [
   http.get(`${MOCK_SERVER_URL}/events/current`, () => {

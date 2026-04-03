@@ -3,8 +3,7 @@ import { useEffect } from 'react'
 
 import { ErrorCard } from './components/ErrorCard'
 import * as styles from './style.css'
-
-import { Flex } from '@/shared/components/Flex'
+import { Flex } from '../../shared/components/Flex'
 
 export type ErrorContainerProps = {
   error?: Error

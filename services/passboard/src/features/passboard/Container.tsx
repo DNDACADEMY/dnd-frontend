@@ -9,9 +9,8 @@ import { ResetButton } from './components/reset-button'
 import { StatusContainer } from './components/status-container'
 import { StatusContainerContextProvider } from './context'
 import * as styles from './style.css'
-
-import { Flex } from '@/shared/components/Flex'
-import { SwitchCase } from '@/shared/components/SwichCase'
+import { Flex } from '../../shared/components/Flex'
+import { SwitchCase } from '../../shared/components/SwichCase'
 type Props = {
   eventApplicationResultDate: string | Date
   eventName: string

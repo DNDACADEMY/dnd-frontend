@@ -7,8 +7,7 @@ import * as styles from './style.css'
 import { type RecruitingCardType } from './type'
 import { getCardContentIndex, getApplicationResultDate } from './utils'
 import { recruitingCardContent } from './utils'
-
-import { Flex } from '@/shared/components/Flex'
+import { Flex } from '../../../../shared/components/Flex'
 
 export type RecruitingPeriodCardProps = {
   /**

@@ -2,11 +2,10 @@ import { motion } from 'framer-motion'
 import { type ReactNode, type ComponentProps } from 'react'
 
 import * as styles from './styles.css'
+import { composeHandler } from '../../utils/composeHandler'
 import { Flex } from '../Flex'
 import { If } from '../If'
 import { AlertContextProvider, useAlertContext } from './context'
-
-import { composeHandler } from '@/shared/utils/composeHandler'
 
 export type AlertProps = {
   children: ReactNode

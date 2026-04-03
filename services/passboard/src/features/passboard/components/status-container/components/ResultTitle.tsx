@@ -2,10 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { Flex } from '../../../../../shared/components/Flex'
 import { useStatusContainerContext } from '../../../context'
 import * as styles from '../style.css'
-
-import { Flex } from '@/shared/components/Flex'
 
 const DND_ACTIVE_PATH = 'https://dnd.ac/'
 

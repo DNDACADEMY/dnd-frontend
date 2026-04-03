@@ -2,9 +2,8 @@ import { forwardRef, useId, useState, type ComponentProps } from 'react'
 
 import { textfieldStyle } from './style.css'
 import { type TextfieldSize } from './type'
-
-import { composeHandler } from '@/shared/utils/composeHandler'
-import { keyboardEvents } from '@/shared/utils/keyboardEvents'
+import { composeHandler } from '../../utils/composeHandler'
+import { keyboardEvents } from '../../utils/keyboardEvents'
 export type TextfieldProps = {
   defaultValue?: string
   disabled?: boolean

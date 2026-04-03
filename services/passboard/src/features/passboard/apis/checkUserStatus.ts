@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
-import type { UserStatus } from '../types/status'
+import { fetchWrapper } from '../../../shared/utils/fetchWrapper'
 
-import { fetchWrapper } from '@/shared/utils/fetchWrapper'
+import type { UserStatus } from '../types/status'
 
 export const checkUserStatusSchema = z.object({
   name: z.string().nonempty('이름을 입력해주세요.'),

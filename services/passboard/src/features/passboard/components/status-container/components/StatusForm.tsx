@@ -6,16 +6,16 @@ import { useOverlay } from '@toss/use-overlay'
 import { useState, type ComponentProps, forwardRef } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Alert } from '../../../../../shared/components/Alert'
+import { Button } from '../../../../../shared/components/Button'
+import { Flex } from '../../../../../shared/components/Flex'
+import { Inputfield } from '../../../../../shared/components/Inputfield'
 import { checkUserStatusSchema } from '../../../apis/checkUserStatus'
 import { useStatusContainerContext } from '../../../context'
 import { useCheckUserStatus } from '../../../hooks/useCheckUserStatus'
 
 import type { z } from 'zod'
 
-import { Alert } from '@/shared/components/Alert'
-import { Button } from '@/shared/components/Button'
-import { Flex } from '@/shared/components/Flex'
-import { Inputfield } from '@/shared/components/Inputfield'
 export type StatusFormProps = {
   eventName: string
   eventId: number

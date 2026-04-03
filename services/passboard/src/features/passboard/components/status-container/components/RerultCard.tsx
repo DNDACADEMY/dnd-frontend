@@ -3,11 +3,10 @@
 import Image from 'next/image'
 import { type ReactNode } from 'react'
 
+import { Flex } from '../../../../../shared/components/Flex'
 import { useStatusContainerContext } from '../../../context'
 import { type UserStatus } from '../../../types/status'
 import * as styles from '../style.css'
-
-import { Flex } from '@/shared/components/Flex'
 
 type Content = {
   imageUrl: string
