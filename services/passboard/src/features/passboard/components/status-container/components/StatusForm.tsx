@@ -1,5 +1,6 @@
 'use client'
 
+import { Button, Textfield } from '@dds/desktop'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { sendGTMEvent } from '@next/third-parties/google'
 import { useOverlay } from '@toss/use-overlay'
@@ -7,9 +8,7 @@ import { useState, type ComponentProps, forwardRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Alert } from '../../../../../shared/components/Alert'
-import { Button } from '../../../../../shared/components/Button'
 import { Flex } from '../../../../../shared/components/Flex'
-import { Inputfield } from '../../../../../shared/components/Inputfield'
 import { checkUserStatusSchema } from '../../../apis/checkUserStatus'
 import { useStatusContainerContext } from '../../../context'
 import { useCheckUserStatus } from '../../../hooks/useCheckUserStatus'
@@ -116,8 +115,8 @@ export const StatusForm = ({ eventName, eventId }: StatusFormProps) => {
           {...register('email')}
         />
         <Button
-          size='xlarge'
           type='submit'
+          size='xlarge'
           disabled={isDisabled}>
           결과 확인하기
         </Button>
@@ -126,7 +125,7 @@ export const StatusForm = ({ eventName, eventId }: StatusFormProps) => {
   )
 }
 
-interface StatusFieldProps extends ComponentProps<typeof Inputfield> {
+interface StatusFieldProps extends ComponentProps<typeof Textfield> {
   label: string
   placeholder: string
   errorMessage?: string
@@ -136,11 +135,11 @@ const StatusField = forwardRef<HTMLInputElement, StatusFieldProps>((props, ref) 
   const { label, placeholder, errorMessage, ...restProps } = props
 
   return (
-    <Inputfield
+    <Textfield
       ref={ref}
       placeholder={placeholder}
-      topAddon={<Inputfield.Label required>{label}</Inputfield.Label>}
-      bottomAddon={errorMessage && <Inputfield.BottomText state='error'>{errorMessage}</Inputfield.BottomText>}
+      topAddon={<Textfield.Label required>{label}</Textfield.Label>}
+      bottomAddon={errorMessage && <Textfield.BottomText>{errorMessage}</Textfield.BottomText>}
       {...restProps}
     />
   )
