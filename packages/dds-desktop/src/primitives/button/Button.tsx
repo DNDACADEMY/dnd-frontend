@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react'
+import { ComponentPropsWithRef, ReactNode } from 'react'
 
 import { ButtonIcon } from './compound'
 import { ButtonContextProvider } from './context'
@@ -7,7 +7,7 @@ import { ButtonSize, ButtonVariant } from './type'
 import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   /**
    * 버튼의 왼쪽 영역을 설정해요. 보통 아이콘을 배치할 때 사용해요.
    */
@@ -37,12 +37,13 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
 }
 
 const ButtonImpl = (props: ButtonProps) => {
-  const { children, leftAddon, rightAddon, size = 'medium', variant = 'primary', disabled = false, className, ...restProps } = props
+  const { children, leftAddon, rightAddon, size = 'medium', variant = 'primary', disabled = false, className, ref, ...restProps } = props
   return (
     <ButtonContextProvider
       variant={variant}
       disabled={disabled}>
       <button
+        ref={ref}
         className={cx(buttonCss({ size, variant }), className)}
         disabled={disabled}
         {...restProps}>
