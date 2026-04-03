@@ -10,6 +10,8 @@ import { useControllableState } from '../../hooks/useControllableState'
 import { cx } from '../../utils/cx'
 import { Txt } from '../txt'
 import { Typography } from '../txt/types'
+import { TextfieldLabel } from './compound/Label'
+import { useId } from '../../hooks/useId'
 
 export interface TextfieldProps extends HTMLAttributes<HTMLInputElement> {
   /**
@@ -104,10 +106,13 @@ export const TextfieldImpl = (props: TextfieldProps) => {
     readOnly = false,
     value: valueFromProps,
     defaultValue,
+    id: idFromProps,
     onChange: onChangeFromProps,
     className: classNameFromProps,
     ...restProps
   } = props
+
+  const id = useId(idFromProps)
 
   const { value, onChange } = useControllableState({
     value: valueFromProps,
@@ -116,7 +121,9 @@ export const TextfieldImpl = (props: TextfieldProps) => {
   })
 
   return (
-    <TextfieldContextProvider size={size}>
+    <TextfieldContextProvider
+      id={id}
+      size={size}>
       <Fieldbox
         topAddon={topAddon}
         bottomAddon={bottomAddon}
@@ -130,6 +137,7 @@ export const TextfieldImpl = (props: TextfieldProps) => {
           <Txt
             as='input'
             ref={ref}
+            id={id}
             required={required}
             disabled={disabled}
             className={cx(TextfieldCss({ size }), classNameFromProps)}
@@ -152,7 +160,7 @@ const typographyBySize: Record<TextfieldSize, Typography> = {
 }
 
 export const Textfield = Object.assign(TextfieldImpl, {
-  Label: Fieldbox.Label,
+  Label: TextfieldLabel,
   BottomText: Fieldbox.BottomTxt,
   Icon: TextfieldIcon
 })
