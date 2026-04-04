@@ -137,7 +137,7 @@ function updateComment(repoName, commentId, body) {
 }
 
 async function main() {
-  if (!process.env.ANTHROPIC_REVIEW_API_KEY) return
+  if (!process.env.ANTHROPIC_REVIEW_API_KEY) { process.stderr.write('[pr-review] no ANTHROPIC_REVIEW_API_KEY\n'); return }
 
   let input = ''
   for await (const chunk of process.stdin) input += chunk
@@ -145,12 +145,12 @@ async function main() {
   const data = JSON.parse(input)
   const command = data.tool_input?.command || ''
 
-  if (!/\bgh pr create\b/.test(command)) return
-  if (!command.includes('# ai-review')) return
+  if (!/\bgh pr create\b/.test(command)) { process.stderr.write('[pr-review] not a pr create command\n'); return }
+  if (!command.includes('# ai-review')) { process.stderr.write('[pr-review] no # ai-review marker\n'); return }
 
   const output = data.tool_response?.output || ''
   const match = output.match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/)
-  if (!match) return
+  if (!match) { process.stderr.write(`[pr-review] no PR URL in output: ${output.slice(0, 200)}\n`); return }
 
   const prNumber = match[1]
   const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
