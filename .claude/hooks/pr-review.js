@@ -249,6 +249,9 @@ async function main() {
     `| **합계** | **${total}** | |`
   ].join('\n')
   finish(summary)
+
+  fs.writeFileSync('/tmp/pr-review-pending.json', JSON.stringify({ prNumber, repoName, comments: filteredComments }, null, 2))
+  console.log(`\n[pr-review] 리뷰 등록 완료. 리뷰 내용을 코드에 반영하고 각 코멘트에 답글을 달까요?`)
 }
 
 main().catch(console.error)
