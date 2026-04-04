@@ -109,6 +109,7 @@ function postComment(repoName, prNumber, body) {
     encoding: 'utf-8',
     env: getEnv()
   })
+  log(`postComment stdout: ${result.stdout?.slice(0, 200)} | stderr: ${result.stderr?.slice(0, 200)}`)
   try {
     const data = JSON.parse(result.stdout)
     return data.id ? String(data.id) : null
@@ -141,20 +142,36 @@ function countByPriority(comments) {
   return counts
 }
 
+const LOG = '/tmp/pr-review-debug.log'
+const log = (msg) => fs.appendFileSync(LOG, `[${new Date().toISOString()}] ${msg}\n`)
+
 async function main() {
-  if (!process.env.ANTHROPIC_REVIEW_API_KEY) return
+  log('hook started')
+  if (!process.env.ANTHROPIC_REVIEW_API_KEY) {
+    log('no ANTHROPIC_REVIEW_API_KEY')
+    return
+  }
 
   let input = ''
   for await (const chunk of process.stdin) input += chunk
 
   const data = JSON.parse(input)
   const command = data.tool_input?.command || ''
+  log(`command: ${command.slice(0, 150)}`)
 
-  if (!/\bgh pr create\b/.test(command) || !command.includes('# ai-review')) return
+  if (!/\bgh pr create\b/.test(command) || !command.includes('# ai-review')) {
+    log('skip: not pr create or no ai-review marker')
+    return
+  }
 
+  log(`tool_response keys: ${Object.keys(data.tool_response || {}).join(', ')}`)
   const output = data.tool_response?.output || ''
+  log(`output: ${output.slice(0, 200)}`)
   const match = output.match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/)
-  if (!match) return
+  if (!match) {
+    log('no PR URL found')
+    return
+  }
 
   const prNumber = match[1]
   const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
