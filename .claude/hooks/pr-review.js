@@ -8,6 +8,7 @@ Return ONLY a valid JSON array (no markdown, no explanation) where each item has
 - "path": file path relative to repo root (string)
 - "line": line number in the NEW file that the comment applies to (number, must be a line visible in the diff)
 - "body": concise review comment in Korean (string), prefixed with priority label
+- "summary": one short phrase in Korean (max 20 chars) describing the issue topic, e.g. "의도치 않은 워크플로우 중단 가능"
 
 Only include issues that fall into these categories — ignore everything else:
 - [P0] 즉시 수정 필수 — 보안 취약점, 데이터 손실, 크래시 유발 버그
@@ -236,19 +237,20 @@ async function main() {
     env: getEnv()
   })
 
-  const counts = countByPriority(filteredComments)
   const total = filteredComments.length
-  const summary = [
-    `## ✅ 리뷰 완료`,
-    ``,
-    `| 등급 | 건수 | 설명 |`,
-    `|------|-----:|------|`,
-    `| 🔴 P0 | ${counts.P0} | 즉시 수정 필수 |`,
-    `| 🟠 P1 | ${counts.P1} | 반드시 수정 |`,
-    `| 🟡 P2 | ${counts.P2} | 수정 권장 |`,
-    `| **합계** | **${total}** | |`
-  ].join('\n')
-  finish(summary)
+  const PRIORITY_META = { P0: '🔴', P1: '🟠', P2: '🟡' }
+  const lines = ['## ✅ 리뷰 완료', '']
+  for (const priority of ['P0', 'P1', 'P2']) {
+    const group = filteredComments.filter((c) => c.body.startsWith(`[${priority}]`))
+    if (!group.length) continue
+    lines.push(`**${PRIORITY_META[priority]} ${priority}**`)
+    for (const c of group) {
+      lines.push(`- ${c.summary || c.body.replace(/^\[P\d\]\s*/, '').slice(0, 40)}`)
+    }
+    lines.push('')
+  }
+  lines.push(`> 총 ${total}개 이슈`)
+  finish(lines.join('\n'))
 
   fs.writeFileSync('/tmp/pr-review-pending.json', JSON.stringify({ prNumber, repoName, comments: filteredComments }, null, 2))
   console.log(`\n[pr-review] 리뷰 등록 완료. 리뷰 내용을 코드에 반영하고 각 코멘트에 답글을 달까요?`)
