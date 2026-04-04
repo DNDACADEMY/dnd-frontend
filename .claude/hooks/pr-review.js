@@ -164,8 +164,7 @@ async function main() {
     return
   }
 
-  log(`tool_response keys: ${Object.keys(data.tool_response || {}).join(', ')}`)
-  const output = data.tool_response?.output || ''
+  const output = data.tool_response?.stdout || ''
   log(`output: ${output.slice(0, 200)}`)
   const match = output.match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/)
   if (!match) {
