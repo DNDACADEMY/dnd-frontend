@@ -20,21 +20,17 @@ Diff:
 `
 
 async function callClaude(diff) {
-  const apiKey = process.env.ANTHROPIC_REVIEW_API_KEY
-
-  const truncated = diff
-
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
+      'x-api-key': process.env.ANTHROPIC_REVIEW_API_KEY,
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-5',
       max_tokens: 2048,
-      messages: [{ role: 'user', content: REVIEW_PROMPT + truncated }]
+      messages: [{ role: 'user', content: REVIEW_PROMPT + diff }]
     })
   })
 
@@ -65,14 +61,12 @@ function filterDiff(diff, patterns) {
   if (!patterns.length) return diff
 
   const regexes = patterns.map(toRegex)
-  const files = diff.split(/(?=^diff --git )/m)
-
-  return files
+  return diff
+    .split(/(?=^diff --git )/m)
     .filter((chunk) => {
       const fileMatch = chunk.match(/^diff --git a\/.+ b\/(.+)/)
       if (!fileMatch) return true
-      const filePath = fileMatch[1]
-      return !regexes.some((r) => r.test(filePath))
+      return !regexes.some((r) => r.test(fileMatch[1]))
     })
     .join('')
 }
@@ -81,26 +75,22 @@ function filterDiff(diff, patterns) {
 function getValidLines(diff) {
   const validLines = new Map() // path -> Set<lineNumber>
 
-  const fileChunks = diff.split(/(?=^diff --git )/m)
-  for (const chunk of fileChunks) {
+  for (const chunk of diff.split(/(?=^diff --git )/m)) {
     const fileMatch = chunk.match(/^\+\+\+ b\/(.+)/m)
     if (!fileMatch) continue
-    const filePath = fileMatch[1]
 
+    const filePath = fileMatch[1]
     if (!validLines.has(filePath)) validLines.set(filePath, new Set())
     const lineSet = validLines.get(filePath)
 
-    const hunks = chunk.split(/(?=^@@)/m).slice(1)
-    for (const hunk of hunks) {
+    for (const hunk of chunk.split(/(?=^@@)/m).slice(1)) {
       const hunkHeader = hunk.match(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@/)
       if (!hunkHeader) continue
 
       let newLine = parseInt(hunkHeader[1], 10)
       for (const line of hunk.split('\n').slice(1)) {
         if (line.startsWith('-')) continue
-        if (line.startsWith('+') || line.startsWith(' ')) {
-          lineSet.add(newLine++)
-        }
+        if (line.startsWith('+') || line.startsWith(' ')) lineSet.add(newLine++)
       }
     }
   }
@@ -115,11 +105,10 @@ function getEnv() {
 }
 
 function postComment(repoName, prNumber, body) {
-  const result = spawnSync(
-    'gh',
-    ['api', `repos/${repoName}/issues/${prNumber}/comments`, '--method', 'POST', '--field', `body=${body}`],
-    { encoding: 'utf-8', env: getEnv() }
-  )
+  const result = spawnSync('gh', ['api', `repos/${repoName}/issues/${prNumber}/comments`, '--method', 'POST', '--field', `body=${body}`], {
+    encoding: 'utf-8',
+    env: getEnv()
+  })
   try {
     const data = JSON.parse(result.stdout)
     return data.id ? String(data.id) : null
@@ -129,34 +118,43 @@ function postComment(repoName, prNumber, body) {
 }
 
 function updateComment(repoName, commentId, body) {
-  spawnSync(
-    'gh',
-    ['api', `repos/${repoName}/issues/comments/${commentId}`, '--method', 'PATCH', '--field', `body=${body}`],
-    { encoding: 'utf-8', env: getEnv() }
-  )
+  spawnSync('gh', ['api', `repos/${repoName}/issues/comments/${commentId}`, '--method', 'PATCH', '--field', `body=${body}`], {
+    encoding: 'utf-8',
+    env: getEnv()
+  })
 }
 
-const LOG = '/tmp/pr-review-debug.log'
-const log = (msg) => fs.appendFileSync(LOG, `[${new Date().toISOString()}] ${msg}\n`)
+function parseReviewComments(text) {
+  const stripped = text
+    .replace(/^```(?:json)?\n?/, '')
+    .replace(/\n?```$/, '')
+    .trim()
+  return JSON.parse(stripped)
+}
+
+function countByPriority(comments) {
+  const counts = { P0: 0, P1: 0, P2: 0 }
+  for (const c of comments) {
+    const match = c.body.match(/^\[(P0|P1|P2)\]/)
+    if (match) counts[match[1]]++
+  }
+  return counts
+}
 
 async function main() {
-  log('hook started')
-  if (!process.env.ANTHROPIC_REVIEW_API_KEY) { log('no ANTHROPIC_REVIEW_API_KEY'); return }
+  if (!process.env.ANTHROPIC_REVIEW_API_KEY) return
 
   let input = ''
   for await (const chunk of process.stdin) input += chunk
 
   const data = JSON.parse(input)
   const command = data.tool_input?.command || ''
-  log(`command: ${command.slice(0, 100)}`)
 
-  if (!/\bgh pr create\b/.test(command)) { log('not a pr create command'); return }
-  if (!command.includes('# ai-review')) { log('no # ai-review marker'); return }
+  if (!/\bgh pr create\b/.test(command) || !command.includes('# ai-review')) return
 
   const output = data.tool_response?.output || ''
   const match = output.match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/)
-  if (!match) { log(`no PR URL in output: ${output.slice(0, 200)}`); return }
-  log(`PR number: ${match[1]}`)
+  if (!match) return
 
   const prNumber = match[1]
   const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
@@ -171,8 +169,7 @@ async function main() {
   const rawDiff = execSync(`gh pr diff ${prNumber}`, { encoding: 'utf-8' })
   if (!rawDiff.trim()) return
 
-  const ignorePatterns = loadIgnorePatterns()
-  const diff = filterDiff(rawDiff, ignorePatterns)
+  const diff = filterDiff(rawDiff, loadIgnorePatterns())
   if (!diff.trim()) return
 
   const reviewText = await callClaude(diff)
@@ -180,11 +177,7 @@ async function main() {
 
   let comments
   try {
-    const stripped = reviewText
-      .replace(/^```(?:json)?\n?/, '')
-      .replace(/\n?```$/, '')
-      .trim()
-    comments = JSON.parse(stripped)
+    comments = parseReviewComments(reviewText)
   } catch {
     return
   }
@@ -194,32 +187,17 @@ async function main() {
   }
 
   const validLines = getValidLines(rawDiff)
-  const filteredComments = comments.filter((c) => {
-    const lineSet = validLines.get(c.path)
-    return lineSet && lineSet.has(c.line)
-  })
+  const filteredComments = comments.filter((c) => validLines.get(c.path)?.has(c.line))
   if (filteredComments.length === 0) {
     finish('👍 LGTM! 이슈 없음')
     return
   }
 
-  const counts = { P0: 0, P1: 0, P2: 0 }
-  for (const c of filteredComments) {
-    const match = c.body.match(/^\[(P0|P1|P2)\]/)
-    if (match) counts[match[1]]++
-  }
-
   const commitId = execSync(`gh pr view ${prNumber} --json headRefOid -q .headRefOid`, { encoding: 'utf-8' }).trim()
-
   const payload = JSON.stringify({
     commit_id: commitId,
     event: 'COMMENT',
-    comments: filteredComments.map((c) => ({
-      path: c.path,
-      line: c.line,
-      side: 'RIGHT',
-      body: c.body
-    }))
+    comments: filteredComments.map((c) => ({ path: c.path, line: c.line, side: 'RIGHT', body: c.body }))
   })
 
   spawnSync('gh', ['api', `repos/${repoName}/pulls/${prNumber}/reviews`, '--method', 'POST', '--input', '-'], {
@@ -228,8 +206,8 @@ async function main() {
     env: getEnv()
   })
 
-  const total = filteredComments.length
-  finish(`✅ 리뷰 완료: ${total}개 이슈 등록 (P0: ${counts.P0}, P1: ${counts.P1}, P2: ${counts.P2})`)
+  const counts = countByPriority(filteredComments)
+  finish(`✅ 리뷰 완료: ${filteredComments.length}개 이슈 등록 (P0: ${counts.P0}, P1: ${counts.P1}, P2: ${counts.P2})`)
 }
 
 main().catch(console.error)
