@@ -136,21 +136,27 @@ function updateComment(repoName, commentId, body) {
   )
 }
 
+const LOG = '/tmp/pr-review-debug.log'
+const log = (msg) => fs.appendFileSync(LOG, `[${new Date().toISOString()}] ${msg}\n`)
+
 async function main() {
-  if (!process.env.ANTHROPIC_REVIEW_API_KEY) { process.stderr.write('[pr-review] no ANTHROPIC_REVIEW_API_KEY\n'); return }
+  log('hook started')
+  if (!process.env.ANTHROPIC_REVIEW_API_KEY) { log('no ANTHROPIC_REVIEW_API_KEY'); return }
 
   let input = ''
   for await (const chunk of process.stdin) input += chunk
 
   const data = JSON.parse(input)
   const command = data.tool_input?.command || ''
+  log(`command: ${command.slice(0, 100)}`)
 
-  if (!/\bgh pr create\b/.test(command)) { process.stderr.write('[pr-review] not a pr create command\n'); return }
-  if (!command.includes('# ai-review')) { process.stderr.write('[pr-review] no # ai-review marker\n'); return }
+  if (!/\bgh pr create\b/.test(command)) { log('not a pr create command'); return }
+  if (!command.includes('# ai-review')) { log('no # ai-review marker'); return }
 
   const output = data.tool_response?.output || ''
   const match = output.match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/)
-  if (!match) { process.stderr.write(`[pr-review] no PR URL in output: ${output.slice(0, 200)}\n`); return }
+  if (!match) { log(`no PR URL in output: ${output.slice(0, 200)}`); return }
+  log(`PR number: ${match[1]}`)
 
   const prNumber = match[1]
   const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
