@@ -240,7 +240,6 @@ async function main() {
     env: getEnv()
   })
 
-  const total = filteredComments.length
   const PRIORITY_EMOJI = { P0: '🔴', P1: '🟠', P2: '🟡' }
   const lines = [`## ✅ 리뷰 완료`, ``, `| Priority | Category | Issue Details |`, `|----------|----------|---------------|`]
   for (const priority of ['P0', 'P1', 'P2']) {
