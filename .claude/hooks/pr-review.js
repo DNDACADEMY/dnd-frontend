@@ -20,11 +20,14 @@ Diff:
 `
 
 async function callClaude(diff) {
+  const apiKey = process.env.ANTHROPIC_REVIEW_API_KEY
+  if (!apiKey) throw new Error('ANTHROPIC_REVIEW_API_KEY is not set')
+
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_REVIEW_API_KEY,
+      'x-api-key': apiKey,
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
@@ -65,6 +68,7 @@ function filterDiff(diff, patterns) {
     .split(/(?=^diff --git )/m)
     .filter((chunk) => {
       const fileMatch = chunk.match(/^diff --git a\/.+ b\/(.+)/)
+      // 파일 경로를 파싱할 수 없는 chunk는 안전하게 포함
       if (!fileMatch) return true
       return !regexes.some((r) => r.test(fileMatch[1]))
     })
@@ -109,7 +113,6 @@ function postComment(repoName, prNumber, body) {
     encoding: 'utf-8',
     env: getEnv()
   })
-  log(`postComment stdout: ${result.stdout?.slice(0, 200)} | stderr: ${result.stderr?.slice(0, 200)}`)
   try {
     const data = JSON.parse(result.stdout)
     return data.id ? String(data.id) : null
@@ -142,38 +145,29 @@ function countByPriority(comments) {
   return counts
 }
 
-const LOG = '/tmp/pr-review-debug.log'
-const log = (msg) => fs.appendFileSync(LOG, `[${new Date().toISOString()}] ${msg}\n`)
-
 async function main() {
-  log('hook started')
-  if (!process.env.ANTHROPIC_REVIEW_API_KEY) {
-    log('no ANTHROPIC_REVIEW_API_KEY')
-    return
-  }
+  if (!process.env.ANTHROPIC_REVIEW_API_KEY) return
 
   let input = ''
   for await (const chunk of process.stdin) input += chunk
 
   const data = JSON.parse(input)
   const command = data.tool_input?.command || ''
-  log(`command: ${command.slice(0, 150)}`)
 
-  if (!/\bgh pr create\b/.test(command) || !command.includes('# ai-review')) {
-    log('skip: not pr create or no ai-review marker')
-    return
-  }
+  if (!/\bgh pr create\b/.test(command) || !command.includes('# ai-review')) return
 
   const output = data.tool_response?.stdout || ''
-  log(`output: ${output.slice(0, 200)}`)
   const match = output.match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/)
-  if (!match) {
-    log('no PR URL found')
-    return
-  }
+  if (!match) return
 
   const prNumber = match[1]
-  const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
+
+  let repoName
+  try {
+    repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
+  } catch {
+    return
+  }
 
   const commentId = postComment(repoName, prNumber, '🔍 리뷰 진행중...')
   const finish = (body) => {
@@ -183,18 +177,31 @@ async function main() {
   }
 
   const rawDiff = execSync(`gh pr diff ${prNumber}`, { encoding: 'utf-8' })
-  if (!rawDiff.trim()) return
+  if (!rawDiff.trim()) {
+    finish('👍 LGTM! 이슈 없음')
+    return
+  }
 
   const diff = filterDiff(rawDiff, loadIgnorePatterns())
-  if (!diff.trim()) return
+  if (!diff.trim()) {
+    finish('👍 LGTM! 이슈 없음')
+    return
+  }
 
-  const reviewText = await callClaude(diff)
+  let reviewText
+  try {
+    reviewText = await callClaude(diff)
+  } catch {
+    finish('⚠️ 리뷰 실패: Claude API 호출 오류')
+    return
+  }
   if (!reviewText) return
 
   let comments
   try {
     comments = parseReviewComments(reviewText)
   } catch {
+    finish('⚠️ 리뷰 실패: 응답 파싱 오류')
     return
   }
   if (!Array.isArray(comments) || comments.length === 0) {
@@ -209,7 +216,14 @@ async function main() {
     return
   }
 
-  const commitId = execSync(`gh pr view ${prNumber} --json headRefOid -q .headRefOid`, { encoding: 'utf-8' }).trim()
+  let commitId
+  try {
+    commitId = execSync(`gh pr view ${prNumber} --json headRefOid -q .headRefOid`, { encoding: 'utf-8' }).trim()
+  } catch {
+    finish('⚠️ 리뷰 실패: commit ID 조회 오류')
+    return
+  }
+
   const payload = JSON.stringify({
     commit_id: commitId,
     event: 'COMMENT',
