@@ -108,6 +108,27 @@ function getValidLines(diff) {
   return validLines
 }
 
+function getEnv() {
+  const env = { ...process.env }
+  if (process.env.GITHUB_REVIEW_TOKEN) env.GH_TOKEN = process.env.GITHUB_REVIEW_TOKEN
+  return env
+}
+
+function postComment(prNumber, body) {
+  const result = spawnSync('gh', ['pr', 'comment', prNumber, '--body', body], { encoding: 'utf-8', env: getEnv() })
+  const url = result.stdout?.trim()
+  const match = url?.match(/issuecomment-(\d+)/)
+  return match ? match[1] : null
+}
+
+function updateComment(repoName, commentId, body) {
+  spawnSync(
+    'gh',
+    ['api', `repos/${repoName}/issues/comments/${commentId}`, '--method', 'PATCH', '--field', `body=${body}`],
+    { encoding: 'utf-8', env: getEnv() }
+  )
+}
+
 async function main() {
   if (!process.env.ANTHROPIC_REVIEW_API_KEY) return
 
@@ -125,6 +146,14 @@ async function main() {
   if (!match) return
 
   const prNumber = match[1]
+  const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
+
+  const commentId = postComment(prNumber, '🔍 리뷰 진행중...')
+  const finish = (body) => {
+    if (commentId) updateComment(repoName, commentId, body)
+    else postComment(prNumber, body)
+    console.log(body)
+  }
 
   const rawDiff = execSync(`gh pr diff ${prNumber}`, { encoding: 'utf-8' })
   if (!rawDiff.trim()) return
@@ -146,16 +175,27 @@ async function main() {
   } catch {
     return
   }
-  if (!Array.isArray(comments) || comments.length === 0) return
+  if (!Array.isArray(comments) || comments.length === 0) {
+    finish('👍 LGTM! 이슈 없음')
+    return
+  }
 
   const validLines = getValidLines(rawDiff)
   const filteredComments = comments.filter((c) => {
     const lineSet = validLines.get(c.path)
     return lineSet && lineSet.has(c.line)
   })
-  if (filteredComments.length === 0) return
+  if (filteredComments.length === 0) {
+    finish('👍 LGTM! 이슈 없음')
+    return
+  }
 
-  const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
+  const counts = { P0: 0, P1: 0, P2: 0 }
+  for (const c of filteredComments) {
+    const match = c.body.match(/^\[(P0|P1|P2)\]/)
+    if (match) counts[match[1]]++
+  }
+
   const commitId = execSync(`gh pr view ${prNumber} --json headRefOid -q .headRefOid`, { encoding: 'utf-8' }).trim()
 
   const payload = JSON.stringify({
@@ -169,14 +209,14 @@ async function main() {
     }))
   })
 
-  const env = { ...process.env }
-  if (process.env.GITHUB_REVIEW_TOKEN) env.GH_TOKEN = process.env.GITHUB_REVIEW_TOKEN
-
   spawnSync('gh', ['api', `repos/${repoName}/pulls/${prNumber}/reviews`, '--method', 'POST', '--input', '-'], {
     input: payload,
     encoding: 'utf-8',
-    env
+    env: getEnv()
   })
+
+  const total = filteredComments.length
+  finish(`✅ 리뷰 완료: ${total}개 이슈 등록 (P0: ${counts.P0}, P1: ${counts.P1}, P2: ${counts.P2})`)
 }
 
 main().catch(console.error)
