@@ -251,7 +251,7 @@ async function main() {
       lines.push(`| ${emoji} **${priority}** | ${category} | ${summary} |`)
     }
   }
-  lines.push(``, `> 총 ${total}개 이슈`)
+  lines.push(``)
   fs.writeFileSync('/tmp/pr-review-pending.json', JSON.stringify({ prNumber, repoName, comments: filteredComments }, null, 2))
   finish(lines.join('\n'))
 }
