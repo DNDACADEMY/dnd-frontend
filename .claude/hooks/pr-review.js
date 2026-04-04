@@ -254,7 +254,6 @@ async function main() {
   lines.push(`> 총 ${total}개 이슈`)
   fs.writeFileSync('/tmp/pr-review-pending.json', JSON.stringify({ prNumber, repoName, comments: filteredComments }, null, 2))
   finish(lines.join('\n'))
-  console.log(`\n[pr-review] 리뷰 등록 완료. 리뷰 내용을 코드에 반영하고 각 코멘트에 답글을 달까요?`)
 }
 
 main().catch(console.error)
