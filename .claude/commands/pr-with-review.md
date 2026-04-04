@@ -15,7 +15,12 @@ gh pr create \
 
 ## PR 생성 후 처리
 
-`gh pr create` 실행이 완료되면, `/tmp/pr-review-pending.json` 파일을 읽어 리뷰 결과를 확인한다.
+`gh pr create` 직후 반드시 아래 명령을 실행해 리뷰 결과를 확인한다:
+
+```bash
+cat /tmp/pr-review-pending.json 2>/dev/null
+```
+
 파일이 존재하면 사용자에게 다음을 질문한다:
 
 > 리뷰가 등록됐습니다. 리뷰 내용을 코드에 반영하고 각 코멘트에 답글을 달까요?
