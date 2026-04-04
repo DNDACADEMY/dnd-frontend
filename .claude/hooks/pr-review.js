@@ -114,11 +114,18 @@ function getEnv() {
   return env
 }
 
-function postComment(prNumber, body) {
-  const result = spawnSync('gh', ['pr', 'comment', prNumber, '--body', body], { encoding: 'utf-8', env: getEnv() })
-  const url = result.stdout?.trim()
-  const match = url?.match(/issuecomment-(\d+)/)
-  return match ? match[1] : null
+function postComment(repoName, prNumber, body) {
+  const result = spawnSync(
+    'gh',
+    ['api', `repos/${repoName}/issues/${prNumber}/comments`, '--method', 'POST', '--field', `body=${body}`],
+    { encoding: 'utf-8', env: getEnv() }
+  )
+  try {
+    const data = JSON.parse(result.stdout)
+    return data.id ? String(data.id) : null
+  } catch {
+    return null
+  }
 }
 
 function updateComment(repoName, commentId, body) {
@@ -148,10 +155,10 @@ async function main() {
   const prNumber = match[1]
   const repoName = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { encoding: 'utf-8' }).trim()
 
-  const commentId = postComment(prNumber, '🔍 리뷰 진행중...')
+  const commentId = postComment(repoName, prNumber, '🔍 리뷰 진행중...')
   const finish = (body) => {
     if (commentId) updateComment(repoName, commentId, body)
-    else postComment(prNumber, body)
+    else postComment(repoName, prNumber, body)
     console.log(body)
   }
 
