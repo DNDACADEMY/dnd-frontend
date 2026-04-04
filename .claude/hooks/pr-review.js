@@ -8,7 +8,8 @@ Return ONLY a valid JSON array (no markdown, no explanation) where each item has
 - "path": file path relative to repo root (string)
 - "line": line number in the NEW file that the comment applies to (number, must be a line visible in the diff)
 - "body": concise review comment in Korean (string), prefixed with priority label
-- "summary": one short phrase in Korean (max 20 chars) describing the issue topic, e.g. "의도치 않은 워크플로우 중단 가능"
+- "summary": one short phrase in Korean (max 25 chars) describing the issue, e.g. "의도치 않은 워크플로우 중단 가능"
+- "category": one English word categorizing the issue type, e.g. "Security", "Exception", "Logic", "Process", "Performance", "Null", "Type", "State"
 
 Only include issues that fall into these categories — ignore everything else:
 - [P0] 즉시 수정 필수 — 보안 취약점, 데이터 손실, 크래시 유발 버그
@@ -240,18 +241,17 @@ async function main() {
   })
 
   const total = filteredComments.length
-  const PRIORITY_META = { P0: '🔴', P1: '🟠', P2: '🟡' }
-  const lines = ['## ✅ 리뷰 완료', '']
+  const PRIORITY_EMOJI = { P0: '🔴', P1: '🟠', P2: '🟡' }
+  const lines = [`## ✅ 리뷰 완료`, ``, `| Priority | Category | Issue Details |`, `|----------|----------|---------------|`]
   for (const priority of ['P0', 'P1', 'P2']) {
-    const group = filteredComments.filter((c) => c.body.startsWith(`[${priority}]`))
-    if (!group.length) continue
-    lines.push(`**${PRIORITY_META[priority]} ${priority}**`)
-    for (const c of group) {
-      lines.push(`- ${c.summary || c.body.replace(/^\[P\d\]\s*/, '').slice(0, 40)}`)
+    for (const c of filteredComments.filter((c) => c.body.startsWith(`[${priority}]`))) {
+      const emoji = PRIORITY_EMOJI[priority]
+      const category = c.category ? `\`${c.category}\`` : ''
+      const summary = c.summary || c.body.replace(/^\[P\d\]\s*/, '').slice(0, 40)
+      lines.push(`| ${emoji} **${priority}** | ${category} | ${summary} |`)
     }
-    lines.push('')
   }
-  lines.push(`> 총 ${total}개 이슈`)
+  lines.push(``, `> 총 ${total}개 이슈`)
   fs.writeFileSync('/tmp/pr-review-pending.json', JSON.stringify({ prNumber, repoName, comments: filteredComments }, null, 2))
   finish(lines.join('\n'))
 }
