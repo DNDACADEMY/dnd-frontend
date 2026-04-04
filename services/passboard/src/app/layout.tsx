@@ -1,10 +1,7 @@
 import '../shared/styles/globals.css'
-import { GoogleTagManager } from '@next/third-parties/google'
-import { Analytics } from '@vercel/analytics/next'
-
-import { ChannelIo } from '../shared/components/common/ChannelIo'
-import { GOOGLE_TAG_MANAGER_ID } from '../shared/constants'
+import { ClientOnlyProviders } from '../providers/ClientOnlyProviders'
 import { pretendard } from '../shared/styles/fonts/pretendard'
+import '@dds/desktop/desktop.css'
 
 export default function RootLayout({
   children
@@ -30,10 +27,8 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <GoogleTagManager gtmId={GOOGLE_TAG_MANAGER_ID} />
-        <ChannelIo />
         {children}
-        <Analytics />
+        <ClientOnlyProviders />
       </body>
     </html>
   )
