@@ -237,7 +237,18 @@ async function main() {
   })
 
   const counts = countByPriority(filteredComments)
-  finish(`✅ 리뷰 완료: ${filteredComments.length}개 이슈 등록 (P0: ${counts.P0}, P1: ${counts.P1}, P2: ${counts.P2})`)
+  const total = filteredComments.length
+  const summary = [
+    `## ✅ 리뷰 완료`,
+    ``,
+    `| 등급 | 건수 | 설명 |`,
+    `|------|-----:|------|`,
+    `| 🔴 P0 | ${counts.P0} | 즉시 수정 필수 |`,
+    `| 🟠 P1 | ${counts.P1} | 반드시 수정 |`,
+    `| 🟡 P2 | ${counts.P2} | 수정 권장 |`,
+    `| **합계** | **${total}** | |`
+  ].join('\n')
+  finish(summary)
 }
 
 main().catch(console.error)
