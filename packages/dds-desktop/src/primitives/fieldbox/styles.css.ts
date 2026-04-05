@@ -90,20 +90,8 @@ export const fieldboxContentCss = recipe({
   }
 })
 
-export const bottomTxtCss = recipe({
-  base: {
-    margin: 0
-  },
-  variants: {
-    error: {
-      true: {
-        color: semantic.color.badgeRed
-      },
-      false: {
-        color: semantic.color.labelSubtitle
-      }
-    }
-  }
+export const bottomTxtCss = style({
+  margin: 0
 })
 
 export const requiredStyleCss = style({
