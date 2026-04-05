@@ -1,9 +1,8 @@
-import { CSSProperties, HTMLAttributes } from 'react'
+import { CSSProperties, ComponentPropsWithRef } from 'react'
 
 import { SpaceSize } from './types'
-import { forwardRefWithAs } from '../../utils/forwardRefWithAs'
 
-export interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
+export interface SpaceProps extends ComponentPropsWithRef<'div'> {
   /**
    * 세로 간격의 크기를 설정해요.
    *
@@ -12,11 +11,7 @@ export interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
   size?: SpaceSize
 }
 
-export const Space = forwardRefWithAs<'div', SpaceProps>((props) => {
-  const { as = 'div', size = 8, style: styleFromProps, ...restProps } = props
-
-  const Component = as
-
+export const Space = ({ size = 8, style: styleFromProps, ...restProps }: SpaceProps) => {
   const height = typeof size === 'number' ? size : spaceSizeMap[size]
 
   const style: CSSProperties = {
@@ -25,12 +20,12 @@ export const Space = forwardRefWithAs<'div', SpaceProps>((props) => {
   }
 
   return (
-    <Component
+    <div
       style={style}
       {...restProps}
     />
   )
-})
+}
 
 const spaceSizeMap: Record<SpaceSize, number> = {
   small: 10,
