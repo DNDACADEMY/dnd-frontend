@@ -9,17 +9,17 @@ import { Passboard } from '../views/passboard'
 export const metadata: Metadata = defaultMetadata
 
 export default async function Page() {
-  const { name, id, resultAnnouncementDateTime, isResultAnnounced } = await checkEvent()
-
-  const isRecruitingPeriod = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) ? isResultAnnounced : false
+  const { name: eventName, id: eventId, resultAnnouncementDateTime, isResultAnnounced } = await checkEvent()
+  const isEventVisible = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) && isResultAnnounced
+  const resultAnnouncementDate = new Date(resultAnnouncementDateTime)
 
   return (
     <Providers>
       <Passboard
-        isRecruitingPeriod={isRecruitingPeriod}
-        eventApplicationResultDate={resultAnnouncementDateTime}
-        eventName={name}
-        eventId={id}
+        eventId={eventId}
+        eventName={eventName}
+        isEventVisible={isEventVisible}
+        resultAnnouncementDateTime={resultAnnouncementDate}
       />
     </Providers>
   )

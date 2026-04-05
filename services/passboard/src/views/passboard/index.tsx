@@ -1,32 +1,32 @@
-import { RecruitingPeriodCard } from './components/recruting-period-card'
-import { ResetButton } from './components/reset-button'
-import { StatusContainer } from './components/status-container'
+import { BeforeEventCard, BeforeEventCatImageIndex } from './components/beforeEventCard'
+import { EventResultPanel } from './components/eventResultPanel'
 import { PassboardProvider } from './provider'
-import { SwitchCase } from '../../components/SwichCase'
 
 type PassboardProps = {
-  eventApplicationResultDate: string | Date
   eventName: string
   eventId: number
-  isRecruitingPeriod: boolean
+  isEventVisible: boolean
+  resultAnnouncementDateTime: Date
 }
 
-export function Passboard({ eventApplicationResultDate, eventName, eventId, isRecruitingPeriod }: PassboardProps) {
+export async function Passboard({ resultAnnouncementDateTime, eventName, eventId, isEventVisible }: PassboardProps) {
   return (
     <PassboardProvider>
-      <SwitchCase
-        value={isRecruitingPeriod}
-        cases={{
-          true: (
-            <StatusContainer
-              eventName={eventName}
-              eventId={eventId}
-            />
-          ),
-          false: <RecruitingPeriodCard eventApplicationResultDate={eventApplicationResultDate} />
-        }}
-      />
-      <ResetButton />
+      {isEventVisible ? (
+        <EventResultPanel
+          eventId={eventId}
+          eventName={eventName}
+        />
+      ) : (
+        <BeforeEventCard
+          beforeEventCatImageIndex={getRandomBeforeEventCatImageIndex()}
+          resultAnnouncementDateTime={resultAnnouncementDateTime}
+        />
+      )}
     </PassboardProvider>
   )
+}
+
+function getRandomBeforeEventCatImageIndex() {
+  return (Math.floor(Math.random() * 10) * 5) as BeforeEventCatImageIndex
 }

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 
 import { http } from './http'
-import { UserStatus } from '../views/passboard/types/status'
+import { EventResultStatus } from '../types/passboard'
 
 export type ResCheckEvent = {
   name: string
@@ -26,7 +26,7 @@ export type ReqCheckUserStatusSchema = z.infer<typeof checkUserStatusSchema>
 
 export type ResCheckUserStatus = {
   name: string
-  status: UserStatus
+  status: EventResultStatus
 }
 
 const checkUserStatus = (req: ReqCheckUserStatusSchema & { eventId: number }): Promise<ResCheckUserStatus> => {
