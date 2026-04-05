@@ -1,3 +1,4 @@
+import { semantic } from '@dds/token'
 import { HTMLAttributes, ReactNode } from 'react'
 
 import { cx } from '../../../utils/cx'
@@ -20,7 +21,8 @@ export const FieldboxBottomTxt = (props: FieldboxBottomTxtProps) => {
     <Txt
       as='p'
       typography='caption1'
-      className={cx(bottomTxtCss({ error }), classNameFromProps)}
+      color={error ? semantic.color.badgeRed : semantic.color.labelSubtitle}
+      className={cx(bottomTxtCss, classNameFromProps)}
       {...restProps}>
       {children}
     </Txt>
