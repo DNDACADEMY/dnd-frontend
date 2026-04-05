@@ -1,6 +1,6 @@
-import '../shared/styles/globals.css'
+import '../styles/globals.css'
 import { ClientOnlyProviders } from '../providers/ClientOnlyProviders'
-import { pretendard } from '../shared/styles/fonts/pretendard'
+import { pretendard } from '../styles/fonts/pretendard'
 import '@dds/desktop/desktop.css'
 
 export default function RootLayout({

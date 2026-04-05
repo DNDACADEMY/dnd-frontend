@@ -1,6 +1,7 @@
 'use client'
 
-import { ErrorContainer } from '../features/error'
+import { ErrorPage } from '../pages/error'
+
 export default function NotFound() {
-  return <ErrorContainer errorMessage='존재하지 않는 페이지입니다.' />
+  return <ErrorPage errorMessage='존재하지 않는 페이지입니다.' />
 }

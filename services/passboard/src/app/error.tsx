@@ -1,6 +1,6 @@
 'use client'
 
-import { ErrorContainer } from '../features/error'
+import { ErrorPage } from '../pages/error'
 export default function Error({ error }: { error: Error }) {
-  return <ErrorContainer error={error} />
+  return <ErrorPage error={error} />
 }

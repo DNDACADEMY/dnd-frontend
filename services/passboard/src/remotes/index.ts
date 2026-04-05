@@ -1,0 +1,44 @@
+import { useMutation } from '@tanstack/react-query'
+import { z } from 'zod'
+
+import { http } from './http'
+import { UserStatus } from '../pages/passboard/types/status'
+
+export type ResCheckEvent = {
+  name: string
+  id: number
+  resultAnnouncementDateTime: string | Date
+  isResultAnnounced: boolean
+}
+
+export const checkEvent = (): Promise<ResCheckEvent> => {
+  return http('/events/current', {
+    method: 'GET'
+  })
+}
+
+export const checkUserStatusSchema = z.object({
+  name: z.string().nonempty('이름을 입력해주세요.'),
+  email: z.string().nonempty('이메일을 입력해주세요.').email('이메일 형식이 올바르지 않습니다.')
+})
+
+export type ReqCheckUserStatusSchema = z.infer<typeof checkUserStatusSchema>
+
+export type ResCheckUserStatus = {
+  name: string
+  status: UserStatus
+}
+
+const checkUserStatus = (req: ReqCheckUserStatusSchema & { eventId: number }): Promise<ResCheckUserStatus> => {
+  const { eventId, ...rest } = req
+  return http(`/event/${eventId}/applicant/status/check`, {
+    method: 'POST',
+    body: JSON.stringify(rest)
+  })
+}
+
+export const useCheckUserStatus = () => {
+  return useMutation({
+    mutationFn: (req: ReqCheckUserStatusSchema & { eventId: number }) => checkUserStatus(req)
+  })
+}
