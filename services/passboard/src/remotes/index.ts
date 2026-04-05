@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 
 import { http } from './http'
-import { UserStatus } from '../pages/passboard/types/status'
+import { UserStatus } from '../views/passboard/types/status'
 
 export type ResCheckEvent = {
   name: string

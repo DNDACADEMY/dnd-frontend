@@ -1,6 +1,6 @@
 'use client'
 
-import { ErrorPage } from '../pages/error'
+import { ErrorPage } from '../views/error'
 export default function Error({ error }: { error: Error }) {
   return <ErrorPage error={error} />
 }

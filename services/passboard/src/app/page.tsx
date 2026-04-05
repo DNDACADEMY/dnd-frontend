@@ -3,8 +3,8 @@ import { type Metadata } from 'next'
 
 import { Providers } from './providers'
 import { defaultMetadata } from '../constants/defaultMetadata'
-import { Passboard } from '../pages/passboard'
 import { checkEvent } from '../remotes'
+import { Passboard } from '../views/passboard'
 
 export const metadata: Metadata = defaultMetadata
 
