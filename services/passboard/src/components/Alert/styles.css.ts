@@ -3,6 +3,9 @@ import { style } from '@vanilla-extract/css'
 import { vars } from '../../styles/theme.css'
 
 export const container = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   position: 'fixed',
   top: 0,
   left: 0,
@@ -29,6 +32,10 @@ export const contentWrapper = style({
 })
 
 export const content = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
   padding: '20px 16px 17px 16px'
 })
 
@@ -67,6 +74,9 @@ export const subDescription = style({
 })
 
 export const bottomAddon = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   cursor: 'pointer',
   width: '100%',
   minHeight: '44px',

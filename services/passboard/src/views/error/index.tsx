@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 
 import { ErrorCard } from './components/ErrorCard'
 import * as styles from './style.css'
-import { Flex } from '../../components/Flex'
 
 export type ErrorPageProps = {
   error?: Error
@@ -34,13 +33,8 @@ export const ErrorPage = ({ error, errorMessage, sendErrorEvent = true }: ErrorP
   )
 
   return (
-    <Flex
-      direction='column'
-      align='center'
-      justify='center'
-      gap={16}
-      className={styles.container}>
+    <div className={styles.container}>
       <ErrorCard description={errorMessage ?? defaultErrorMessage} />
-    </Flex>
+    </div>
   )
 }

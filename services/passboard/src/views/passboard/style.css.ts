@@ -1,6 +1,13 @@
 import { style } from '@vanilla-extract/css'
 
+import { vars } from '../../styles/theme.css'
+
 export const container = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  gap: vars.spacing['150'],
   minHeight: '100vh',
   padding: '90px 0'
 })

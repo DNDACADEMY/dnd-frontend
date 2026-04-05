@@ -3,7 +3,6 @@ import { type ReactNode, type ComponentProps } from 'react'
 
 import * as styles from './styles.css'
 import { composeHandler } from '../../utils/composeHandler'
-import { Flex } from '../Flex'
 import { If } from '../If'
 import { AlertContextProvider, useAlertContext } from './context'
 
@@ -18,12 +17,7 @@ const AlertImp = ({ children, isOpen, onClose }: AlertProps) => {
 
   return (
     <AlertContextProvider onClose={onClose}>
-      <Flex
-        justify='center'
-        align='center'
-        className={styles.container}>
-        {children}
-      </Flex>
+      <div className={styles.container}>{children}</div>
     </AlertContextProvider>
   )
 }
@@ -51,22 +45,14 @@ const Content = ({ children, bottomAddon }: AlertContentProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}>
-      <Flex
-        align='center'
-        justify='center'
-        direction='column'
-        className={styles.content}>
-        {children}
-      </Flex>
+      <div className={styles.content}>{children}</div>
       <If condition={!!bottomAddon}>
         <hr className={styles.border} />
-        <Flex
-          asChild
-          align='center'
-          justify='center'
+        <div
+          onClick={onClose}
           className={styles.bottomAddon}>
-          <div onClick={onClose}>{bottomAddon}</div>
-        </Flex>
+          {bottomAddon}
+        </div>
       </If>
     </motion.div>
   )
