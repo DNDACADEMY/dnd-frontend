@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Sidebar } from './Sidebar'
 import { Chip } from '../chip'
 import { Icon } from '../icon'
-import { Space } from '../space'
 import { Txt } from '../txt'
 
 import type { Meta, StoryObj } from '@storybook/react-vite'
@@ -65,8 +64,7 @@ export const Playground: Story = {
             </Sidebar.Trigger>
           </div>
           <Sidebar.Collapsible>
-            <Space size={20} />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 20, marginBottom: 40 }}>
               <Chip status='selected'>개발</Chip>
               <Txt
                 typography='h5'
@@ -74,7 +72,6 @@ export const Playground: Story = {
                 손현곤
               </Txt>
             </div>
-            <Space size={40} />
           </Sidebar.Collapsible>
         </Sidebar.Affix>
 
@@ -125,8 +122,7 @@ export const Controlled: Story = {
               </Sidebar.Trigger>
             </div>
             <Sidebar.Collapsible>
-              <Space size={20} />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 20, marginBottom: 40 }}>
                 <Chip status='selected'>개발</Chip>
                 <Txt
                   typography='h5'
@@ -134,7 +130,6 @@ export const Controlled: Story = {
                   손현곤
                 </Txt>
               </div>
-              <Space size={40} />
             </Sidebar.Collapsible>
           </Sidebar.Affix>
           <Sidebar.Content>
