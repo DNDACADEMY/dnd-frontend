@@ -62,6 +62,7 @@ export const cardTitle = style({
 export const lineHeight140 = style({ lineHeight: '140%' })
 
 export const cardDescription = style({
+  wordBreak: 'keep-all',
   whiteSpace: 'pre-line',
   textAlign: 'center',
   lineHeight: '140%'
