@@ -3,6 +3,7 @@
 import { Button, Textfield } from '@dds/desktop'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useOverlay } from '@toss/use-overlay'
+import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 import * as styles from './style.css'
@@ -29,6 +30,7 @@ export const EventResultForm = ({ eventId, setEventStatusAction }: EventResultFo
   })
   const { mutate: checkUserStatusMutation, isPending, isSuccess } = useCheckUserStatus()
   const overlay = useOverlay()
+  const lastSubmittedKey = useRef<string | null>(null)
 
   const handleOpenNotFoundAlert = () => {
     overlay.open(({ isOpen, close }) => (
@@ -40,10 +42,15 @@ export const EventResultForm = ({ eventId, setEventStatusAction }: EventResultFo
   }
 
   const onSubmit = handleSubmit(async (data) => {
+    const submittedKey = `${eventId}|${data.name}|${data.email}`
+    if (lastSubmittedKey.current === submittedKey) return
+
     checkUserStatusMutation(
       { eventId, ...data },
       {
         onSuccess: async (res) => {
+          lastSubmittedKey.current = submittedKey
+
           if (res?.status === 'NONE') {
             handleOpenNotFoundAlert()
             return
