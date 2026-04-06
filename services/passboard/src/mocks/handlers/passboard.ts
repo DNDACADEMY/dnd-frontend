@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-import { MOCK_SERVER_URL } from '../../constants/index.js'
+import { MOCK_SERVER_URL } from '../../constants'
 
 import type { ResCheckEvent, ResCheckUserStatus, ReqCheckUserStatusSchema } from '../../remotes/index.js'
 
@@ -29,14 +29,14 @@ export const passboardHandlers = [
       eventEndDate
     })
   }),
-  http.post(`${MOCK_SERVER_URL}/event/:eventName/status/check`, async ({ request, params }) => {
-    const { eventName } = params
+  http.post(`${MOCK_SERVER_URL}/event/:eventId/applicant/status/check`, async ({ request, params }) => {
+    const { eventId } = params
     const body = (await request.json()) as ReqCheckUserStatusSchema
 
     const status: ResCheckUserStatus['status'] = 'PASSED'
 
     return HttpResponse.json({
-      eventName,
+      eventId,
       status,
       ...body
     })
