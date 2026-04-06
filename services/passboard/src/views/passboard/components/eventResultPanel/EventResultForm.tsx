@@ -12,15 +12,13 @@ import { type EventResultStatus } from '../../../../types/passboard'
 
 export type EventResultFormProps = {
   eventId: number
-  eventName: string
   setEventStatusAction: (status: EventResultStatus) => void
 }
 
-export const EventResultForm = ({ eventName: _eventName, eventId, setEventStatusAction }: EventResultFormProps) => {
+export const EventResultForm = ({ eventId, setEventStatusAction }: EventResultFormProps) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors }
   } = useForm<ReqCheckUserStatusSchema>({
     resolver: zodResolver(checkUserStatusSchema),
@@ -29,7 +27,7 @@ export const EventResultForm = ({ eventName: _eventName, eventId, setEventStatus
       email: ''
     }
   })
-  const { mutate: checkUserStatusMutation, isPending: isChecking } = useCheckUserStatus()
+  const { mutate: checkUserStatusMutation, isPending, isSuccess } = useCheckUserStatus()
   const overlay = useOverlay()
 
   const handleOpenNotFoundAlert = () => {
@@ -52,7 +50,6 @@ export const EventResultForm = ({ eventName: _eventName, eventId, setEventStatus
           }
 
           setEventStatusAction(res?.status)
-          reset()
         }
       }
     )
@@ -77,9 +74,8 @@ export const EventResultForm = ({ eventName: _eventName, eventId, setEventStatus
         {...register('email')}
       />
       <Button
-        type='submit'
         size='xlarge'
-        disabled={isChecking}>
+        disabled={isPending || isSuccess}>
         결과 확인하기
       </Button>
     </form>

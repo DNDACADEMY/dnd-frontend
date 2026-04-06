@@ -24,11 +24,16 @@ const FIRECRACKER_LOTTIE_URL = '/assets/lottie/firecracker.lottie'
 
 export const EventResultPanel = ({ eventName, eventId }: EventResultPanelProps) => {
   const [eventStatus, setEventStatus] = useState<EventResultStatus | null>(null)
+  // NOTES: 폼은 항상 마운트된 상태로 CSS 애니메이션으로 숨겨지기 때문에
+  // 다시 시도 시 react-hook-form의 reset()이 DOM에 반영되지 않습니다.
+  // key를 변경해 폼을 강제 리마운트하여 초기화합니다.
+  const [formKey, setFormKey] = useState(0)
   const hasEvent = eventStatus != null
   const showFirecracker = eventStatus === 'PASSED'
 
   const handleStatusReset = () => {
     setEventStatus(null)
+    setFormKey((k) => k + 1)
   }
 
   return (
@@ -48,45 +53,40 @@ export const EventResultPanel = ({ eventName, eventId }: EventResultPanelProps) 
       <div className={styles.wrapper}>
         <ResultTitle hasEvent={hasEvent} />
 
-        <div className={styles.container}>
-          {showFirecracker && (
-            <DotLottieReact
-              src={FIRECRACKER_LOTTIE_URL}
-              autoplay
-              className={styles.firecracker}
-            />
-          )}
-
-          <AnimatePresence>
-            <motion.div
-              key='form'
-              animate={
-                !hasEvent ? { opacity: 1, y: 0, height: 'auto', pointerEvents: 'auto' } : { opacity: 0, y: -40, height: 0, pointerEvents: 'none' }
-              }
-              exit={{ opacity: 0, y: -40, height: 0, pointerEvents: 'none' }}
-              transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-              className={styles.formContainer}>
-              <EventResultForm
-                eventName={eventName}
-                eventId={eventId}
-                setEventStatusAction={setEventStatus}
-              />
-            </motion.div>
-            <motion.div
-              key='card'
-              initial={false}
-              animate={hasEvent ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-              style={{ position: 'relative', zIndex: 1 }}>
-              {hasEvent && (
+        <motion.div
+          layout
+          className={styles.container}
+          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}>
+          <AnimatePresence
+            initial={false}
+            mode='popLayout'>
+            {!hasEvent ? (
+              <motion.div
+                key='form'
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}>
+                <EventResultForm
+                  key={formKey}
+                  eventId={eventId}
+                  setEventStatusAction={setEventStatus}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key='card'
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}>
                 <ResultCard
                   eventResultStatus={eventStatus}
                   eventName={eventName}
                 />
-              )}
-            </motion.div>
+              </motion.div>
+            )}
           </AnimatePresence>
-        </div>
+        </motion.div>
       </div>
 
       {hasEvent && (
@@ -97,6 +97,14 @@ export const EventResultPanel = ({ eventName, eventId }: EventResultPanelProps) 
             다시 시도하기
           </TextButton>
         </div>
+      )}
+
+      {showFirecracker && (
+        <DotLottieReact
+          src={FIRECRACKER_LOTTIE_URL}
+          autoplay
+          className={styles.firecracker}
+        />
       )}
     </>
   )
