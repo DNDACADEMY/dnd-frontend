@@ -11,7 +11,10 @@ export const metadata: Metadata = defaultMetadata
 export default async function Page() {
   const { name: eventName, id: eventId, resultAnnouncementDateTime, isResultAnnounced } = await checkEvent()
   const isEventVisible = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) && isResultAnnounced
-  const resultAnnouncementDate = new Date(resultAnnouncementDateTime)
+
+  if (!resultAnnouncementDateTime) {
+    throw new Error('현재 발표 일정이 없습니다.\n새로운 소식을 준비 중이니 조금만 기다려 주세요.')
+  }
 
   return (
     <Providers>
@@ -19,7 +22,7 @@ export default async function Page() {
         eventId={eventId}
         eventName={eventName}
         isEventVisible={isEventVisible}
-        resultAnnouncementDateTime={resultAnnouncementDate}
+        resultAnnouncementDateTime={resultAnnouncementDateTime}
       />
     </Providers>
   )

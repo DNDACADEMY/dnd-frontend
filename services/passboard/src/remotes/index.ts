@@ -8,7 +8,7 @@ import { EventResultStatus } from '../types/passboard'
 export type ResCheckEvent = {
   name: string
   id: number
-  resultAnnouncementDateTime: string | Date
+  resultAnnouncementDateTime: Date | null
   isResultAnnounced: boolean
 }
 
@@ -17,7 +17,7 @@ export const checkEventCacheKey = 'checkEvent'
 const fallbackEvent: ResCheckEvent = {
   name: '',
   id: 0,
-  resultAnnouncementDateTime: new Date(0).toISOString(),
+  resultAnnouncementDateTime: null,
   isResultAnnounced: false
 }
 

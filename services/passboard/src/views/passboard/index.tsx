@@ -9,7 +9,7 @@ type PassboardProps = {
   resultAnnouncementDateTime: Date
 }
 
-export async function Passboard({ resultAnnouncementDateTime, eventName, eventId, isEventVisible }: PassboardProps) {
+export function Passboard({ eventName, eventId, isEventVisible, resultAnnouncementDateTime }: PassboardProps) {
   return (
     <PassboardProvider>
       {isEventVisible ? (
@@ -28,5 +28,5 @@ export async function Passboard({ resultAnnouncementDateTime, eventName, eventId
 }
 
 function getRandomBeforeEventCatImageIndex() {
-  return (Math.floor(Math.random() * 10) * 5) as BeforeEventCatImageIndex
+  return Math.floor(Math.random() * 5) as BeforeEventCatImageIndex
 }

@@ -6,13 +6,12 @@ import * as styles from './style.css'
 
 export type ErrorPageProps = {
   error?: Error
-  errorMessage?: string
   sendErrorEvent?: boolean
 }
 
 const defaultErrorMessage = '서비스에 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.'
 
-export const ErrorPage = ({ error, errorMessage, sendErrorEvent = true }: ErrorPageProps) => {
+export const ErrorPage = ({ error, sendErrorEvent = true }: ErrorPageProps) => {
   useEffect(
     function sendUserErrorEvent() {
       if (error && sendErrorEvent) {
@@ -34,7 +33,7 @@ export const ErrorPage = ({ error, errorMessage, sendErrorEvent = true }: ErrorP
 
   return (
     <div className={styles.container}>
-      <ErrorCard description={errorMessage ?? defaultErrorMessage} />
+      <ErrorCard description={error?.message ?? defaultErrorMessage} />
     </div>
   )
 }

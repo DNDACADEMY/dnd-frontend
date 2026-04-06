@@ -14,7 +14,7 @@ export type BeforeEventCardProps = {
 }
 
 const beforeEventCatImageURL = (randomCatImageIndex: BeforeEventCatImageIndex) =>
-  `/assets/images/passboard/recruiting-card-${randomCatImageIndex}.png`
+  `/assets/images/passboard/before-event-cat-${randomCatImageIndex}.png`
 
 export const BeforeEventCard = ({ resultAnnouncementDateTime, beforeEventCatImageIndex }: BeforeEventCardProps) => {
   return (
