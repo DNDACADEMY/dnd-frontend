@@ -12,11 +12,14 @@ export type ResCheckEvent = {
   isResultAnnounced: boolean
 }
 
+export const checkEventCacheKey = 'checkEvent'
+
 export const checkEvent = (): Promise<ResCheckEvent> => {
   return http('/events/current', {
     method: 'GET',
     next: {
-      revalidate: 60 * 60 * 1 // 1 hour
+      revalidate: 60 * 60 * 1, // 1 hour
+      tags: [checkEventCacheKey]
     }
   })
 }
