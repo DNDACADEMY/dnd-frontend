@@ -4,6 +4,7 @@ import { type Metadata } from 'next'
 import { Providers } from './providers'
 import { defaultMetadata } from '../constants/defaultMetadata'
 import { checkEvent } from '../remotes'
+import { ErrorView } from '../views/error'
 import { Passboard } from '../views/passboard'
 
 export const metadata: Metadata = defaultMetadata
@@ -13,7 +14,12 @@ export default async function Page() {
   const isEventVisible = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) && isResultAnnounced
 
   if (!resultAnnouncementDateTime) {
-    throw new Error('현재 발표 일정이 없습니다.\n새로운 소식을 준비 중이니 조금만 기다려 주세요.')
+    return (
+      <ErrorView
+        title='현재 발표 일정이 없습니다.\n새로운 소식을 준비 중이니 조금만 기다려 주세요.'
+        sendErrorEvent={false}
+      />
+    )
   }
 
   return (

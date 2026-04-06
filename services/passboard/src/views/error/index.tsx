@@ -4,14 +4,15 @@ import { useEffect } from 'react'
 import { ErrorCard } from './components/ErrorCard'
 import * as styles from './style.css'
 
-export type ErrorPageProps = {
+export type ErrorViewProps = {
   error?: Error
+  title?: string
   sendErrorEvent?: boolean
 }
 
 const defaultErrorMessage = '서비스에 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.'
 
-export const ErrorPage = ({ error, sendErrorEvent = true }: ErrorPageProps) => {
+export const ErrorView = ({ error, title, sendErrorEvent = true }: ErrorViewProps) => {
   useEffect(
     function sendUserErrorEvent() {
       if (error && sendErrorEvent) {
@@ -31,9 +32,11 @@ export const ErrorPage = ({ error, sendErrorEvent = true }: ErrorPageProps) => {
     [error, sendErrorEvent]
   )
 
+  const description = title ?? error?.message ?? defaultErrorMessage
+
   return (
     <div className={styles.container}>
-      <ErrorCard description={error?.message ?? defaultErrorMessage} />
+      <ErrorCard description={description} />
     </div>
   )
 }
