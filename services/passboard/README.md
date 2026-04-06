@@ -4,15 +4,15 @@ DND Academy 메인 사용자 서비스. 지원자가 이벤트 참여 결과를 
 
 ## 스택
 
-| 분류 | 기술 |
-|------|------|
-| 프레임워크 | Next.js 16 App Router, React 19 |
-| 스타일링 | Vanilla Extract |
-| 서버 상태 | TanStack Query |
-| 폼 | React Hook Form + Zod |
-| 애니메이션 | Framer Motion |
-| 테스트 | Vitest + Testing Library + MSW |
-| 디자인 시스템 | `@dds/desktop`, `@dds/token` |
+| 분류          | 기술                            |
+| ------------- | ------------------------------- |
+| 프레임워크    | Next.js 16 App Router, React 19 |
+| 스타일링      | Vanilla Extract                 |
+| 서버 상태     | TanStack Query                  |
+| 폼            | React Hook Form + Zod           |
+| 애니메이션    | Framer Motion                   |
+| 테스트        | Vitest + Testing Library + MSW  |
+| 디자인 시스템 | `@dds/desktop`, `@dds/token`    |
 
 ## 시작하기
 
