@@ -1,9 +1,11 @@
 'use client'
 
+import { Txt } from '@dds/desktop'
 import Image from 'next/image'
 import { type ReactNode } from 'react'
 
 import * as styles from './style.css'
+import { vars } from '../../../../styles/theme.css'
 import { type EventResultStatus } from '../../../../types/passboard'
 
 type Content = {
@@ -71,16 +73,22 @@ export const ResultCard = ({ eventResultStatus, eventName }: ResultCardProps) =>
         height={292}
       />
       <div className={styles.cardTextGroup}>
-        <p
+        <Txt
+          as='p'
+          typography='body2'
+          fontWeight='bold'
           aria-label={`${eventName} 지원 결과`}
-          className={styles.cardinalNumber}>
+          style={{ color: vars.colors.gray500, lineHeight: '140%' }}>
           {eventName} 지원 결과
-        </p>
-        <h3
+        </Txt>
+        <Txt
+          as='h3'
+          typography='h5'
+          fontWeight='bold'
           aria-label={eventName}
-          className={styles.cardName}>
+          style={{ color: vars.colors.gray900 }}>
           {eventName}
-        </h3>
+        </Txt>
         <h4
           aria-label={content.title}
           className={styles.cardTitle}>
@@ -88,11 +96,21 @@ export const ResultCard = ({ eventResultStatus, eventName }: ResultCardProps) =>
         </h4>
       </div>
       <div>
-        <p className={styles.cardDescription}>{content.description}</p>
+        <Txt
+          as='p'
+          typography='body2'
+          className={styles.cardDescription}
+          style={{ lineHeight: '140%' }}>
+          {content.description}
+        </Txt>
         <br />
-        <p className={styles.cardDescription}>
+        <Txt
+          as='p'
+          typography='body2'
+          className={styles.cardDescription}
+          style={{ lineHeight: '140%' }}>
           자세한 사항은 지원하신 <strong>이메일</strong>로 안내드렸어요.
-        </p>
+        </Txt>
       </div>
     </div>
   )

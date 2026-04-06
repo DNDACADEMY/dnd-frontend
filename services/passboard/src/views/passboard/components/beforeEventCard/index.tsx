@@ -1,8 +1,10 @@
 'use client'
 
+import { Txt } from '@dds/desktop'
 import Image from 'next/image'
 
 import * as styles from './style.css'
+import { vars } from '../../../../styles/theme.css'
 
 export type BeforeEventCatImageIndex = 0 | 1 | 2 | 3 | 4
 
@@ -24,8 +26,19 @@ export const BeforeEventCard = ({ resultAnnouncementDateTime, beforeEventCatImag
         height={292}
       />
       <div className={styles.content}>
-        <div className={styles.date}>{`발표 D${getApplicationResultDate(resultAnnouncementDateTime)}`}</div>
-        <div className={styles.description}>{beforeEventCardContent[beforeEventCatImageIndex]}</div>
+        <Txt
+          as='div'
+          typography='body2'
+          style={{ color: vars.colors.black }}>
+          {`발표 D${getApplicationResultDate(resultAnnouncementDateTime)}`}
+        </Txt>
+        <Txt
+          as='div'
+          typography='h6'
+          fontWeight='bold'
+          style={{ color: vars.colors.black }}>
+          {beforeEventCardContent[beforeEventCatImageIndex]}
+        </Txt>
       </div>
     </div>
   )

@@ -18,14 +18,3 @@ export const content = style({
   gap: vars.spacing['050'],
   height: 105
 })
-
-export const date = style({
-  fontSize: vars.fontSize.body2,
-  color: vars.colors.black
-})
-
-export const description = style({
-  fontSize: vars.fontSize.h6,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.colors.black
-})

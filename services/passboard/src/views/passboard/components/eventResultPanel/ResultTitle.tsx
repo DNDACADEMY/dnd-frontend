@@ -1,9 +1,11 @@
+import { Txt } from '@dds/desktop'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import * as styles from './style.css'
 import { DND_ACTIVE_PATH } from '../../../../constants/linkUrl'
+import { vars } from '../../../../styles/theme.css'
 
 interface ResultTitleProps {
   hasEvent: boolean
@@ -28,7 +30,13 @@ export const ResultTitle = ({ hasEvent }: ResultTitleProps) => {
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
         style={{ overflow: 'hidden' }}
         className={styles.titleBox}>
-        <h4 className={styles.title}>결과 조회</h4>
+        <Txt
+          as='h4'
+          typography='h4'
+          fontWeight='bold'
+          style={{ color: vars.colors.white }}>
+          결과 조회
+        </Txt>
       </motion.div>
     </div>
   )

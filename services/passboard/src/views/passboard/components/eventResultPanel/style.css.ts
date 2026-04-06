@@ -51,20 +51,6 @@ export const cardImage = style({
   overflow: 'hidden'
 })
 
-export const cardinalNumber = style({
-  lineHeight: '140%',
-  fontSize: vars.fontSize.body2,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.colors.gray500
-})
-
-export const cardName = style({
-  lineHeight: '140%',
-  fontSize: 24,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.colors.gray900
-})
-
 export const cardTitle = style({
   fontFamily: 'DOSIyagiBoldface',
   lineHeight: '140%',
@@ -76,9 +62,6 @@ export const cardTitle = style({
 export const cardDescription = style({
   whiteSpace: 'pre-line',
   textAlign: 'center',
-  lineHeight: '140%',
-  fontSize: vars.fontSize.body2,
-  fontWeight: vars.fontWeight.regular,
   color: vars.colors.gray700
 })
 
@@ -121,12 +104,6 @@ export const titleBox = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
-})
-
-export const title = style({
-  fontSize: vars.fontSize.h4,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.colors.white
 })
 
 export const logoImage = style({
