@@ -1,3 +1,4 @@
+import { sendGTMEvent } from '@next/third-parties/google'
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 
@@ -39,6 +40,16 @@ const checkUserStatus = (req: ReqCheckUserStatusSchema & { eventId: number }): P
 
 export const useCheckUserStatus = () => {
   return useMutation({
-    mutationFn: (req: ReqCheckUserStatusSchema & { eventId: number }) => checkUserStatus(req)
+    mutationFn: (req: ReqCheckUserStatusSchema & { eventId: number }) => {
+      sendGTMEvent(
+        {
+          eventName: '지원 결과 조회',
+          name: req.name,
+          email: req.email
+        },
+        '지원 결과 조회'
+      )
+      return checkUserStatus(req)
+    }
   })
 }

@@ -6,10 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 
 import { EventResultForm } from './EventResultForm'
-import { ResetButton } from './ResetButton'
 import { ResultCard } from './ResultCard'
 import { ResultTitle } from './ResultTitle'
 import * as styles from './style.css'
+import { RightArrow } from '../../../../assets/icon'
+import { TextButton } from '../../../../components/TextButton'
 import { type EventResultStatus } from '../../../../types/passboard'
 
 type EventResultPanelProps = {
@@ -25,6 +26,10 @@ export const EventResultPanel = ({ eventName, eventId }: EventResultPanelProps) 
   const [eventStatus, setEventStatus] = useState<EventResultStatus | null>(null)
   const hasEvent = eventStatus != null
   const showFirecracker = eventStatus === 'PASSED'
+
+  const handleStatusReset = () => {
+    setEventStatus(null)
+  }
 
   return (
     <>
@@ -84,7 +89,15 @@ export const EventResultPanel = ({ eventName, eventId }: EventResultPanelProps) 
         </div>
       </div>
 
-      {hasEvent && <ResetButton />}
+      {hasEvent && (
+        <div className={styles.tryAgainTextButtonBox}>
+          <TextButton
+            onClick={handleStatusReset}
+            rightAddon={<RightArrow />}>
+            다시 시도하기
+          </TextButton>
+        </div>
+      )}
     </>
   )
 }
