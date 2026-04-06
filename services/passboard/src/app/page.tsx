@@ -22,7 +22,7 @@ export default async function Page() {
         eventId={eventId}
         eventName={eventName}
         isEventVisible={isEventVisible}
-        resultAnnouncementDateTime={resultAnnouncementDateTime}
+        resultAnnouncementDateTime={new Date(resultAnnouncementDateTime)}
       />
     </Providers>
   )
