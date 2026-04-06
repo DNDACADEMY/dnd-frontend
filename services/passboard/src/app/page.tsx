@@ -11,7 +11,6 @@ export const metadata: Metadata = defaultMetadata
 
 export default async function Page() {
   const { name: eventName, id: eventId, resultAnnouncementDateTime, isResultAnnounced } = await checkEvent()
-  const isEventVisible = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) && isResultAnnounced
 
   if (!resultAnnouncementDateTime) {
     return (
@@ -21,6 +20,8 @@ export default async function Page() {
       />
     )
   }
+
+  const isEventVisible = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) && isResultAnnounced
 
   return (
     <Providers>

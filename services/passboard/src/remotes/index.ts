@@ -8,7 +8,7 @@ import { EventResultStatus } from '../types/passboard'
 export type ResCheckEvent = {
   name: string
   id: number
-  resultAnnouncementDateTime: Date | string | null
+  resultAnnouncementDateTime: string | null
   isResultAnnounced: boolean
 }
 
