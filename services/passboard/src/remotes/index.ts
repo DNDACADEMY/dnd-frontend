@@ -14,14 +14,25 @@ export type ResCheckEvent = {
 
 export const checkEventCacheKey = 'checkEvent'
 
-export const checkEvent = (): Promise<ResCheckEvent> => {
-  return http('/events/current', {
-    method: 'GET',
-    next: {
-      revalidate: 60 * 60 * 1, // 1 hour
-      tags: [checkEventCacheKey]
-    }
-  })
+const fallbackEvent: ResCheckEvent = {
+  name: '',
+  id: 0,
+  resultAnnouncementDateTime: new Date(0).toISOString(),
+  isResultAnnounced: false
+}
+
+export const checkEvent = async (): Promise<ResCheckEvent> => {
+  try {
+    return await http('/events/current', {
+      method: 'GET',
+      next: {
+        revalidate: 60 * 60 * 1, // 1 hour
+        tags: [checkEventCacheKey]
+      }
+    })
+  } catch {
+    return fallbackEvent
+  }
 }
 
 export const checkUserStatusSchema = z.object({
