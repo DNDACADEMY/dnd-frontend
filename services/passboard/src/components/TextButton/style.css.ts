@@ -7,7 +7,6 @@ export const textButtonStyle = style({
   alignItems: 'center',
   gap: vars.spacing['050'],
   color: vars.colors.cyan300,
-  fontWeight: vars.fontWeight.bold,
   selectors: {
     '&:hover': {
       color: vars.colors.cyan800
@@ -16,9 +15,4 @@ export const textButtonStyle = style({
       color: vars.colors.gray700
     }
   }
-})
-
-export const textButtonLabelStyle = style({
-  color: 'inherit',
-  fontWeight: vars.fontWeight.bold
 })

@@ -1,6 +1,5 @@
 import { style } from '@vanilla-extract/css'
 
-import { vars } from '../../styles/theme.css'
 
 export const container = style({
   display: 'flex',
@@ -45,17 +44,11 @@ export const border = style({
 })
 
 export const title = style({
-  fontSize: '17px',
-  fontWeight: vars.fontWeight.semibold,
-  color: vars.colors.mono900,
   lineHeight: '22px',
   textAlign: 'center'
 })
 
 export const description = style({
-  fontSize: '13px',
-  fontWeight: vars.fontWeight.medium,
-  color: vars.colors.mono900,
   lineHeight: '18px',
   textAlign: 'center',
   selectors: {
@@ -66,9 +59,6 @@ export const description = style({
 })
 
 export const subDescription = style({
-  fontSize: '13px',
-  fontWeight: vars.fontWeight.medium,
-  color: vars.colors.gray600,
   lineHeight: '18px',
   textAlign: 'center'
 })
@@ -82,11 +72,4 @@ export const bottomAddon = style({
   minHeight: '44px',
   borderRadius: '8px',
   padding: '12px 0px'
-})
-
-export const button = style({
-  fontSize: '17px',
-  fontWeight: vars.fontWeight.semibold,
-  color: '#007AFF',
-  lineHeight: '22px'
 })

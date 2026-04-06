@@ -1,10 +1,11 @@
+import { Txt } from '@dds/desktop'
 import { motion } from 'framer-motion'
 import { type ReactNode, type ComponentProps } from 'react'
 
-import * as styles from './styles.css'
-import { composeHandler } from '../../utils/composeHandler'
-import { If } from '../If'
 import { AlertContextProvider, useAlertContext } from './context'
+import * as styles from './styles.css'
+import { vars } from '../../styles/theme.css'
+import { composeHandler } from '../../utils/composeHandler'
 
 export type AlertProps = {
   children: ReactNode
@@ -46,28 +47,57 @@ const Content = ({ children, bottomAddon }: AlertContentProps) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}>
       <div className={styles.content}>{children}</div>
-      <If condition={!!bottomAddon}>
-        <hr className={styles.border} />
-        <div
-          onClick={onClose}
-          className={styles.bottomAddon}>
-          {bottomAddon}
-        </div>
-      </If>
+      {!!bottomAddon && (
+        <>
+          <hr className={styles.border} />
+          <div
+            onClick={onClose}
+            className={styles.bottomAddon}>
+            {bottomAddon}
+          </div>
+        </>
+      )}
     </motion.div>
   )
 }
 
 const Title = ({ children }: { children: ReactNode }) => {
-  return <h4 className={styles.title}>{children}</h4>
+  return (
+    <Txt
+      as='h4'
+      typography='body1'
+      fontWeight='bold'
+      color={vars.colors.mono900}
+      className={styles.title}>
+      {children}
+    </Txt>
+  )
 }
 
 const Description = ({ children }: { children: ReactNode }) => {
-  return <p className={styles.description}>{children}</p>
+  return (
+    <Txt
+      as='p'
+      typography='caption1'
+      fontWeight='medium'
+      color={vars.colors.mono900}
+      className={styles.description}>
+      {children}
+    </Txt>
+  )
 }
 
 const SubDescription = ({ children }: { children: ReactNode }) => {
-  return <p className={styles.subDescription}>{children}</p>
+  return (
+    <Txt
+      as='p'
+      typography='caption1'
+      fontWeight='medium'
+      color={vars.colors.gray600}
+      className={styles.subDescription}>
+      {children}
+    </Txt>
+  )
 }
 
 type ButtonProps = ComponentProps<'button'>
@@ -80,13 +110,18 @@ const Button = ({ type = 'button', children, onClick: onClickFromProps, ...props
   return (
     <button
       type={type}
-      className={styles.button}
       onClick={handleClick}
       {...props}>
-      {children}
+      <Txt
+        typography='body1'
+        fontWeight='bold'
+        color='#007AFF'>
+        {children}
+      </Txt>
     </button>
   )
 }
+
 export const Alert = Object.assign(AlertImp, {
   Backdrop: Backdrop,
   Content: Content,
