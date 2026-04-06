@@ -14,47 +14,6 @@ type Content = {
   description: ReactNode
 }
 
-const resultContentMap: Record<EventResultStatus, Content> = {
-  NONE: {
-    imageUrl: '',
-    title: '',
-    description: ''
-  },
-  PASSED: {
-    imageUrl: '/assets/images/passboard/result-accepted.png',
-    title: '합격',
-    description: (
-      <>
-        축하드립니다.
-        <br />
-        앞으로 잘 부탁드려요.
-      </>
-    )
-  },
-  FAILED: {
-    imageUrl: '/assets/images/passboard/result-failed.png',
-    title: '불합격',
-    description: (
-      <>
-        지원해주셔서 진심으로 감사합니다.
-        <br />
-        이번엔 함께하지 못했지만, 다음 기회에 뵙기를 바랍니다.
-      </>
-    )
-  },
-  WAITLISTED: {
-    imageUrl: '/assets/images/passboard/result-waitlist.png',
-    title: '예비 합격',
-    description: (
-      <>
-        잠시만요!
-        <br />
-        예비후보자로 등록되었어요.
-      </>
-    )
-  }
-}
-
 interface ResultCardProps {
   eventResultStatus: EventResultStatus
   eventName: string
@@ -116,3 +75,26 @@ export const ResultCard = ({ eventResultStatus, eventName }: ResultCardProps) =>
     </div>
   )
 }
+
+const resultContentMap: Record<EventResultStatus, Content> = {
+  NONE: {
+    imageUrl: '',
+    title: '',
+    description: ''
+  },
+  PASSED: {
+    imageUrl: '/assets/images/passboard/result-accepted.png',
+    title: '합격',
+    description: '축하드립니다.\n앞으로 잘 부탁드려요.'
+  },
+  FAILED: {
+    imageUrl: '/assets/images/passboard/result-failed.png',
+    title: '불합격',
+    description: '지원해주셔서 진심으로 감사합니다.\n이번엔 함께하지 못했지만, 다음 기회에 뵙기를 바랍니다.'
+  },
+  WAITLISTED: {
+    imageUrl: '/assets/images/passboard/result-waitlist.png',
+    title: '예비 합격',
+    description: '잠시만요!\n예비후보자로 등록되었어요.'
+  }
+} as const
