@@ -1,7 +1,6 @@
 import '../styles/globals.css'
 import { ClientOnlyProviders } from '../providers/ClientOnlyProviders'
 import { MSWProvider } from '../providers/MSWProvider'
-import { pretendard } from '../styles/fonts/pretendard'
 
 import '@dds/desktop/desktop.css'
 
@@ -11,9 +10,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      className={pretendard.variable}
-      lang='ko'>
+    <html lang='ko'>
       <head>
         <link
           rel='icon'

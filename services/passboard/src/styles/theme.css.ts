@@ -80,9 +80,6 @@ export const vars = createGlobalTheme(':root', {
     xxlarge: '16px',
     max: '1000px'
   },
-  fontFamily: {
-    default: "Pretendard, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
-  },
   fontWeight: {
     regular: '400',
     medium: '500',
@@ -93,5 +90,4 @@ export const vars = createGlobalTheme(':root', {
 })
 
 export type Colors = typeof vars.colors
-export type FontFamily = typeof vars.fontFamily
 export type FontSize = typeof vars.fontSize

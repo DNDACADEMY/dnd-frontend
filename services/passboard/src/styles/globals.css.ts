@@ -15,7 +15,6 @@ globalStyle('body', {
       color: vars.colors.white,
       lineHeight: '140%',
       backgroundColor: vars.colors.bgsecondary,
-      fontFamily: vars.fontFamily.default,
       WebkitFontSmoothing: 'antialiased',
       MozOsxFontSmoothing: 'grayscale'
     }
