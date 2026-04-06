@@ -6,6 +6,8 @@ import { defaultMetadata } from '../constants/defaultMetadata'
 import { checkEvent } from '../remotes'
 import { Passboard } from '../views/passboard'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = defaultMetadata
 
 export default async function Page() {
