@@ -37,20 +37,12 @@ export const BeforeEventCard = ({ resultAnnouncementDateTime, beforeEventCatImag
           typography='h6'
           fontWeight='bold'
           color={vars.colors.black}>
-          {beforeEventCardContent[beforeEventCatImageIndex]}
+          {beforeEventCardContentMap[beforeEventCatImageIndex]}
         </Txt>
       </div>
     </div>
   )
 }
-
-const beforeEventCardContent: Record<BeforeEventCatImageIndex, string> = {
-  0: '아?! 이 사람 괜찮다냥',
-  1: '잠깐 쉰다냥(서류가 많다냥...)',
-  2: '기다려줘서 고맙다냥',
-  3: '결과를 준비중이다냥',
-  4: '지원서가 멋지다냥'
-} as const
 
 function getApplicationResultDate(resultAnnouncedAt: Date) {
   const today = new Date()
@@ -65,3 +57,11 @@ function getApplicationResultDate(resultAnnouncedAt: Date) {
     return `+${Math.abs(diffDays)}`
   }
 }
+
+const beforeEventCardContentMap: Record<BeforeEventCatImageIndex, string> = {
+  0: '아?! 이 사람 괜찮다냥',
+  1: '잠깐 쉰다냥(서류가 많다냥...)',
+  2: '기다려줘서 고맙다냥',
+  3: '결과를 준비중이다냥',
+  4: '지원서가 멋지다냥'
+} as const
