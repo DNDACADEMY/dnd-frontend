@@ -2,7 +2,6 @@
 
 import { Button, Textfield } from '@dds/desktop'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { sendGTMEvent } from '@next/third-parties/google'
 import { useOverlay } from '@toss/use-overlay'
 import { useForm } from 'react-hook-form'
 
@@ -17,7 +16,7 @@ export type EventResultFormProps = {
   setEventStatusAction: (status: EventResultStatus) => void
 }
 
-export const EventResultForm = ({ eventName, eventId, setEventStatusAction }: EventResultFormProps) => {
+export const EventResultForm = ({ eventName: _eventName, eventId, setEventStatusAction }: EventResultFormProps) => {
   const {
     register,
     handleSubmit,
@@ -43,24 +42,17 @@ export const EventResultForm = ({ eventName, eventId, setEventStatusAction }: Ev
   }
 
   const onSubmit = handleSubmit(async (data) => {
-    sendGTMEvent(
-      {
-        eventName,
-        name: data.name,
-        email: data.email
-      },
-      '지원 결과 조회'
-    )
     checkUserStatusMutation(
       { eventId, ...data },
       {
         onSuccess: async (res) => {
           if (res?.status === 'NONE') {
             handleOpenNotFoundAlert()
-          } else {
-            setEventStatusAction(res?.status)
-            reset()
+            return
           }
+
+          setEventStatusAction(res?.status)
+          reset()
         }
       }
     )
@@ -74,14 +66,14 @@ export const EventResultForm = ({ eventName, eventId, setEventStatusAction }: Ev
         placeholder='이름을 입력해주세요.'
         topAddon={<Textfield.Label required>이름</Textfield.Label>}
         bottomAddon={errors.name?.message && <Textfield.BottomText>{errors.name?.message}</Textfield.BottomText>}
-        error={!!errors.name?.message}
+        error={Boolean(errors.name?.message)}
         {...register('name')}
       />
       <Textfield
         placeholder='이메일을 입력해주세요.'
         topAddon={<Textfield.Label required>이메일</Textfield.Label>}
         bottomAddon={errors.email?.message && <Textfield.BottomText>{errors.email?.message}</Textfield.BottomText>}
-        error={!!errors.email?.message}
+        error={Boolean(errors.email?.message)}
         {...register('email')}
       />
       <Button

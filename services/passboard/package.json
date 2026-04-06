@@ -20,6 +20,7 @@
   "dependencies": {
     "@channel.io/channel-web-sdk-loader": "^2.0.0",
     "@dds/desktop": "*",
+    "@dds/token": "*",
     "@hookform/resolvers": "^5.0.1",
     "@lottiefiles/dotlottie-react": "^0.13.5",
     "@next/third-parties": "^16.1.6",
@@ -72,5 +73,10 @@
     "typescript": "5.9.3",
     "vitest": "^4.0.16"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }

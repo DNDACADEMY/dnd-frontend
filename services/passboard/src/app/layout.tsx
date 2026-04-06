@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import { ClientOnlyProviders } from '../providers/ClientOnlyProviders'
+import { MSWProvider } from '../providers/MSWProvider'
 import { pretendard } from '../styles/fonts/pretendard'
 
 import '@dds/desktop/desktop.css'
@@ -28,7 +29,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <MSWProvider>{children}</MSWProvider>
         <ClientOnlyProviders />
       </body>
     </html>
