@@ -14,7 +14,10 @@ export type ResCheckEvent = {
 
 export const checkEvent = (): Promise<ResCheckEvent> => {
   return http('/events/current', {
-    method: 'GET'
+    method: 'GET',
+    next: {
+      revalidate: 60 * 60 * 1 // 1 hour
+    }
   })
 }
 
