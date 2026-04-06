@@ -13,10 +13,10 @@ import { type EventResultStatus } from '../../../../types/passboard'
 
 export type EventResultFormProps = {
   eventId: number
-  setEventStatusAction: (status: EventResultStatus) => void
+  setResultAction: (result: { status: EventResultStatus; userName: string } | null) => void
 }
 
-export const EventResultForm = ({ eventId, setEventStatusAction }: EventResultFormProps) => {
+export const EventResultForm = ({ eventId, setResultAction }: EventResultFormProps) => {
   const {
     register,
     handleSubmit,
@@ -41,12 +41,12 @@ export const EventResultForm = ({ eventId, setEventStatusAction }: EventResultFo
     ))
   }
 
-  const onSubmit = handleSubmit(async (data) => {
-    const submittedKey = `${eventId}|${data.name}|${data.email}`
+  const onSubmit = handleSubmit(async (user) => {
+    const submittedKey = `${eventId}|${user.name}|${user.email}`
     if (lastSubmittedKey.current === submittedKey) return
 
     checkUserStatusMutation(
-      { eventId, ...data },
+      { eventId, ...user },
       {
         onSuccess: async (res) => {
           lastSubmittedKey.current = submittedKey
@@ -56,7 +56,7 @@ export const EventResultForm = ({ eventId, setEventStatusAction }: EventResultFo
             return
           }
 
-          setEventStatusAction(res?.status)
+          setResultAction({ status: res?.status, userName: user.name })
         }
       }
     )

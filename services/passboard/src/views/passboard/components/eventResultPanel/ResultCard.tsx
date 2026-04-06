@@ -15,12 +15,13 @@ type Content = {
 }
 
 interface ResultCardProps {
-  eventResultStatus: EventResultStatus
+  resultStatus: EventResultStatus
   eventName: string
+  userName: string
 }
 
-export const ResultCard = ({ eventResultStatus, eventName }: ResultCardProps) => {
-  const content = resultContentMap[eventResultStatus]
+export const ResultCard = ({ resultStatus, eventName, userName }: ResultCardProps) => {
+  const content = resultContentMap[resultStatus]
 
   return (
     <div className={styles.cardWrapper}>
@@ -47,7 +48,7 @@ export const ResultCard = ({ eventResultStatus, eventName }: ResultCardProps) =>
           fontWeight='bold'
           color={vars.colors.gray900}
           aria-label={eventName}>
-          {eventName}
+          {userName}
         </Txt>
         <h4
           aria-label={content.title}
