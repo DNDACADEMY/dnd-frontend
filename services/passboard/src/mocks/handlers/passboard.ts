@@ -4,6 +4,8 @@ import { MOCK_SERVER_URL } from '../../constants'
 
 import type { ResCheckEvent, ReqCheckUserStatusSchema } from '../../remotes/index.js'
 
+const APPLICANT_STATUSES = ['PASSED', 'FAILED', 'WAITLISTED'] as const
+
 export const passboardHandlers = [
   http.get(`${MOCK_SERVER_URL}/events/current`, () => {
     const eventStartDate = '2025-05-14T12:00:00'
@@ -33,11 +35,9 @@ export const passboardHandlers = [
     const { eventId } = params
     const body = (await request.json()) as ReqCheckUserStatusSchema
 
-    const status = ['PASSED', 'FAILED', 'WAITLISTED']
-
     return HttpResponse.json({
       eventId,
-      status: status[Math.floor(Math.random() * status.length)],
+      status: APPLICANT_STATUSES[Math.floor(Math.random() * APPLICANT_STATUSES.length)],
       ...body
     })
   })

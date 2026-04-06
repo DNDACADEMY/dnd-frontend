@@ -10,11 +10,11 @@ export type TextButtonProps = ComponentProps<'button'> & {
 }
 
 export const TextButton = (props: TextButtonProps) => {
-  const { type = 'button', leftAddon, rightAddon, children, ...restProps } = props
+  const { type = 'button', leftAddon, rightAddon, children, className, ...restProps } = props
   return (
     <button
       type={type}
-      className={clsx(styles.textButtonStyle, restProps.className)}
+      className={clsx(styles.textButtonStyle, className)}
       {...restProps}>
       {leftAddon}
       <Txt

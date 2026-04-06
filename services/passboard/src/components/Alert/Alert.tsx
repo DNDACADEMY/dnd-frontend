@@ -67,7 +67,6 @@ const Title = ({ children }: { children: ReactNode }) => {
       as='h4'
       typography='body1'
       fontWeight='bold'
-      color={vars.colors.mono900}
       className={styles.title}>
       {children}
     </Txt>
@@ -80,7 +79,6 @@ const Description = ({ children }: { children: ReactNode }) => {
       as='p'
       typography='caption1'
       fontWeight='medium'
-      color={vars.colors.mono900}
       className={styles.description}>
       {children}
     </Txt>
