@@ -20,8 +20,8 @@ export const ErrorCard = ({ description }: ErrorCardProps) => {
       <Txt
         as='span'
         typography='body1'
-        className={styles.text}
-        style={{ color: vars.colors.gray800 }}>
+        color={vars.colors.gray800}
+        className={styles.text}>
         {description}
       </Txt>
     </div>

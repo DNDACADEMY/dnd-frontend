@@ -59,10 +59,12 @@ export const cardTitle = style({
   color: vars.colors.gray900
 })
 
+export const lineHeight140 = style({ lineHeight: '140%' })
+
 export const cardDescription = style({
   whiteSpace: 'pre-line',
   textAlign: 'center',
-  color: vars.colors.gray700
+  lineHeight: '140%'
 })
 
 export const resultTitleContainer = style({

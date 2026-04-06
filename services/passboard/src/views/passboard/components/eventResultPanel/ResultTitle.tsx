@@ -34,7 +34,7 @@ export const ResultTitle = ({ hasEvent }: ResultTitleProps) => {
           as='h4'
           typography='h4'
           fontWeight='bold'
-          style={{ color: vars.colors.white }}>
+          color={vars.colors.white}>
           결과 조회
         </Txt>
       </motion.div>

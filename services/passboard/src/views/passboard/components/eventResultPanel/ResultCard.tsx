@@ -77,16 +77,17 @@ export const ResultCard = ({ eventResultStatus, eventName }: ResultCardProps) =>
           as='p'
           typography='body2'
           fontWeight='bold'
-          aria-label={`${eventName} 지원 결과`}
-          style={{ color: vars.colors.gray500, lineHeight: '140%' }}>
+          color={vars.colors.gray500}
+          className={styles.lineHeight140}
+          aria-label={`${eventName} 지원 결과`}>
           {eventName} 지원 결과
         </Txt>
         <Txt
           as='h3'
           typography='h5'
           fontWeight='bold'
-          aria-label={eventName}
-          style={{ color: vars.colors.gray900 }}>
+          color={vars.colors.gray900}
+          aria-label={eventName}>
           {eventName}
         </Txt>
         <h4
@@ -99,16 +100,16 @@ export const ResultCard = ({ eventResultStatus, eventName }: ResultCardProps) =>
         <Txt
           as='p'
           typography='body2'
-          className={styles.cardDescription}
-          style={{ lineHeight: '140%' }}>
+          color={vars.colors.gray700}
+          className={styles.cardDescription}>
           {content.description}
         </Txt>
         <br />
         <Txt
           as='p'
           typography='body2'
-          className={styles.cardDescription}
-          style={{ lineHeight: '140%' }}>
+          color={vars.colors.gray700}
+          className={styles.cardDescription}>
           자세한 사항은 지원하신 <strong>이메일</strong>로 안내드렸어요.
         </Txt>
       </div>

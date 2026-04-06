@@ -29,14 +29,14 @@ export const BeforeEventCard = ({ resultAnnouncementDateTime, beforeEventCatImag
         <Txt
           as='div'
           typography='body2'
-          style={{ color: vars.colors.black }}>
+          color={vars.colors.black}>
           {`발표 D${getApplicationResultDate(resultAnnouncementDateTime)}`}
         </Txt>
         <Txt
           as='div'
           typography='h6'
           fontWeight='bold'
-          style={{ color: vars.colors.black }}>
+          color={vars.colors.black}>
           {beforeEventCardContent[beforeEventCatImageIndex]}
         </Txt>
       </div>
