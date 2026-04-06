@@ -3328,6 +3328,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@channel.io/channel-web-sdk-loader", "npm:2.0.2"],\
           ["@dds/desktop", "virtual:cbc45817ae37b05a7175c58d77d5d0c40e395f921396645dde81f6214215eefe4b4e93678e11a2b90ca4453dbfdde01375d0f7da0e9491d72fff141c3d3f611c#workspace:packages/dds-desktop"],\
+          ["@dds/token", "workspace:packages/dds-token"],\
           ["@dnd-frontend/eslint-config", "workspace:tools/eslint-config"],\
           ["@dnd-frontend/passboard", "workspace:services/passboard"],\
           ["@dnd-frontend/typescript-config", "workspace:tools/typescript-config"],\
