@@ -1,26 +1,36 @@
+import dayjs from 'dayjs'
 import { type Metadata } from 'next'
 
-import { PassboardContainer } from '@/features/passboard'
-import { checkEvent } from '@/features/passboard/apis/checkEvent'
-import { defaultMetadata } from '@/shared/constants/defaultMetadata'
-import { OverlayProvider } from '@/shared/providers/Overlay'
-import { QueryProvider } from '@/shared/providers/QureyClient'
+import { Providers } from './providers'
+import { defaultMetadata } from '../constants/defaultMetadata'
+import { checkEvent } from '../remotes'
+import { ErrorView } from '../views/error'
+import { Passboard } from '../views/passboard'
 
 export const metadata: Metadata = defaultMetadata
 
 export default async function Page() {
-  const { name, id, resultAnnouncementDateTime, isResultAnnounced } = await checkEvent()
+  const { name: eventName, id: eventId, resultAnnouncementDateTime, isResultAnnounced } = await checkEvent()
+
+  if (!resultAnnouncementDateTime) {
+    return (
+      <ErrorView
+        title='현재 발표 일정이 없습니다.\n새로운 소식을 준비 중이니 조금만 기다려 주세요.'
+        sendErrorEvent={false}
+      />
+    )
+  }
+
+  const isEventVisible = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) && isResultAnnounced
 
   return (
-    <OverlayProvider>
-      <QueryProvider>
-        <PassboardContainer
-          eventResultReady={isResultAnnounced}
-          eventApplicationResultDate={resultAnnouncementDateTime}
-          eventName={name}
-          eventId={id}
-        />
-      </QueryProvider>
-    </OverlayProvider>
+    <Providers>
+      <Passboard
+        eventId={eventId}
+        eventName={eventName}
+        isEventVisible={isEventVisible}
+        resultAnnouncementDateTime={new Date(resultAnnouncementDateTime)}
+      />
+    </Providers>
   )
 }

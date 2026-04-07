@@ -1,6 +1,6 @@
 'use client'
 
-import { ErrorContainer } from '@/features/error'
+import { ErrorView } from '../views/error'
 export default function Error({ error }: { error: Error }) {
-  return <ErrorContainer error={error} />
+  return <ErrorView error={error} />
 }

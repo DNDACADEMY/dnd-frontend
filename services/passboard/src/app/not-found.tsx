@@ -1,6 +1,12 @@
 'use client'
 
-import { ErrorContainer } from '@/features/error'
+import { ErrorView } from '../views/error'
+
 export default function NotFound() {
-  return <ErrorContainer errorMessage='존재하지 않는 페이지입니다.' />
+  return (
+    <ErrorView
+      title='존재하지 않는 페이지입니다.'
+      sendErrorEvent={false}
+    />
+  )
 }
