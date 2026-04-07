@@ -1,6 +1,0 @@
-export { SidebarAffix } from './Affix'
-export { SidebarCollapsible } from './Collapsible'
-export { SidebarContent } from './Content'
-export { SidebarGroup } from './Group'
-export { SidebarItem } from './Item'
-export { SidebarTrigger } from './Trigger'
