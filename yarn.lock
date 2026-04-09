@@ -1360,7 +1360,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dnd-frontend/admin-web@workspace:services/admin-web"
   dependencies:
-    "@dnd-lab/desktop": "npm:^0.0.3"
+    "@dnd-lab/desktop": "npm:^0.0.4"
     "@dnd-lab/eslint-config": "npm:*"
     "@dnd-lab/token": "npm:^0.0.2"
     "@dnd-lab/typescript-config": "npm:*"
@@ -1382,7 +1382,7 @@ __metadata:
   resolution: "@dnd-frontend/passboard@workspace:services/passboard"
   dependencies:
     "@channel.io/channel-web-sdk-loader": "npm:^2.0.0"
-    "@dnd-lab/desktop": "npm:^0.0.3"
+    "@dnd-lab/desktop": "npm:^0.0.4"
     "@dnd-lab/eslint-config": "npm:*"
     "@dnd-lab/token": "npm:^0.0.2"
     "@dnd-lab/typescript-config": "npm:*"
@@ -1430,9 +1430,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dnd-lab/desktop@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@dnd-lab/desktop@npm:0.0.3"
+"@dnd-lab/desktop@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@dnd-lab/desktop@npm:0.0.4"
   dependencies:
     "@dnd-lab/token": "npm:0.0.2"
     "@radix-ui/react-popover": "npm:^1.1.15"
@@ -1444,7 +1444,7 @@ __metadata:
     framer-motion: ^12.0.0
     react: ^18.0.0 || ^19.0.0
     react-dom: ^18.0.0 || ^19.0.0
-  checksum: 10c0/c809922627ea265a1a07c7e7a4493ebec55b9c9d46c10810ca17bce7e1de1d9876f0f81647c6e3a3eaa967aa3a7f9936099b3afb389bff07860ad03bd92a37d3
+  checksum: 10c0/20acf1b31d1470a6adcdcba1610a53b8df268e1610452e1eb936450c2fe79b8e5b774e377d3f94b698e68cdaac61a2ad70a0606994bfffdf84818c3cb3f4b487
   languageName: node
   linkType: hard
 
