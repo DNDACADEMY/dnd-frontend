@@ -98,8 +98,6 @@ chore(root): ESLint 설정 업데이트
 변경된 워크스페이스 기반 자동 감지:
 
 ```
-packages/dds-token/       → token
-packages/dds-desktop/     → desktop
 services/admin-web/       → admin-web
 services/passboard/       → passboard
 tools/xxx/                → tools

@@ -58,8 +58,6 @@ cat .github/PULL_REQUEST_TEMPLATE.md
 ### Auto-detect from file paths:
 
 ```
-packages/dds-token/       → @dnd-lab/token → scope: token
-packages/dds-desktop/     → @dnd-lab/desktop → scope: desktop
 services/admin-web/       → admin-web → scope: admin-web
 services/passboard/       → passboard → scope: passboard
 tools/xxx/                → scope: tools

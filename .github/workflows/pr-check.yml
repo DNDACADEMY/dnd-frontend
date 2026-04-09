@@ -1,11 +1,12 @@
-name: PR Check (packages)
+name: PR Check (services)
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - 'packages/**'
+      - 'services/**'
+      - 'tools/**'
       - 'package.json'
       - 'yarn.lock'
       - 'turbo.json'
@@ -29,11 +30,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Build packages
-        run: yarn build:packages
+      - name: Run type check
+        run: yarn turbo check-types --filter='./services/*'
 
-      - name: Run type check (packages only)
-        run: yarn turbo check-types --filter='./packages/*'
+      - name: Run lint
+        run: yarn turbo lint --filter='./services/*'
 
-      - name: Run lint (packages only)
-        run: yarn turbo lint --filter='./packages/*'
+      - name: Build services
+        run: yarn build:services
