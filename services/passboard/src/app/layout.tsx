@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import { ClientOnlyProviders } from '../providers/ClientOnlyProviders'
 import { MSWProvider } from '../providers/MSWProvider'
 
-import '@dds/desktop/desktop.css'
+import '@dnd-lab/desktop/desktop.css'
 
 export default function RootLayout({
   children

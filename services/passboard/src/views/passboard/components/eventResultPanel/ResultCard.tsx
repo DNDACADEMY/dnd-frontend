@@ -1,6 +1,6 @@
 'use client'
 
-import { Txt } from '@dds/desktop'
+import { Txt } from '@dnd-lab/desktop'
 import Image from 'next/image'
 import { type ReactNode } from 'react'
 

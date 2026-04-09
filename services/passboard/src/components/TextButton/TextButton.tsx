@@ -1,4 +1,4 @@
-import { Txt } from '@dds/desktop'
+import { Txt } from '@dnd-lab/desktop'
 import clsx from 'clsx'
 import { type ReactNode, type ComponentProps } from 'react'
 
