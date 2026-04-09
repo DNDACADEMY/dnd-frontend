@@ -32,7 +32,7 @@ git add .
 ```
 🔍 Staged 변경사항 분석 중...
 
-📦 워크스페이스: @dds/token
+📦 워크스페이스: @dnd-lab/token
 📁 변경된 파일: 5개
   • src/tokens/colors.json (추가)
   • src/tokens/typography.json (추가)
@@ -98,8 +98,6 @@ chore(root): ESLint 설정 업데이트
 변경된 워크스페이스 기반 자동 감지:
 
 ```
-packages/dds-token/       → token
-packages/dds-desktop/     → desktop
 services/admin-web/       → admin-web
 services/passboard/       → passboard
 tools/xxx/                → tools

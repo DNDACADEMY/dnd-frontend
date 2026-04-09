@@ -1,4 +1,4 @@
-import { Txt } from '@dds/desktop'
+import { Txt } from '@dnd-lab/desktop'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'

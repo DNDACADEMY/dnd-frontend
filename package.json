@@ -3,8 +3,6 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "build:p": "turbo build --filter='./packages/**/*'",
-    "build:packages": "yarn build:p",
     "build:t": "turbo build --filter='./tools/**/*'",
     "build:tools": "yarn build:t",
     "build:services": "turbo build --filter='./services/**/*'",

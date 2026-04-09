@@ -1,4 +1,4 @@
-import { nextJsConfig } from '@dnd-frontend/eslint-config/next-js'
+import { nextJsConfig } from '@dnd-lab/eslint-config/next-js'
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [

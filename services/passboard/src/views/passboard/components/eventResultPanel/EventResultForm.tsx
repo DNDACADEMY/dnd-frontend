@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Textfield } from '@dds/desktop'
+import { Button, Textfield } from '@dnd-lab/desktop'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useOverlay } from '@toss/use-overlay'
 import { useRef } from 'react'

@@ -1,6 +1,0 @@
-export { TextfieldIcon } from './Icon'
-export type { TextfieldIconProps } from './Icon'
-export { TextfieldBottomText } from './BottomText'
-export type { TextfieldBottomTextProps } from './BottomText'
-export { TextfieldLabel } from './Label'
-export type { TextfieldLabelProps } from './Label'

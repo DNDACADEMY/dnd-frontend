@@ -1,5 +1,5 @@
 {
-  "extends": "@dnd-frontend/typescript-config/react-library.json",
+  "extends": "@dnd-lab/typescript-config/react-library.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "bundler",

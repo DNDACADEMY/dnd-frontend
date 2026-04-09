@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "@channel.io/channel-web-sdk-loader": "^2.0.0",
-    "@dds/desktop": "*",
-    "@dds/token": "*",
+    "@dnd-lab/desktop": "^0.0.2",
+    "@dnd-lab/token": "^0.0.2",
     "@hookform/resolvers": "^5.0.1",
     "@lottiefiles/dotlottie-react": "^0.13.5",
     "@next/third-parties": "^16.1.6",
@@ -37,8 +37,8 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@dnd-frontend/eslint-config": "*",
-    "@dnd-frontend/typescript-config": "*",
+    "@dnd-lab/eslint-config": "*",
+    "@dnd-lab/typescript-config": "*",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.52.0",
     "@svgr/webpack": "^8.1.0",
