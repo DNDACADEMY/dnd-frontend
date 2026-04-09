@@ -10,14 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@dds/desktop": "*",
-    "@dds/token": "*",
+    "@dnd-lab/desktop": "^0.0.2",
+    "@dnd-lab/token": "^0.0.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@dnd-frontend/eslint-config": "*",
-    "@dnd-frontend/typescript-config": "*",
+    "@dnd-lab/eslint-config": "*",
+    "@dnd-lab/typescript-config": "*",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
