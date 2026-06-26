@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 import * as styles from './style.css'
 import { vars } from '../../../../styles/theme.css'
+import { getResultDDayLabel } from '../../../../utils/date'
 
 export type BeforeEventCatImageIndex = 0 | 1 | 2 | 3 | 4
 
@@ -30,7 +31,7 @@ export const BeforeEventCard = ({ resultAnnouncementDateTime, beforeEventCatImag
           as='div'
           typography='body2'
           color={vars.colors.black}>
-          {`발표 D${getApplicationResultDate(resultAnnouncementDateTime)}`}
+          {`발표 D${getResultDDayLabel(resultAnnouncementDateTime)}`}
         </Txt>
         <Txt
           as='div'
@@ -42,20 +43,6 @@ export const BeforeEventCard = ({ resultAnnouncementDateTime, beforeEventCatImag
       </div>
     </div>
   )
-}
-
-function getApplicationResultDate(resultAnnouncedAt: Date) {
-  const today = new Date()
-  const diffTime = resultAnnouncedAt.getTime() - today.getTime()
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-
-  if (diffDays > 0) {
-    return `-${diffDays}`
-  } else if (diffDays === 0) {
-    return 'Day'
-  } else {
-    return `+${Math.abs(diffDays)}`
-  }
 }
 
 const beforeEventCardContentMap: Record<BeforeEventCatImageIndex, string> = {
