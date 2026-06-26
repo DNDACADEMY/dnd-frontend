@@ -4,6 +4,7 @@ import { type Metadata } from 'next'
 import { Providers } from './providers'
 import { defaultMetadata } from '../constants/defaultMetadata'
 import { checkEvent } from '../remotes'
+import { parseKST } from '../utils/date'
 import { ErrorView } from '../views/error'
 import { Passboard } from '../views/passboard'
 
@@ -21,7 +22,8 @@ export default async function Page() {
     )
   }
 
-  const isEventVisible = dayjs(resultAnnouncementDateTime).isBefore(dayjs()) && isResultAnnounced
+  const announcement = parseKST(resultAnnouncementDateTime)
+  const isEventVisible = announcement.isBefore(dayjs()) && isResultAnnounced
 
   return (
     <Providers>
@@ -29,7 +31,7 @@ export default async function Page() {
         eventId={eventId}
         eventName={eventName}
         isEventVisible={isEventVisible}
-        resultAnnouncementDateTime={new Date(resultAnnouncementDateTime)}
+        resultAnnouncementDateTime={announcement.toDate()}
       />
     </Providers>
   )
