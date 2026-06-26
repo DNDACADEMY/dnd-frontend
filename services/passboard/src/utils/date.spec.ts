@@ -3,9 +3,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { getResultDDayLabel, parseKST } from './date'
 
 describe('parseKST', () => {
-  it('오프셋 없는 문자열을 KST 자정으로 해석한다 (서버 TZ 무관)', () => {
-    // 2026-06-27 00:00 KST === 2026-06-26 15:00 UTC
-    expect(parseKST('2026-06-27T00:00:00').toISOString()).toBe('2026-06-26T15:00:00.000Z')
+  // 아래 세 형태는 모두 "2026-06-27 00:00 KST" === "2026-06-26 15:00 UTC" 를 의미한다.
+  it.each([
+    ['오프셋 없음', '2026-06-27T00:00:00'],
+    ['+09:00 오프셋', '2026-06-27T00:00:00+09:00'],
+    ['UTC(Z)', '2026-06-26T15:00:00Z']
+  ])('%s 문자열을 동일한 절대시각으로 해석한다 (서버 TZ 무관)', (_label, input) => {
+    expect(parseKST(input).toISOString()).toBe('2026-06-26T15:00:00.000Z')
   })
 })
 

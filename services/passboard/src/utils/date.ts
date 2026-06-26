@@ -7,11 +7,16 @@ dayjs.extend(timezone)
 
 export const KST = 'Asia/Seoul'
 
+const HAS_OFFSET = /(Z|[+-]\d{2}:?\d{2})$/
+
 /**
- * 백엔드가 타임존 오프셋 없이 내려주는 날짜 문자열(`2026-06-27T00:00:00`)을
- * KST 기준으로 해석한다. 서버 런타임(Vercel=UTC)에 영향받지 않도록 존을 명시한다.
+ * 백엔드 날짜 문자열을 서버 런타임(Vercel=UTC)에 영향받지 않게 KST로 해석한다.
+ * - 오프셋이 있으면(`...+09:00`, `...Z`) 그 값으로 절대시각이 정해지므로 그대로 파싱한다.
+ * - 오프셋이 없으면(`2026-06-27T00:00:00`) wall-clock을 KST로 간주해 존을 명시한다.
+ *   (`dayjs.tz`는 오프셋이 붙은 문자열에 존을 이중 적용하므로 분기 처리한다.)
  */
-export const parseKST = (value: string) => dayjs.tz(value, KST)
+export const parseKST = (value: string) =>
+  HAS_OFFSET.test(value) ? dayjs(value).tz(KST) : dayjs.tz(value, KST)
 
 /**
  * 발표일까지 남은 일수를 KST 달력 날짜 기준으로 계산해 D-day 라벨을 만든다.
