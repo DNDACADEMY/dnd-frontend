@@ -30,7 +30,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.10.5",
-    "next": "^16.1.6",
+    "next": "16.2.12",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.56.3",
