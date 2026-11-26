@@ -73,6 +73,7 @@ export const EventResultForm = ({ eventId, setResultAction }: EventResultFormPro
 
   return (
     <form
+      method='post'
       onSubmit={onSubmit}
       className={styles.formContent}>
       <Textfield
