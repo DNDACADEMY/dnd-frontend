@@ -7,7 +7,7 @@ export async function admissionRequest(path: string, init?: RequestInit, client?
   const base = process.env.DND_ADMISSIONS_API_URL ?? SERVER_URL
   if (!base) throw new Error('Passboard API is unavailable')
   const headers = new Headers(init?.headers)
-  const address = process.env.VERCEL ? client?.headers.get('x-vercel-forwarded-for')?.split(',')[0].trim() : undefined
+  const address = process.env.VERCEL ? client?.headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim() : undefined
   const secret = process.env.DND_ADMISSIONS_PROXY_KEY
   if (secret && address && isIP(address)) {
     const value = `${Date.now()}|${address}`
