@@ -1,37 +1,27 @@
-import dayjs from 'dayjs'
 import { type Metadata } from 'next'
 
+import { LivePassboard } from './live-passboard'
 import { Providers } from './providers'
 import { defaultMetadata } from '../constants/defaultMetadata'
-import { checkEvent } from '../remotes'
-import { parseKST } from '../utils/date'
-import { ErrorView } from '../views/error'
-import { Passboard } from '../views/passboard'
+import { admissionRequest } from '../remotes/admission-server'
+import { readEvent, type PassboardEvent } from '../remotes/event'
 
 export const metadata: Metadata = defaultMetadata
+export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-  const { name: eventName, id: eventId, resultAnnouncementDateTime, isResultAnnounced } = await checkEvent()
-
-  if (!resultAnnouncementDateTime) {
-    return (
-      <ErrorView
-        title='현재 발표 일정이 없습니다.\n새로운 소식을 준비 중이니 조금만 기다려 주세요.'
-        sendErrorEvent={false}
-      />
-    )
+  let event: PassboardEvent | null = null
+  let unavailable = false
+  try {
+    event = await readEvent(await admissionRequest('/events/current'))
+  } catch {
+    unavailable = true
   }
-
-  const announcement = parseKST(resultAnnouncementDateTime)
-  const isEventVisible = announcement.isBefore(dayjs()) && isResultAnnounced
-
   return (
     <Providers>
-      <Passboard
-        eventId={eventId}
-        eventName={eventName}
-        isEventVisible={isEventVisible}
-        resultAnnouncementDateTime={announcement.toDate()}
+      <LivePassboard
+        initialEvent={event}
+        initialUnavailable={unavailable}
       />
     </Providers>
   )

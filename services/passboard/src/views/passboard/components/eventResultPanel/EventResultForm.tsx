@@ -3,12 +3,12 @@
 import { Button, Textfield } from '@dnd-lab/desktop'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useOverlay } from '@toss/use-overlay'
-import { useRef } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import * as styles from './style.css'
 import { Alert } from '../../../../components/Alert'
-import { useCheckUserStatus, checkUserStatusSchema, type ReqCheckUserStatusSchema } from '../../../../remotes'
+import { useCheckUserStatus, checkUserStatusSchema, LookupError, type ReqCheckUserStatusSchema } from '../../../../remotes'
 import { type EventResultStatus } from '../../../../types/passboard'
 
 export type EventResultFormProps = {
@@ -28,9 +28,9 @@ export const EventResultForm = ({ eventId, setResultAction }: EventResultFormPro
       email: ''
     }
   })
-  const { mutate: checkUserStatusMutation, isPending, isSuccess } = useCheckUserStatus()
+  const { mutate: checkUserStatusMutation, isPending } = useCheckUserStatus()
   const overlay = useOverlay()
-  const lastSubmittedKey = useRef<string | null>(null)
+  const [message, setMessage] = useState('')
 
   const handleOpenNotFoundAlert = () => {
     overlay.open(({ isOpen, close }) => (
@@ -42,21 +42,30 @@ export const EventResultForm = ({ eventId, setResultAction }: EventResultFormPro
   }
 
   const onSubmit = handleSubmit(async (user) => {
-    const submittedKey = `${eventId}|${user.name}|${user.email}`
-    if (lastSubmittedKey.current === submittedKey) return
+    setMessage('')
 
     checkUserStatusMutation(
       { eventId, ...user },
       {
         onSuccess: async (res) => {
-          lastSubmittedKey.current = submittedKey
-
-          if (res?.status === 'NONE') {
+          if (res.status === 'NONE') {
             handleOpenNotFoundAlert()
             return
           }
 
-          setResultAction({ status: res?.status, userName: user.name })
+          setResultAction({ status: res.status, userName: res.name })
+        },
+        onError: (error) => {
+          const code = error instanceof LookupError ? error.code : undefined
+          if (code === 'AP001') handleOpenNotFoundAlert()
+          else
+            setMessage(
+              code === 'AP002'
+                ? '합격자 조회 가능 기간이 아닙니다.'
+                : code === 'RATE'
+                  ? '조회가 많습니다. 잠시 후 다시 시도해 주세요.'
+                  : '조회 연결이 원활하지 않습니다. 다시 시도해 주세요.'
+            )
         }
       }
     )
@@ -64,6 +73,7 @@ export const EventResultForm = ({ eventId, setResultAction }: EventResultFormPro
 
   return (
     <form
+      method='post'
       onSubmit={onSubmit}
       className={styles.formContent}>
       <Textfield
@@ -80,9 +90,10 @@ export const EventResultForm = ({ eventId, setResultAction }: EventResultFormPro
         error={Boolean(errors.email?.message)}
         {...register('email')}
       />
+      {message && <p role='alert'>{message}</p>}
       <Button
         size='xlarge'
-        disabled={isPending || isSuccess}>
+        disabled={isPending}>
         결과 확인하기
       </Button>
     </form>

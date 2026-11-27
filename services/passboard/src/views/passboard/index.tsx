@@ -19,14 +19,10 @@ export function Passboard({ eventName, eventId, isEventVisible, resultAnnounceme
         />
       ) : (
         <BeforeEventCard
-          beforeEventCatImageIndex={getRandomBeforeEventCatImageIndex()}
+          beforeEventCatImageIndex={(eventId % 5) as BeforeEventCatImageIndex}
           resultAnnouncementDateTime={resultAnnouncementDateTime}
         />
       )}
     </PassboardProvider>
   )
-}
-
-function getRandomBeforeEventCatImageIndex() {
-  return Math.floor(Math.random() * 5) as BeforeEventCatImageIndex
 }
